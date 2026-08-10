@@ -3336,7 +3336,10 @@
 
   // ---- chart engine: TradingView (majors) -> DEXScreener (Monad pairs) -> custom candles ----
   var TV_MAP={ 'MON':'COINBASE:MONUSD','WMON':'COINBASE:MONUSD','WETH':'COINBASE:ETHUSD',
-    'weETH':'COINBASE:ETHUSD','wstETH':'COINBASE:ETHUSD','BTC.b':'COINBASE:BTCUSD','cbBTC':'COINBASE:BTCUSD' };
+    'weETH':'COINBASE:ETHUSD','wstETH':'COINBASE:ETHUSD','BTC.b':'COINBASE:BTCUSD','cbBTC':'COINBASE:BTCUSD',
+    'WBTC':'COINBASE:BTCUSD','USDC':'COINBASE:USDCUSD','USDT0':'COINBASE:USDTUSD','USDT':'COINBASE:USDTUSD',
+    'wnUSDT0':'COINBASE:USDTUSD','USDe':'COINBASE:USDTUSD','AUSD':'COINBASE:USDCUSD','aUSD':'COINBASE:USDCUSD',
+    'musd':'COINBASE:USDCUSD','SOL':'COINBASE:SOLUSD','ETH':'COINBASE:ETHUSD','BTC':'COINBASE:BTCUSD' };
   function clearChart(){ document.getElementById('tv_chart').replaceChildren(); }
   function chartNote(txt){
     var n=document.createElement('div');
