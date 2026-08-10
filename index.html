@@ -2237,9 +2237,9 @@
     if(quotesFetched[cls]) return;
     quotesFetched[cls]=true;
     var list=cls==='stocks'?STOCKS:cls==='etf'?ETFS:COMMODS;
-    var syms=list.map(function(x){return x[4]}).join(',');
-    fetch('/api/quotes?syms='+encodeURIComponent(syms)).then(function(r){return r.json()}).then(function(d){
-      (d.quotes||[]).forEach(function(q){LIVE_QUOTES[q.s]=q});
+    var syms=list.map(function(x){return x[4]});
+    apiQuotes(syms).then(function(qs){
+      qs.forEach(function(q){LIVE_QUOTES[q.s]=q});
       if(assetClass===cls) renderDisc();
     }).catch(function(){quotesFetched[cls]=false});
   }
@@ -2279,6 +2279,36 @@
   function mooseShare(sym){ // deterministic mock share of DEX vol (0.5%–3%) until launch
     var h=0; for(var i=0;i<sym.length;i++) h=(h*31+sym.charCodeAt(i))>>>0;
     return 0.005+(h%26)/1000; }
+  // ---- data layer: /api first, browser-direct fallbacks for static hosting ----
+  function yahooDirect(sym){
+    return fetch('https://api.allorigins.win/raw?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'?interval=1d&range=2d'))
+      .then(function(r){return r.json()}).then(function(d){
+        var m=d&&d.chart&&d.chart.result&&d.chart.result[0]&&d.chart.result[0].meta;
+        if(!m||m.regularMarketPrice==null)return {s:sym,px:null,ch:null};
+        var prev=m.chartPreviousClose||m.previousClose;
+        return {s:sym,px:m.regularMarketPrice,ch:prev?+(((m.regularMarketPrice-prev)/prev)*100).toFixed(2):null};
+      }).catch(function(){return {s:sym,px:null,ch:null}});
+  }
+  function apiQuotes(syms){
+    return fetch('/api/quotes?syms='+encodeURIComponent(syms.join(',')))
+      .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.quotes||[]})
+      .catch(function(){return Promise.all(syms.map(yahooDirect))});
+  }
+  function fetchNewsItems(q){
+    return fetch('/api/news?q='+encodeURIComponent(q))
+      .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.items||[]})
+      .catch(function(){
+        return fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN')
+          .then(function(r){return r.json()}).then(function(d){
+            var items=(d.Data||[]).map(function(n){return {title:n.title,link:n.url,
+              source:(n.source_info&&n.source_info.name)||n.source||'news',
+              t:Math.max(1,Math.round((Date.now()/1000-n.published_on)/3600))+'h'}});
+            var ql=(q||'').toLowerCase().split(' ')[0];
+            var hit=items.filter(function(n){return n.title.toLowerCase().indexOf(ql)>=0});
+            return (hit.length?hit:items).slice(0,8);
+          }).catch(function(){return []});
+      });
+  }
   // watchlist + sort + sparkline state
   var WATCH=new Set(JSON.parse(localStorage.getItem('moose-watch')||'[]'));
   var watchOnly=false, sortKey=null, sortDir=-1, trendMode='1d';
@@ -2296,9 +2326,18 @@
     if(sparkCache[pair]){drawSpark(svg,sparkCache[pair]);return;}
     if(sparkBudget>=14)return; // stay polite with the upstream API
     sparkBudget++;
-    fetch('/api/spark?pair='+encodeURIComponent(pair)).then(function(r){return r.json()}).then(function(d){
-      sparkCache[pair]=d.closes||[];drawSpark(svg,sparkCache[pair]);
-    }).catch(function(){});
+    fetch('/api/spark?pair='+encodeURIComponent(pair))
+      .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+        sparkCache[pair]=d.closes||[];drawSpark(svg,sparkCache[pair]);
+      })
+      .catch(function(){
+        fetch('https://api.geckoterminal.com/api/v2/networks/monad/pools/'+pair+'/ohlcv/hour?aggregate=4&limit=42&currency=usd',{headers:{accept:'application/json'}})
+          .then(function(r){return r.json()}).then(function(d){
+            var list=(d&&d.data&&d.data.attributes&&d.data.attributes.ohlcv_list)||[];
+            sparkCache[pair]=list.map(function(row){return row[4]}).reverse();
+            drawSpark(svg,sparkCache[pair]);
+          }).catch(function(){});
+      });
   }
   function renderDisc(){
     var tb=document.getElementById('discRows'); if(!tb) return;
@@ -2497,10 +2536,11 @@
   // ================= NEWS: real via /api/news =================
   function renderNews(q,tag){
     var rail=document.getElementById('newsRail'); if(!rail) return;
-    fetch('/api/news?q='+encodeURIComponent(q||'Monad blockchain')+'&tag='+encodeURIComponent(tag||'MON'))
-      .then(function(r){return r.json()}).then(function(d){
+    fetchNewsItems(q||'Monad blockchain')
+      .then(function(list){
         rail.replaceChildren();
-        var items=(d&&d.items&&d.items.length)?d.items:[{title:'Loading Monad headlines…',source:'',t:'',tag:''}];
+        var items=(list&&list.length)?list:[{title:'No coverage found right now',source:'',t:'',tag:''}];
+        items=items.map(function(n){n.tag=n.tag||tag||'';return n});
         items.slice(0,6).forEach(function(n){
           var a=document.createElement('a'); a.className='news-item'; a.href=n.link||'#'; a.target='_blank'; a.setAttribute('rel','noopener');
           var h=document.createElement('div'); h.className='nh'; h.textContent=n.title; a.appendChild(h);
@@ -2528,9 +2568,9 @@
     var DEFS=[
       ['^TNX','US 10Y','yield'],['^TYX','US 30Y','yield'],['DX-Y.NYB','Dollar DXY','idx'],
       ['^VIX','VIX','idx'],['BTC-USD','Bitcoin','px'],['ETH-USD','Ether','px']];
-    fetch('/api/quotes?syms='+encodeURIComponent(DEFS.map(function(d){return d[0]}).join(',')))
-      .then(function(r){return r.json()}).then(function(d){
-        var by={};(d.quotes||[]).forEach(function(q){by[q.s]=q});
+    apiQuotes(DEFS.map(function(d){return d[0]}))
+      .then(function(qs){
+        var by={};qs.forEach(function(q){by[q.s]=q});
         bar.replaceChildren();
         DEFS.forEach(function(def){
           var q=by[def[0]]||{};
@@ -3520,8 +3560,8 @@
       });
     }
     if(newsCache[nq]){renderNewsList(newsCache[nq]);}
-    else fetch('/api/news?q='+encodeURIComponent(nq)).then(function(r){return r.json()}).then(function(d){
-      newsCache[nq]=d.items||[];renderNewsList(newsCache[nq]);
+    else fetchNewsItems(nq).then(function(items){
+      newsCache[nq]=items;renderNewsList(items);
     }).catch(function(){renderNewsList([])});
   }
   // chart Price | Fundamentals tabs
