@@ -1839,8 +1839,9 @@
     if(!simple||simple.style.display==='none')return;
     var tb=document.getElementById('tokB'); if(!tb)return;
     var sym=tb.textContent;
-    // chart the buy token when TradingView lists it; otherwise default to MON/USD
-    if(!TV_MAP[sym]) sym='MON';
+    // TV when listed; DEXScreener for long-tail (setChart cascades); MON/USD only for stables (flat charts)
+    var STABLE={USDC:1,USDT0:1,USDT:1,wnUSDT0:1,USDe:1,AUSD:1,aUSD:1,musd:1,EURW:1};
+    if(STABLE[sym]) sym='MON';
     document.getElementById('pairBase').textContent=sym;
     setChart(sym);
   }
