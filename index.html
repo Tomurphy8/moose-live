@@ -77,7 +77,7 @@
   .main,.side,.ident{background:var(--bg)}
   @media(max-width:1180px){.wrap{grid-template-columns:minmax(0,1fr) 340px}.ident{display:none}}
   /* asset identity panel (Arcus-style) */
-  .ident{padding:1rem 1rem 1.2rem;overflow-y:auto;max-height:calc(100vh - 57px)}
+  .ident{padding:1rem 1rem 1.2rem;overflow-y:auto;min-height:0;align-self:stretch}
   .ident .id-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
   .ident .tok-circ{width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,var(--raised));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;color:var(--accent);flex-shrink:0}
   .ident .id-nm b{display:block;font-size:1rem}
@@ -666,6 +666,14 @@
     </div>
     <h4>News</h4>
     <div class="id-news" id="idNews"><span style="font-size:.72rem;color:var(--faint)">loading…</span></div>
+    <h4>Your position</h4>
+    <div class="id-det" id="idPos">
+      <div class="row"><span>Holding</span><span class="v">12,480 MON</span></div>
+      <div class="row"><span>Avg entry</span><span class="v">—</span></div>
+      <div class="row"><span>Unrealized</span><span class="v" style="color:var(--dim)">·</span></div>
+    </div>
+    <h4>Related markets</h4>
+    <div id="idRelated" style="display:flex;flex-direction:column;gap:.15rem"></div>
   </aside>
   <div class="main">
     <div class="pair-strip">
@@ -3470,6 +3478,34 @@
     el('fNote').textContent=sym==='shMON'
       ?'Fundamentals are live from the deepest on-chain venue. shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.'
       :'Fundamentals are live from the deepest on-chain venue on Monad.';
+    // your position in this market (mock book: shMON levered long + MON spot)
+    var POS={shMON:[['Holding','9,000 shMON · 3\u00d7'],['Avg entry','1.5488'],['Unrealized','+412 MON']],
+             MON:[['Holding','12,480 MON'],['Avg entry','\u2014'],['Unrealized','\u00b7']]};
+    var pb=el('idPos');
+    if(pb){pb.replaceChildren();
+      (POS[sym]||[['Holding','none'],['Avg entry','\u2014'],['Unrealized','\u2014']]).forEach(function(r){
+        var d=document.createElement('div');d.className='row';
+        var k=document.createElement('span');k.textContent=r[0];
+        var v=document.createElement('span');v.className='v';v.textContent=r[1];
+        if(r[1].indexOf('+')===0)v.classList.add('up');
+        d.appendChild(k);d.appendChild(v);pb.appendChild(d);
+      });}
+    // related markets: same category, top by volume, one-tap switch
+    var rel=el('idRelated');
+    if(rel){rel.replaceChildren();
+      (LIVE_TOKENS||[]).filter(function(x){return x.live&&x.s!==sym&&x.cat===(t.cat||'blue')})
+        .sort(function(a,b){return (b.vol24||0)-(a.vol24||0)}).slice(0,4)
+        .forEach(function(x){
+          var b=document.createElement('button');b.className='pill-btn';
+          b.style.cssText='display:flex;justify-content:space-between;width:100%;text-align:left';
+          var s1=document.createElement('span');s1.textContent=x.s;s1.style.fontWeight='700';
+          var s2=document.createElement('span');s2.className='num '+(x.ch24>=0?'up':'down');
+          s2.textContent=x.ch24!=null?((x.ch24>=0?'+':'')+x.ch24.toFixed(1)+'%'):'\u2014';
+          b.appendChild(s1);b.appendChild(s2);
+          b.addEventListener('click',function(){goTrade(x.s)});
+          rel.appendChild(b);
+        });
+      if(!rel.children.length){var s=document.createElement('span');s.style.cssText='font-size:.72rem;color:var(--faint)';s.textContent='\u2014';rel.appendChild(s);}}
     // per-asset news
     var nq=sym==='shMON'?'shMonad':(sym+' Monad');
     var box=el('idNews');
