@@ -96,10 +96,10 @@
   .ident .id-news .t{font-size:.76rem;font-weight:600;line-height:1.35;color:var(--ink)}
   .ident .id-news .m{font-size:.64rem;color:var(--faint);margin-top:.2rem;font-family:"Spline Sans Mono",monospace}
   /* chart Price|Fundamentals tabs */
-  .chart-tabs{display:flex;gap:.2rem;position:absolute;top:.55rem;left:.7rem;z-index:5}
+  .chart-tabs{display:flex;gap:.2rem;padding:.5rem .7rem;border-bottom:1px solid var(--line);background:var(--bg)}
   .chart-tabs button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;font-size:.72rem;font-weight:600;padding:.3rem .8rem;cursor:pointer;min-height:28px}
   .chart-tabs button.on{background:var(--raised);color:var(--accent);border-color:var(--accent)}
-  .fund-panel{position:absolute;inset:0;background:var(--bg);z-index:4;display:none;padding:3rem 1.4rem 1.2rem;overflow-y:auto}
+  .fund-panel{position:absolute;inset:0;background:var(--bg);z-index:4;display:none;padding:1.2rem 1.4rem;overflow-y:auto}
   .fund-panel.on{display:block}
   .fund-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;max-width:720px}
   @media(max-width:800px){.fund-grid{grid-template-columns:1fr 1fr}}
@@ -676,8 +676,8 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
+    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button></div>
     <div class="tv-panel">
-      <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button></div>
       <div id="tv_chart"></div>
       <div class="fund-panel" id="fundPanel">
         <div class="fund-grid">
