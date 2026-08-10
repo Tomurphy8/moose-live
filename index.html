@@ -1748,7 +1748,6 @@
       <button data-a="etf">ETFs</button>
       <button data-a="commodity">Commodities</button>
     </div>
-    <div class="new-strip" id="macroBar" style="grid-template-columns:repeat(6,1fr);margin-bottom:.9rem"></div>
     <div class="filters">
       <select id="fCountry"><option value="all">All regions</option><option>US</option><option>EU</option><option>Asia</option><option>Global</option></select>
       <select id="fCat" ><option value="all">All categories</option></select>
@@ -2452,6 +2451,18 @@
         c.addEventListener('click',function(){goTrade(t.s)});
         track.appendChild(c);
       });
+      (MACRO_DATA||[]).forEach(function(mch){
+        var c=document.createElement('span');c.className='mv-chip';c.style.cursor='default';
+        var b=document.createElement('b');b.style.color='var(--faint)';b.textContent=mch.label;
+        var px=document.createElement('span');px.className='px';px.textContent=mch.val;
+        c.appendChild(b);c.appendChild(px);
+        if(mch.ch!=null){
+          var ch=document.createElement('span');ch.className='chg '+(mch.ch>=0?'up':'down');
+          ch.textContent=(mch.ch>=0?'▲':'▼')+Math.abs(mch.ch).toFixed(1)+'%';
+          c.appendChild(ch);
+        }
+        track.appendChild(c);
+      });
     });
     el.replaceChildren(track);
   }
@@ -2564,30 +2575,21 @@
       var s=NEWS_SCOPES[b.dataset.n];renderNews(s[0],s[1]);
     });
   });
-  // macro bar: live bonds / dollar / vol / majors
+  // macro strip: bonds / dollar / vol / majors — rendered inside the top ticker
+  var MACRO_DATA=null;
   (function(){
-    var bar=document.getElementById('macroBar'); if(!bar) return;
     var DEFS=[
-      ['^TNX','US 10Y','yield'],['^TYX','US 30Y','yield'],['DX-Y.NYB','Dollar DXY','idx'],
-      ['^VIX','VIX','idx'],['BTC-USD','Bitcoin','px'],['ETH-USD','Ether','px']];
-    apiQuotes(DEFS.map(function(d){return d[0]}))
-      .then(function(qs){
-        var by={};qs.forEach(function(q){by[q.s]=q});
-        bar.replaceChildren();
-        DEFS.forEach(function(def){
-          var q=by[def[0]]||{};
-          var c=document.createElement('div');c.className='new-card';
-          var s1=document.createElement('div');s1.className='sym2';s1.style.fontSize='.78rem';s1.textContent=def[1];
-          var s2=document.createElement('div');s2.className='px2 num';
-          var v=q.px;
-          s2.textContent=v==null?'—':def[2]==='yield'?(v.toFixed(2)+'%'):def[2]==='px'?('$'+(v>=1000?Math.round(v).toLocaleString():v.toFixed(2))):v.toFixed(1);
-          var s3=document.createElement('div');s3.className='meta2 num '+(q.ch!=null&&q.ch<0?'down':'up');
-          s3.textContent=q.ch==null?'':((q.ch>=0?'+':'')+q.ch.toFixed(2)+(def[2]==='yield'?' bps-ish · 1d':'% · 1d'));
-          if(def[2]==='yield')s3.textContent=q.ch==null?'':((q.ch>=0?'+':'')+q.ch.toFixed(2)+'% · 1d');
-          c.appendChild(s1);c.appendChild(s2);c.appendChild(s3);
-          bar.appendChild(c);
-        });
-      }).catch(function(){bar.style.display='none'});
+      ['^TNX','US 10Y','yield'],['^TYX','US 30Y','yield'],['DX-Y.NYB','DXY','idx'],
+      ['^VIX','VIX','idx'],['BTC-USD','BTC','px'],['ETH-USD','ETH','px']];
+    apiQuotes(DEFS.map(function(d){return d[0]})).then(function(qs){
+      var by={};qs.forEach(function(q){by[q.s]=q});
+      MACRO_DATA=DEFS.map(function(def){
+        var q=by[def[0]]||{};
+        var v=q.px==null?'—':def[2]==='yield'?(q.px.toFixed(2)+'%'):def[2]==='px'?('$'+(q.px>=1000?Math.round(q.px).toLocaleString():q.px.toFixed(2))):q.px.toFixed(1);
+        return {label:def[1],val:v,ch:q.ch};
+      }).filter(function(x){return x.val!=='—'});
+      renderMovers();
+    }).catch(function(){});
   })();
   // live prices on the new-strip cards
   // 🔥 trending: momentum × depth, CoinGecko-style, one source for all three surfaces
