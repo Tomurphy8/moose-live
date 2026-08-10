@@ -2285,7 +2285,7 @@
       .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.quotes||[]})
       .catch(function(){
         // static hosting: quotes refreshed every 15 min by the repo's data pipeline
-        return fetch('data/quotes.json').then(function(r){return r.json()}).then(function(d){
+        return fetch('data/quotes.json?t='+Math.floor(Date.now()/60000)).then(function(r){return r.json()}).then(function(d){
           var by={};(d.quotes||[]).forEach(function(q){by[q.s]=q});
           return syms.map(function(s){return by[s]||{s:s,px:null,ch:null}});
         }).catch(function(){return syms.map(function(s){return {s:s,px:null,ch:null}})});
@@ -2295,7 +2295,7 @@
     return fetch('/api/news?q='+encodeURIComponent(q))
       .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.items||[]})
       .catch(function(){
-        return fetch('data/news.json').then(function(r){return r.json()}).then(function(d){
+        return fetch('data/news.json?t='+Math.floor(Date.now()/60000)).then(function(r){return r.json()}).then(function(d){
           var ql=(q||'').toLowerCase();
           var bundle=ql.indexOf('fed')>=0||ql.indexOf('inflation')>=0?d.macro
             :ql.indexOf('bitcoin')>=0||ql.indexOf('crypto market')>=0?d.crypto
