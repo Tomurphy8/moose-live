@@ -1838,8 +1838,11 @@
     var simple=document.getElementById('simpleTicket');
     if(!simple||simple.style.display==='none')return;
     var tb=document.getElementById('tokB'); if(!tb)return;
-    document.getElementById('pairBase').textContent=tb.textContent;
-    setChart(tb.textContent); // TV for majors (vs USD), DEXScreener otherwise — optimal per market
+    var sym=tb.textContent;
+    // chart the buy token when TradingView lists it; otherwise default to MON/USD
+    if(!TV_MAP[sym]) sym='MON';
+    document.getElementById('pairBase').textContent=sym;
+    setChart(sym);
   }
   function setTicketMode(mode,calm){
     var pro=document.getElementById('proTicket'),simple=document.getElementById('simpleTicket');
@@ -3337,9 +3340,7 @@
   // ---- chart engine: TradingView (majors) -> DEXScreener (Monad pairs) -> custom candles ----
   var TV_MAP={ 'MON':'COINBASE:MONUSD','WMON':'COINBASE:MONUSD','WETH':'COINBASE:ETHUSD',
     'weETH':'COINBASE:ETHUSD','wstETH':'COINBASE:ETHUSD','BTC.b':'COINBASE:BTCUSD','cbBTC':'COINBASE:BTCUSD',
-    'WBTC':'COINBASE:BTCUSD','USDC':'COINBASE:USDCUSD','USDT0':'COINBASE:USDTUSD','USDT':'COINBASE:USDTUSD',
-    'wnUSDT0':'COINBASE:USDTUSD','USDe':'COINBASE:USDTUSD','AUSD':'COINBASE:USDCUSD','aUSD':'COINBASE:USDCUSD',
-    'musd':'COINBASE:USDCUSD','SOL':'COINBASE:SOLUSD','ETH':'COINBASE:ETHUSD','BTC':'COINBASE:BTCUSD' };
+    'WBTC':'COINBASE:BTCUSD','SOL':'COINBASE:SOLUSD','ETH':'COINBASE:ETHUSD','BTC':'COINBASE:BTCUSD' };
   function clearChart(){ document.getElementById('tv_chart').replaceChildren(); }
   function chartNote(txt){
     var n=document.createElement('div');
