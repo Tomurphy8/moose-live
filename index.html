@@ -832,6 +832,8 @@
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);font-family:'Spline Sans Mono',monospace"><span>1×</span><span>2×</span><span>3×</span><span>4×</span><span>5×</span></div>
       <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">5× on correlated pairs only (shMON/MON) · majors cap at 3×</div>
     </div>
+    <details class="adv">
+      <summary>TP / SL — <span class="num" id="sumTp" style="color:var(--up)">1.8100</span> / <span class="num" id="sumSl" style="color:var(--down)">1.4200</span></summary>
     <div class="tpsl">
       <div class="field">
         <div class="k"><span style="color:var(--up)">Take profit</span><button class="star-btn" id="tpSplit" aria-pressed="false" style="font-size:.62rem">split ×3</button></div>
@@ -846,14 +848,18 @@
       </div>
       <div style="grid-column:1/-1;font-size:.62rem;color:var(--faint)" id="tpslAnchor">% chips anchor to mid (1.5742)</div>
     </div>
+    </details>
     <button class="info-row" id="orderInfoBtn" aria-expanded="false" aria-controls="orderSentence"><span class="info-i">i</span><span>what this order does</span><span class="chev">▾</span></button>
     <p class="sentence" id="orderSentence" style="display:none">You'll hold <b id="ordHold">≈ 5,718 shMON</b> backed by <span id="ordBack">$66 (3,000 MON)</span>. Earning <span class="up" id="ordYield">3× staking yield</span> and <b id="ordPts">3× points</b> while it's open. Sells at <span class="up" id="ordTp">1.8100</span> or <span class="down" id="ordSl">1.4200</span>, whichever comes first.</p>
+    <details class="adv">
+      <summary>Order details — liq <span class="num" id="sumLiq">1.4168 (−10.0%)</span> · fee 0.08%</summary>
     <div class="tmeta">
       <div class="row"><span>Liquidation price</span><span class="v liq" id="liqVal">1.3120 <span style="color:var(--faint)">(−16.7%)</span></span></div>
       <div class="row"><span>Borrow cost</span><span class="v">6.2% APR</span></div>
       <div class="row"><span>Route</span><span class="v">Kuru · one fill</span></div>
       <div class="row"><span>Fees</span><span class="v">0.08%</span></div>
     </div>
+    </details>
     <details class="adv">
       <summary>advanced</summary>
       <div class="row"><span>Slippage</span><span class="v">auto · 0.5%</span></div>
@@ -866,8 +872,11 @@
       <div style="font-size:.72rem;color:var(--dim);line-height:1.5">Orders this size move the book. RFQ sends it to the solver network instead: quotes back in under a second, best one fills off-book, zero market impact, MEV-free by construction.</div>
       <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.5rem;font-size:.78rem">Request quotes from 14 solvers</button>
     </div>
+    <details class="adv">
+      <summary>Protection — Protect-me + Break-even</summary>
     <div class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
     <div class="protect"><div class="toggle" id="beToggle"></div><span><b style="color:var(--ink)">Break-even</b> — stop jumps to entry + fees once +5% in profit</span></div>
+    </details>
     <button class="cta">Buy shMON · one signature</button>
     <div class="one-sig">no bridging · no borrow forms · gasless session</div>
     </div>
@@ -2920,6 +2929,9 @@
       var st=document.getElementById('ordTp'),ss=document.getElementById('ordSl');
       if(tp&&st)st.textContent=tp.value||'—';
       if(sl&&ss)ss.textContent=sl.value||'—';
+      var a=document.getElementById('sumTp'),b=document.getElementById('sumSl');
+      if(tp&&a)a.textContent=tp.value||'—';
+      if(sl&&b)b.textContent=sl.value||'—';
     }
     document.querySelectorAll('.chips[data-t] button').forEach(function(b){
       b.addEventListener('click',function(){
@@ -3208,8 +3220,9 @@
       if(oy)oy.textContent=(L===1?'1\u00d7':lbl)+' staking yield';
       if(op)op.textContent=(L===1?'1\u00d7':lbl)+' points';
       var lv=document.getElementById('liqVal');
+      var sq=document.getElementById('sumLiq');
       if(lv){
-        if(L===1){lv.textContent='\u2014 no debt, no liquidation';}
+        if(L===1){lv.textContent='\u2014 no debt, no liquidation';if(sq)sq.textContent='no debt';}
         else{
           var dist=1/(2*L);
           var lp=(MID*(1-dist)).toFixed(4);
@@ -3218,6 +3231,7 @@
           var s=document.createElement('span');s.style.color='var(--faint)';
           s.textContent='(\u2212'+(dist*100).toFixed(1)+'%)';
           lv.appendChild(s);
+          if(sq)sq.textContent=lp+' (\u2212'+(dist*100).toFixed(1)+'%)';
         }
       }
       var note=document.getElementById('levNote');
