@@ -1,0 +1,25 @@
+name: refresh-data
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: [scripts/fetch-data.mjs]
+permissions:
+  contents: write
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: node scripts/fetch-data.mjs
+      - name: commit if changed
+        run: |
+          git config user.name "moose-data-bot"
+          git config user.email "bot@moose"
+          git add data/
+          git diff --cached --quiet || git commit -m "data refresh"
+          git push

@@ -2279,34 +2279,36 @@
   function mooseShare(sym){ // deterministic mock share of DEX vol (0.5%–3%) until launch
     var h=0; for(var i=0;i<sym.length;i++) h=(h*31+sym.charCodeAt(i))>>>0;
     return 0.005+(h%26)/1000; }
-  // ---- data layer: /api first, browser-direct fallbacks for static hosting ----
-  function yahooDirect(sym){
-    return fetch('https://api.allorigins.win/raw?url='+encodeURIComponent('https://query1.finance.yahoo.com/v8/finance/chart/'+sym+'?interval=1d&range=2d'))
-      .then(function(r){return r.json()}).then(function(d){
-        var m=d&&d.chart&&d.chart.result&&d.chart.result[0]&&d.chart.result[0].meta;
-        if(!m||m.regularMarketPrice==null)return {s:sym,px:null,ch:null};
-        var prev=m.chartPreviousClose||m.previousClose;
-        return {s:sym,px:m.regularMarketPrice,ch:prev?+(((m.regularMarketPrice-prev)/prev)*100).toFixed(2):null};
-      }).catch(function(){return {s:sym,px:null,ch:null}});
-  }
+  // ---- data layer: /api first, static data-pipeline fallbacks ----
   function apiQuotes(syms){
     return fetch('/api/quotes?syms='+encodeURIComponent(syms.join(',')))
       .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.quotes||[]})
-      .catch(function(){return Promise.all(syms.map(yahooDirect))});
+      .catch(function(){
+        // static hosting: quotes refreshed every 15 min by the repo's data pipeline
+        return fetch('data/quotes.json').then(function(r){return r.json()}).then(function(d){
+          var by={};(d.quotes||[]).forEach(function(q){by[q.s]=q});
+          return syms.map(function(s){return by[s]||{s:s,px:null,ch:null}});
+        }).catch(function(){return syms.map(function(s){return {s:s,px:null,ch:null}})});
+      });
   }
   function fetchNewsItems(q){
     return fetch('/api/news?q='+encodeURIComponent(q))
       .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){return d.items||[]})
       .catch(function(){
-        return fetch('https://min-api.cryptocompare.com/data/v2/news/?lang=EN')
-          .then(function(r){return r.json()}).then(function(d){
-            var items=(d.Data||[]).map(function(n){return {title:n.title,link:n.url,
-              source:(n.source_info&&n.source_info.name)||n.source||'news',
-              t:Math.max(1,Math.round((Date.now()/1000-n.published_on)/3600))+'h'}});
-            var ql=(q||'').toLowerCase().split(' ')[0];
-            var hit=items.filter(function(n){return n.title.toLowerCase().indexOf(ql)>=0});
-            return (hit.length?hit:items).slice(0,8);
-          }).catch(function(){return []});
+        return fetch('data/news.json').then(function(r){return r.json()}).then(function(d){
+          var ql=(q||'').toLowerCase();
+          var bundle=ql.indexOf('fed')>=0||ql.indexOf('inflation')>=0?d.macro
+            :ql.indexOf('bitcoin')>=0||ql.indexOf('crypto market')>=0?d.crypto
+            :d.monad||[];
+          // per-asset: filter the feeds by ticker, fall back to the Monad feed
+          var sym=ql.split(' ')[0];
+          if(sym&&sym!=='monad'&&sym!=='shmonad'){
+            var all=(d.monad||[]).concat(d.crypto||[]);
+            var hit=all.filter(function(n){return n.title.toLowerCase().indexOf(sym)>=0});
+            if(hit.length)return hit.slice(0,8);
+          }
+          return (bundle||[]).slice(0,8);
+        }).catch(function(){return []});
       });
   }
   // watchlist + sort + sparkline state
