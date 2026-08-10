@@ -62,7 +62,7 @@
   .wallet{font-family:"Spline Sans Mono",monospace;font-size:.76rem;background:var(--raised);border:1px solid var(--line);border-radius:99px;padding:.36rem .8rem}
 
   .view{display:none}.view.on{display:block}
-  .pill-btn{background:var(--raised);border:1px solid var(--line);color:var(--ink);border-radius:8px;font-size:.77rem;padding:.38rem .75rem;cursor:pointer;font-family:"Schibsted Grotesk",sans-serif}
+  .pill-btn{background:var(--raised);border:1px solid var(--line);color:var(--ink);border-radius:8px;font-size:.77rem;padding:.38rem .75rem;cursor:pointer;font-family:"Schibsted Grotesk",sans-serif;min-height:30px}
   .pill-btn:hover{border-color:var(--faint)}
   .sec-title{font-family:"Fraunces",serif;font-size:1.05rem;font-weight:600;display:flex;align-items:baseline;gap:.6rem;margin-bottom:.85rem}
   .sec-title .hint{font-family:"Schibsted Grotesk",sans-serif;font-weight:400;font-size:.72rem;color:var(--faint)}
@@ -124,7 +124,7 @@
   .trend-chip b{color:var(--ink)}
   .trend-chip:hover b{color:var(--accent)}
   .thsort{cursor:pointer;user-select:none}.thsort:hover{color:var(--accent)}
-  .star-btn{background:none;border:none;color:var(--faint);cursor:pointer;font-size:.9rem;padding:.1rem .2rem;min-height:24px}
+  .star-btn{background:none;border:none;color:var(--faint);cursor:pointer;font-size:.9rem;padding:.1rem .2rem;min-height:30px;min-width:30px}
   .star-btn.on{color:var(--accent)}
   .spark{width:64px;height:20px;display:block}
   /* herd NFT pfp identity layer */
@@ -1390,7 +1390,7 @@
       </div>
       <div class="eq-card" style="margin-bottom:0">
         <div class="sec-title" style="font-size:.95rem">Allocation</div>
-        <svg viewBox="0 0 42 42" style="width:82px;height:82px;display:block;margin:.2rem auto .3rem" id="donut"></svg>
+        <svg viewBox="0 0 42 42" style="width:82px;height:82px;display:block;margin:.2rem auto .3rem" id="donut" role="img" aria-label="Portfolio allocation by asset"></svg>
         <div class="alloc-legend" id="allocLegend"></div>
       </div>
       <div class="eq-card" style="margin-bottom:0">
@@ -3057,7 +3057,7 @@
     });
   });
   // ---- break-even toggle ----
-  (function(){var t=document.getElementById('beToggle');if(t)t.addEventListener('click',function(){t.classList.toggle('on')})})();
+  document.querySelectorAll('.protect .toggle').forEach(function(t){t.addEventListener('click',function(){t.classList.toggle('on')})});
   // ---- bar replay engine (seeded candles, future hidden) ----
   var rpTimer=null,rpBar=0,rpSpeedMs=400,rpInit=false;
   function initReplay(){
