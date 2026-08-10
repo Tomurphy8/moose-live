@@ -2131,8 +2131,8 @@
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
     document.getElementById('v-points').classList.add('on');
   }
-  document.querySelector('.points-chip').style.cursor='pointer';
-  document.querySelector('.points-chip').addEventListener('click',showPoints);
+  var ptsChip=document.querySelector('.points-chip');
+  if(ptsChip){ptsChip.style.cursor='pointer';ptsChip.addEventListener('click',showPoints);}
   document.querySelectorAll('#acctMenu a').forEach(function(a){if(a.textContent.indexOf('Points')===0)a.addEventListener('click',showPoints)});
 
 
