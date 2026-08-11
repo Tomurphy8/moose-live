@@ -1928,19 +1928,33 @@
   function renderList(f){
     var list=document.getElementById('tokList');
     list.replaceChildren();
-    TOKENS.filter(function(tk){
+    // union: static list + every live token from the chain (deduped), live data preferred
+    var seen={},merged=[];
+    TOKENS.forEach(function(tk){seen[tk[0].toLowerCase()]=1;merged.push(tk)});
+    (LIVE_TOKENS||[]).forEach(function(t){
+      if(!t.live||seen[t.s.toLowerCase()])return;
+      seen[t.s.toLowerCase()]=1;
+      merged.push([t.s,t.n||t.s,t.priceUsd!=null?String(t.priceUsd):'—',t.ch24!=null?t.ch24.toFixed(2):'0']);
+    });
+    merged.filter(function(tk){
       if(!f) return true;
       var q=f.toLowerCase();
       return tk[0].toLowerCase().indexOf(q)>=0||tk[1].toLowerCase().indexOf(q)>=0;
     }).forEach(function(tk){
+      var lt=tokBySym(tk[0]);
       var row=document.createElement('div');row.className='trow';
-      var ic=document.createElement('div');ic.className='ic';ic.textContent=tk[0].slice(0,3);row.appendChild(ic);
+      var ic=document.createElement('div');ic.className='ic';
+      if(lt&&lt.logo){ic.replaceChildren(tokLogo(lt,26));ic.style.background='none';}
+      else ic.textContent=tk[0].slice(0,3);
+      row.appendChild(ic);
       var mid=document.createElement('div');
       var nm=document.createElement('div');nm.className='nm';nm.textContent=tk[0];
       var sub=document.createElement('div');sub.className='sub';sub.textContent=tk[1];
       mid.appendChild(nm);mid.appendChild(sub);row.appendChild(mid);
-      var px=document.createElement('div');px.className='px num '+(parseFloat(tk[3])>=0?'up':'down');
-      px.textContent=tk[2]+'  '+(parseFloat(tk[3])>=0?'+':'')+tk[3]+'%';row.appendChild(px);
+      var pv=tk[2],cv=tk[3];
+      if(lt&&lt.priceUsd!=null){pv=fmtPx(lt.priceUsd);if(lt.ch24!=null)cv=lt.ch24.toFixed(2);}
+      var px=document.createElement('div');px.className='px num '+(parseFloat(cv)>=0?'up':'down');
+      px.textContent=pv+'  '+(parseFloat(cv)>=0?'+':'')+cv+'%';row.appendChild(px);
       row.addEventListener('click',function(){
         if(pickTarget==='M'){
           document.getElementById('pairBase').textContent=tk[0];
