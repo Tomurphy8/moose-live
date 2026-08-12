@@ -13,7 +13,7 @@
     --bg:#131316; --panel:#1A1A1F; --raised:#222228; --line:#2C2C33;
     --ink:#ECECEF; --dim:#A9A9B4; --faint:#70707B;
   }
-  :root, :root[data-theme="aubergine"]{
+  :root[data-theme="aubergine"]{
     --accent:#C9A567; --accent-ink:#211B10;
     --up:#8FA88A; --up-deep:#71896C; --down:#BC8471;
     --tint-bg:#1F1B24; --tint-panel:#26212E; --tint-raised:#2E2837; --tint-line:#393142;
@@ -28,7 +28,7 @@
     --up:#94A484; --up-deep:#75855F; --down:#BE7C6A;
     --tint-bg:#211719; --tint-panel:#291E21; --tint-raised:#322529; --tint-line:#3D2D32;
   }
-  :root[data-theme="navy"]{
+  :root, :root[data-theme="navy"]{
     --accent:#5B9EFF; --accent-ink:#0A1424;
     --up:#7FA88F; --up-deep:#628A72; --down:#B97F6F;
     --tint-bg:#121A2A; --tint-panel:#182134; --tint-raised:#1F2A40; --tint-line:#2A3850;
@@ -711,7 +711,7 @@
   <div class="status-pill"><span class="lv"><span class="dot-lv"></span>Monad · live</span><span>300ms blocks</span></div>
 </div>
 <header>
-  <div class="wordmark" style="display:flex;align-items:center;gap:.45rem"><span style="width:26px;height:26px;color:var(--accent)"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M20.8 16 C15.2 16.6 8.6 15 4.9 11.4 C3.1 9.6 2.4 7 3.7 5.1 C4.4 4.1 5.6 3.8 6.5 4.5 C6.6 2.8 7.8 1.6 9.3 1.7 C10.6 1.8 11.6 2.8 11.8 4.1 C12.6 2.6 14.2 1.7 15.6 2.2 C17.1 2.8 17.7 4.3 17.3 5.9 C17 7.4 17.1 9 17.7 10.6 C18.4 12.4 19.5 14.3 20.8 16 Z"/><path fill="currentColor" stroke="none" d="M27.2 16 C32.8 16.6 39.4 15 43.1 11.4 C44.9 9.6 45.6 7 44.3 5.1 C43.6 4.1 42.4 3.8 41.5 4.5 C41.4 2.8 40.2 1.6 38.7 1.7 C37.4 1.8 36.4 2.8 36.2 4.1 C35.4 2.6 33.8 1.7 32.4 2.2 C30.9 2.8 30.3 4.3 30.7 5.9 C31 7.4 30.9 9 30.3 10.6 C29.6 12.4 28.5 14.3 27.2 16 Z"/><path fill="currentColor" stroke="none" d="M19 18.4 C16.2 16.9 13.8 17.8 14.1 19.9 C14.3 21.7 16.8 22.3 18.6 21 C19.3 20.4 19.5 19.1 19 18.4 Z"/><path fill="currentColor" stroke="none" d="M29 18.4 C31.8 16.9 34.2 17.8 33.9 19.9 C33.7 21.7 31.2 22.3 29.4 21 C28.7 20.4 28.5 19.1 29 18.4 Z"/><path d="M20.5 17 C18.9 20.6 18.9 24 20.2 27.2 C21.2 29.6 21.4 31.4 21.2 33.4 C21 36.7 26.9 36.7 26.8 33.4 C26.6 31.4 26.8 29.6 27.8 27.2 C29.1 24 29.1 20.6 27.5 17 C25.6 15.8 22.4 15.8 20.5 17 Z"/></svg></span>moose<span class="tick">/</span></div>
+  <div class="wordmark" style="display:flex;align-items:center;gap:.5rem"><span style="width:24px;height:24px;display:inline-flex"><svg viewBox="0 0 26 26"><g transform="skewX(-8) translate(3,0)"><rect x="2" y="5" width="4.6" height="17" rx="1.4" fill="#3FB68B"/><rect x="9" y="3.4" width="4.6" height="18.6" rx="1.4" fill="#5B9EFF"/><rect x="16" y="5" width="4.6" height="17" rx="1.4" fill="#E0556B"/></g></svg></span>moose<span class="tick">/</span></div>
   <div class="movers" id="movers"></div>
   <div class="acct">
     <div class="wallet num" id="acctBtn">0xB4…9E2 · 12,480 MON ▾</div>
@@ -727,11 +727,12 @@
       </div>
       <div class="menu-theme" id="menuTheme">
         <span>Palette</span>
-        <div class="swatch sw-aubergine on" data-t="aubergine" title="Heather"></div>
+        <div class="swatch sw-navy on" data-t="navy" title="Navy"></div>
+        <div class="swatch sw-aubergine" data-t="aubergine" title="Heather"></div>
         <div class="swatch sw-espresso" data-t="espresso" title="Espresso"></div>
         <div class="swatch sw-oxblood" data-t="oxblood" title="Oxblood"></div>
         <div class="swatch sw-hunter" data-t="hunter" title="Hunter"></div>
-        <div class="swatch sw-navy" data-t="navy" title="Navy"></div>
+        
       </div>
       <div class="sep"></div>
       <a>Session keys</a>
@@ -1001,7 +1002,7 @@
     <div class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
     <div class="protect"><div class="toggle" id="beToggle"></div><span><b style="color:var(--ink)">Break-even</b> — stop jumps to entry + fees once +5% in profit</span></div>
     </details>
-    <button class="cta">Buy shMON · one signature</button>
+    <button class="cta">Buy shMON</button>
     </div>
     <div id="simpleTicket" style="display:none">
       <div class="swap-head" style="font-size:1.15rem;margin-bottom:.6rem">Swap <i>anything</i></div>
@@ -3265,7 +3266,7 @@
         var sell=b.dataset.side==='sell';
         bs.classList.toggle('selling',sell);
         var cta=document.querySelector('.side .cta');
-        if(cta)cta.textContent=(sell?'Sell':'Buy')+' shMON · one signature';
+        if(cta)cta.textContent=(sell?'Sell':'Buy')+' shMON';
         var lbl=document.getElementById('ladderLbl');
         if(lbl)lbl.textContent=sell?'Sell ladder':'Buy ladder';
         // pay leg: buy is USD-denominated, sell is asset-denominated
