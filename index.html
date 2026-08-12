@@ -1201,6 +1201,14 @@
         </div>
       <div><div class="season" style="cursor:pointer"><div class="t">Duel Cup · September</div>64-bracket single elimination · 100,000 MON prize pool · every match is a live Crash market · winners stream the final. Qualify by winning 3 open duels.</div></div>
     </div>
+        <div class="card duelchat-card" style="margin-bottom:1.1rem">
+          <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
+          <div class="chatlist" id="duelChat"></div>
+          <div class="chatrow">
+            <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
+            <button class="pill-btn chatsend" id="duelSend">Send</button>
+          </div>
+        </div>
     <div class="compete-grid" style="margin-bottom:0">
       <div class="card">
         <div class="sec-title">Duels <span class="hint">1v1 · same bankroll · 24h · winner takes the pot</span></div>
@@ -1262,14 +1270,6 @@
         <div class="card">
           <div class="sec-title"><span class="live-dot"></span>All live duels <span class="hint">tap any to spectate</span></div>
           <div id="duelFeedList"></div>
-        </div>
-        <div class="card duelchat-card">
-          <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
-          <div class="chatlist" id="duelChat"></div>
-          <div class="chatrow">
-            <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
-            <button class="pill-btn chatsend" id="duelSend">Send</button>
-          </div>
         </div>
         <div class="card">
           <div class="sec-title">Post to the herd <span class="hint">theses carry your entry, size and live PnL</span></div>
@@ -1365,9 +1365,11 @@
       </div>
     </div>
 
+    <div class="pf-grid">
+      <div>
     <div class="card">
       <div class="sec-title" style="align-items:center">Account
-        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="nft">Herd NFT</button><button data-pf2="board">PnL board</button></div>
+        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="board">PnL board</button></div>
       </div>
       <div id="pfHoldings">
           <table>
@@ -1403,8 +1405,15 @@
       </table>
       <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
       </div>
-      <div id="pfNft" style="display:none">
-        <div class="hint" style="display:block;margin:.1rem 0 .5rem">the identity that pays — shMON-backed token-bound account · Herd #4127</div>
+      <div id="pfBoard" style="display:none">
+        <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
+        <div id="lbPnlPort"></div>
+      </div>
+    </div>
+      </div>
+      <div>
+        <div class="card colcard">
+          <div class="sec-title">Your Herd NFT <span class="hint">the identity that pays</span></div>
           <div class="mh-top">
             <div class="s"><span class="k">Herd #4127 backing</span><span class="v" style="color:var(--accent)">128 shMON</span></div>
             <div class="s"><span class="k">Backing value · grows every epoch</span><span class="v">202 MON <span class="up" style="font-size:.72rem">+102% since mint</span></span></div>
@@ -1417,10 +1426,7 @@
             <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Drip: wNVDA basket</button>
             <button class="pill-btn">Activate tier 3</button>
           </div>
-      </div>
-      <div id="pfBoard" style="display:none">
-        <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
-        <div id="lbPnlPort"></div>
+        </div>
       </div>
     </div>
 
@@ -2214,7 +2220,7 @@
       });
     });
   }
-  wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',nft:'pfNft',board:'pfBoard'});
+  wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',board:'pfBoard'});
   wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
   wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
 
@@ -3891,6 +3897,8 @@
     var pb=document.getElementById('pairBase');
     if(!pb||pb.textContent!==sym)return; // user moved on — never paint stale data
     function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
+    if(d.holders!=null)set('fHold',Number(d.holders).toLocaleString());
+    if(d.desc){var ab=document.getElementById('idAbout');if(ab)ab.textContent=d.desc.split('\n')[0].slice(0,220);}
     set('fMc',d.mc!=null?fmtUsdBig(d.mc):'—');
     set('fFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
     set('fCirc',(d.mc!=null&&d.px>0)?fmtSup(d.mc/d.px):'—');
@@ -3927,6 +3935,14 @@
                    tsup:ta.normalized_total_supply,res:ta.total_reserve_in_usd,
                    px:parseFloat(ta.price_usd)||pxUsd};
             FUND_CACHE[sym]=d;applyDeepFund(sym,d);
+            fetch('https://api.geckoterminal.com/api/v2/networks/monad/tokens/'+addr+'/info')
+              .then(function(r){return r.json()})
+              .then(function(inf){
+                var ia=(inf.data||{}).attributes||{};
+                if(ia.holders&&ia.holders.count!=null)d.holders=ia.holders.count;
+                if(ia.description)d.desc=ia.description;
+                FUND_CACHE[sym]=d;applyDeepFund(sym,d);
+              }).catch(function(){});
           })
           .catch(function(){FUND_CACHE[sym]=base;applyDeepFund(sym,base)});
       })
