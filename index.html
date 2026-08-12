@@ -1317,6 +1317,7 @@
     </div>
     <div class="yseg" id="aseg" style="margin-bottom:1.1rem">
       <button data-a="portfolio" class="on">Portfolio</button>
+      <button data-a="journal">Journal</button>
       <button data-a="points">Points</button>
     </div>
     <div class="asec on" id="a-portfolio">
@@ -1422,6 +1423,56 @@
       </table>
       <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
     </div>
+    </div>
+
+    <div class="asec" id="a-journal">
+      <div class="pt-head">
+        <div class="s"><span class="k">Win rate · 30d</span><span class="v up">64%</span></div>
+        <div class="s"><span class="k">Avg R</span><span class="v">+0.8R</span></div>
+        <div class="s"><span class="k">Expectancy</span><span class="v up">+0.42R / trade</span></div>
+        <div class="s"><span class="k">Logged fills · 30d</span><span class="v">127 <span style="color:var(--accent);font-size:.72rem">auto</span></span></div>
+      </div>
+      <div class="pf-grid">
+        <div>
+          <div class="card">
+            <div class="sec-title">Every fill, logged <span class="hint">entry, exit, R and points — nothing manual</span></div>
+            <table>
+              <thead><tr><th>Time</th><th>Market</th><th>Side</th><th>Entry → exit</th><th>R</th><th>Points</th></tr></thead>
+              <tbody>
+                <tr><td class="num" style="color:var(--faint)">14:02</td><td><b>shMON</b>/MON</td><td class="up">Buy 3×</td><td class="num">1.5488 → open</td><td class="up num">+1.4R</td><td class="num" style="color:var(--accent)">+980</td></tr>
+                <tr><td class="num" style="color:var(--faint)">11:47</td><td><b>CHOG</b>/MON</td><td class="down">Sell</td><td class="num">0.0483 → 0.0451</td><td class="up num">+0.9R</td><td class="num" style="color:var(--accent)">+112</td></tr>
+                <tr><td class="num" style="color:var(--faint)">Mon</td><td><b>JAMES</b>/MON</td><td class="up">Buy</td><td class="num">0.0107 → 0.0095</td><td class="down num">−1.0R</td><td class="num" style="color:var(--accent)">+64</td></tr>
+                <tr><td class="num" style="color:var(--faint)">Mon</td><td><b>MON</b>/USD</td><td class="up">Buy 2×</td><td class="num">0.0209 → 0.0221</td><td class="up num">+3.2R</td><td class="num" style="color:var(--accent)">+402</td></tr>
+                <tr><td class="num" style="color:var(--faint)">Sun</td><td><b>shMON</b>/MON</td><td class="down">Sell ladder</td><td class="num">1.5510 → 1.5720</td><td class="up num">+1.1R</td><td class="num" style="color:var(--accent)">+238</td></tr>
+              </tbody>
+            </table>
+            <div class="thesis">"Stopped forcing CHOG shorts into strength — the last three losers were all counter-trend."<div class="by">your note · attached to this week · notes ride along in the export</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="sec-title">By market <span class="hint">where your edge actually is</span></div>
+            <table>
+              <thead><tr><th>Market</th><th>Trades</th><th>Win rate</th><th>Avg R</th></tr></thead>
+              <tbody>
+                <tr><td><b>shMON</b>/MON</td><td class="num">41</td><td class="up num">71%</td><td class="up num">+1.1R</td></tr>
+                <tr><td><b>MON</b>/USD</td><td class="num">33</td><td class="up num">67%</td><td class="up num">+0.9R</td></tr>
+                <tr><td><b>CHOG</b>/MON</td><td class="num">28</td><td class="num">44%</td><td class="down num">−0.2R</td></tr>
+                <tr><td><b>JAMES</b>/MON</td><td class="num">25</td><td class="num">52%</td><td class="up num">+0.3R</td></tr>
+              </tbody>
+            </table>
+            <div class="ynote" style="margin-top:.5rem">Your edge is concentrated in shMON and MON. CHOG has cost you −5.6R this month — the journal says it before the balance does.</div>
+          </div>
+          <div class="card">
+            <div class="sec-title">Export</div>
+            <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.2rem">
+              <button class="pill-btn">CSV — every fill</button>
+              <button class="pill-btn">Tax report</button>
+            </div>
+            <div class="ynote" style="margin-top:.6rem">Auto-synced journaling ships free, forever. Elsewhere this is a $35–99/mo subscription. Your data exports cleanly — no lock-in, that's the point.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="asec" id="a-points">
@@ -1660,9 +1711,9 @@
     </div>
     <div id="pulseWrap" style="display:none">
       <div class="pulse-grid">
-        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span class="live-dot"></span>Small caps · early</div><div id="pcolNew"></div></div>
-        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem">Momentum · 24h</div><div id="pcolMo"></div></div>
-        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem">Majors &amp; LSTs</div><div id="pcolBlue"></div></div>
+        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span class="live-dot"></span><span id="ptNew">Small caps · early</span></div><div id="pcolNew"></div></div>
+        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptMo">Momentum · 24h</span></div><div id="pcolMo"></div></div>
+        <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptBlue">Majors &amp; LSTs</span></div><div id="pcolBlue"></div></div>
       </div>
       <div class="ynote" style="margin-top:.7rem">Every card is live from on-chain pools. Buy executes from the feed — no navigation between finding and trading.</div>
     </div>
@@ -3854,15 +3905,61 @@
       c.addEventListener('click',function(){goTrade(t.s)});
       return c;
     }
+    function qcard(x){
+      var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};
+      var c=document.createElement('div');c.className='pcard';
+      var ic=document.createElement('div');ic.className='ic';ic.style.cssText='width:22px;height:22px;border-radius:50%;background:var(--raised);display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;color:var(--dim);flex-shrink:0';ic.textContent=x[0].slice(0,3);c.appendChild(ic);
+      var mid=document.createElement('div');
+      var nm=document.createElement('div');nm.className='pnm';nm.textContent=x[0];
+      var sub=document.createElement('div');sub.className='psub';sub.textContent=x[1]+' · tokenizing';
+      mid.appendChild(nm);mid.appendChild(sub);c.appendChild(mid);
+      var px=document.createElement('div');px.className='ppx';
+      var p1=document.createElement('div');p1.textContent=lq.px!=null?fmtPx(lq.px):'—';
+      var p2=document.createElement('div');p2.className=(lq.ch||0)>=0?'up':'down';
+      p2.textContent=lq.ch!=null?(((lq.ch>=0)?'+':'')+lq.ch+'%'):'';
+      px.appendChild(p1);px.appendChild(p2);c.appendChild(px);
+      var b=document.createElement('button');b.className='buy-quick';b.textContent='Chart';
+      function openIt(){
+        var l=document.querySelector('#nav a[data-v="trade"]');if(l)l.click();
+        document.getElementById('pairBase').textContent=x[0];
+        try{updateIdentity(x[0])}catch(e){}
+        document.getElementById('pairQuote').textContent='USD';
+        mountTV((typeof TV_COMMOD!=='undefined'&&TV_COMMOD[x[4]])||x[4]||x[0]);
+        var pv=document.getElementById('pairVenue');if(pv)pv.textContent='reference chart · trades on Moose as it tokenizes';
+        if(lq.px!=null){var pp=document.getElementById('pairPrice');if(pp)pp.textContent='$'+fmtPx(lq.px);}
+      }
+      b.addEventListener('click',function(e){e.stopPropagation();openIt()});
+      c.addEventListener('click',openIt);
+      return c;
+    }
+    function setTitles(a,b2,c){
+      var e1=document.getElementById('ptNew'),e2=document.getElementById('ptMo'),e3=document.getElementById('ptBlue');
+      if(e1)e1.textContent=a; if(e2)e2.textContent=b2; if(e3)e3.textContent=c;
+    }
     function render(){
-      var src=(LIVE_TOKENS||[]).filter(function(t){return t.live});
-      if(!src.length)return;
-      var mo=src.filter(function(t){return t.cat!=='stable'&&t.ch24!=null}).sort(function(a,b){return Math.abs(b.ch24)-Math.abs(a.ch24)}).slice(0,8);
-      var blue=src.filter(function(t){return t.cat==='blue'||t.cat==='lst'}).sort(function(a,b){return (b.vol24||0)-(a.vol24||0)}).slice(0,8);
-      var fresh=src.filter(function(t){return t.cat==='meme'||t.cat==='longtail'}).sort(function(a,b){return (a.vol24||0)-(b.vol24||0)}).slice(0,8);
-      [['pcolNew',fresh],['pcolMo',mo],['pcolBlue',blue]].forEach(function(cfg){
+      var cls=(typeof assetClass!=='undefined')?assetClass:'crypto';
+      if(cls==='crypto'){
+        setTitles('Small caps · early','Momentum · 24h','Majors & LSTs');
+        var src=(LIVE_TOKENS||[]).filter(function(t){return t.live});
+        if(!src.length)return;
+        var mo=src.filter(function(t){return t.cat!=='stable'&&t.ch24!=null}).sort(function(a,b){return Math.abs(b.ch24)-Math.abs(a.ch24)}).slice(0,8);
+        var blue=src.filter(function(t){return t.cat==='blue'||t.cat==='lst'}).sort(function(a,b){return (b.vol24||0)-(a.vol24||0)}).slice(0,8);
+        var fresh=src.filter(function(t){return t.cat==='meme'||t.cat==='longtail'}).sort(function(a,b){return (a.vol24||0)-(b.vol24||0)}).slice(0,8);
+        [['pcolNew',fresh],['pcolMo',mo],['pcolBlue',blue]].forEach(function(cfg){
+          var el=document.getElementById(cfg[0]);if(!el)return;el.replaceChildren();
+          cfg[1].forEach(function(t){el.appendChild(pcard(t))});
+        });
+        return;
+      }
+      var list=cls==='stocks'?STOCKS:cls==='etf'?ETFS:COMMODS;
+      var withQ=list.map(function(x){var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};return [x,lq.ch!=null?lq.ch:null]});
+      var up=withQ.filter(function(p){return p[1]!=null&&p[1]>=0}).sort(function(a,b){return b[1]-a[1]}).slice(0,8).map(function(p){return p[0]});
+      var dn=withQ.filter(function(p){return p[1]!=null&&p[1]<0}).sort(function(a,b){return a[1]-b[1]}).slice(0,8).map(function(p){return p[0]});
+      var all=list.slice(0,8);
+      setTitles('Gainers · 24h','Losers · 24h',cls==='stocks'?'Mega caps':cls==='etf'?'Core index':'Metals & energy');
+      [['pcolNew',up],['pcolMo',dn],['pcolBlue',all]].forEach(function(cfg){
         var el=document.getElementById(cfg[0]);if(!el)return;el.replaceChildren();
-        cfg[1].forEach(function(t){el.appendChild(pcard(t))});
+        cfg[1].forEach(function(x){el.appendChild(qcard(x))});
       });
     }
     function setMode(m,save){
@@ -3875,6 +3972,9 @@
     }
     document.querySelectorAll('#dview button').forEach(function(b){
       b.addEventListener('click',function(){setMode(b.dataset.dv,true)});
+    });
+    document.querySelectorAll('#aclass button').forEach(function(b){
+      b.addEventListener('click',function(){setTimeout(function(){if(mode==='pulse')render()},0)});
     });
     if(mode==='pulse')setMode('pulse',false);
     var n=0,iv=setInterval(function(){
