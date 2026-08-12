@@ -773,7 +773,7 @@
   <div class="main">
     <div class="pair-strip">
       <button class="fold-chip" id="identUnfold" title="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
-      <div class="pair" id="pairPick" style="cursor:pointer"><h1><span id="pairBase">MON</span> / <span id="pairQuote">USD</span> <span style="color:var(--faint);font-size:.95rem">▾</span></h1><span class="sub" id="pairVenue">CEX reference · every Monad market</span></div>
+      <div class="pair" id="pairPick" style="cursor:pointer"><h1><span id="pairBase">MON</span> / <span id="pairQuote">USD</span> <span style="color:var(--faint);font-size:.95rem">▾</span></h1><span class="sub" id="pairVenue"></span></div>
       <div class="price-lg num" id="pairPrice">$0.0221</div>
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
@@ -3717,7 +3717,7 @@
   }
   function setChart(sym){
     try{updateIdentity(sym)}catch(e){} // identity must never block the chart
-    if(TV_MAP[sym]){ mountTV(TV_MAP[sym]); document.getElementById('pairVenue').textContent='CEX reference · every Monad market'; return; }
+    if(TV_MAP[sym]){ mountTV(TV_MAP[sym]); document.getElementById('pairVenue').textContent=''; return; }
     // every live token has a known pool — chart it directly, guaranteed
     var lt=tokBySym(sym);
     if(lt&&lt.pair){
