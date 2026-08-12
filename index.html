@@ -78,6 +78,24 @@
   @media(max-width:1180px){.wrap{grid-template-columns:minmax(0,1fr) 340px}.ident{display:none}}
   /* asset identity panel (Arcus-style) */
   .ident{padding:1rem 1rem 1.2rem;overflow-y:auto;min-height:0;align-self:stretch}
+  /* fold-away research panel: animate the grid track; clip content (no reflow) + fade */
+  .wrap{transition:grid-template-columns .24s cubic-bezier(.4,0,.2,1)}
+  .wrap.ifold{grid-template-columns:0px minmax(0,1fr) 340px}
+  .ident{min-width:0;overflow-x:hidden;transition:opacity .16s ease,padding .24s cubic-bezier(.4,0,.2,1)}
+  .ident>*{width:232px;flex-shrink:0}
+  .wrap.ifold .ident{opacity:0;padding-left:0;padding-right:0;pointer-events:none}
+  .fold-chip{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;width:28px;min-height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0}
+  .fold-chip:hover{color:var(--accent);border-color:var(--accent)}
+  .fold-chip svg{width:13px;height:13px;transition:transform .24s cubic-bezier(.4,0,.2,1)}
+  #v-trade .wrap.ifold .fold-chip svg{transform:rotate(180deg)}
+  /* <=1180px: the research panel folds to a slide-over instead of disappearing */
+  @media(max-width:1180px){
+    .ident{display:block;position:fixed;left:84px;top:0;bottom:0;width:264px;z-index:55;background:var(--bg);border-right:1px solid var(--line);box-shadow:8px 0 24px rgba(0,0,0,.35);transform:translateX(calc(-100% - 84px));transition:transform .24s cubic-bezier(.4,0,.2,1)}
+    #v-trade .wrap.iopen .ident{transform:none}
+    .fold-chip svg{transform:rotate(180deg)}
+    #v-trade .wrap.iopen .fold-chip svg{transform:none}
+  }
+  @media(max-width:900px){.ident{left:0;transform:translateX(-100%)}}
   .ident .id-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem}
   .ident .tok-circ{width:38px;height:38px;border-radius:50%;background:color-mix(in srgb,var(--accent) 18%,var(--raised));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;color:var(--accent);flex-shrink:0}
   .ident .id-nm b{display:block;font-size:1rem}
@@ -158,7 +176,7 @@
   .stat{display:flex;flex-direction:column;gap:.1rem}
   .stat .k{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
   .stat .v{font-size:.82rem}
-  .tv-panel{height:430px;border-bottom:1px solid var(--line);position:relative}
+  .tv-panel{height:clamp(320px,calc(100vh - 400px),560px);border-bottom:1px solid var(--line);position:relative}
   #tv_chart{position:absolute;inset:0}
   .below{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line)}
   .below>section{background:var(--bg);padding:1rem 1.4rem}
@@ -642,7 +660,6 @@
     <div class="wallet num" id="acctBtn">0xB4…9E2 · 12,480 MON ▾</div>
     <div class="acct-menu" id="acctMenu">
       <a href="https://tomurphy8.github.io/moose-docs-live/" target="_blank" rel="noopener">Docs <span class="ext">gitbook ↗</span></a>
-      <a id="menuAccount">Portfolio</a>
       <a>Points program</a>
       <div class="menu-theme" id="menuTheme">
         <span>Palette</span>
@@ -694,7 +711,7 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
-    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button><button data-ct="herd">Herd</button></div>
+    <div class="chart-tabs" id="chartTabs"><button class="fold-chip" id="identFold" title="Fold research panel" aria-expanded="true" aria-label="Fold research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6 8.5 12l6 6"/></svg></button><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button><button data-ct="herd">Herd</button></div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
       <div class="fund-panel" id="fundPanel">
@@ -2131,7 +2148,8 @@
   document.addEventListener('click',function(){am.classList.remove('show')});
   var mt=document.getElementById('menuTheme');
   if(mt)mt.addEventListener('click',function(e){e.stopPropagation()}); // try palettes without the menu closing
-  document.getElementById('menuAccount').addEventListener('click',function(){
+  var menuAcct=document.getElementById('menuAccount');
+  if(menuAcct)menuAcct.addEventListener('click',function(){
     document.querySelectorAll('#nav a').forEach(function(x){x.classList.remove('active')});
     document.querySelector('#nav a[data-v="portfolio"]').classList.add('active');
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
@@ -3637,9 +3655,9 @@
     }).catch(function(){renderNewsList([])});
   }
   // chart Price | Fundamentals tabs
-  document.querySelectorAll('#chartTabs button').forEach(function(b){
+  document.querySelectorAll('#chartTabs button[data-ct]').forEach(function(b){
     b.addEventListener('click',function(){
-      document.querySelectorAll('#chartTabs button').forEach(function(x){x.classList.remove('on')});
+      document.querySelectorAll('#chartTabs button[data-ct]').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
       document.getElementById('fundPanel').classList.toggle('on',b.dataset.ct==='fund');
       document.getElementById('replayPanel').classList.toggle('on',b.dataset.ct==='replay');
@@ -3781,6 +3799,20 @@
   seed(duelList,DUEL,DUEL_SYS);
   wireInput('herdIn','herdSend',herdList);
   wireInput('duelIn','duelSend',duelList);
+  // fold-away research panel
+  var idf=document.getElementById('identFold'),tw=document.querySelector('#v-trade .wrap');
+  var mqNarrow=window.matchMedia?window.matchMedia('(max-width:1180px)'):null;
+  if(idf&&tw){idf.addEventListener('click',function(){
+    if(mqNarrow&&mqNarrow.matches){
+      var open=tw.classList.toggle('iopen');
+      idf.setAttribute('aria-expanded',String(open));
+      idf.title=open?'Hide research panel':'Show research panel';
+    }else{
+      var folded=tw.classList.toggle('ifold');
+      idf.setAttribute('aria-expanded',String(!folded));
+      idf.title=folded?'Show research panel':'Fold research panel';
+    }
+  });}
   setInterval(function(){tick(herdList,HERD,HERD_SYS)},5200);
   setInterval(function(){tick(duelList,DUEL,DUEL_SYS)},6100);
 })();
