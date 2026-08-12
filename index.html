@@ -708,8 +708,9 @@
       <a>Points program</a>
       <div class="menu-theme" id="menuLayout">
         <span>Layout</span>
+        <button class="laybtn on" data-lay="default">Default</button>
         <button class="laybtn" data-lay="scalp">Scalp</button>
-        <button class="laybtn on" data-lay="swing">Swing</button>
+        <button class="laybtn" data-lay="swing">Swing</button>
         <button class="laybtn" data-lay="research">Research</button>
       </div>
       <div class="menu-theme" id="menuTheme">
@@ -3978,13 +3979,16 @@
         var pb=document.querySelector('#chartTabs button[data-ct="price"]');if(pb)pb.click();
       }
       document.querySelectorAll('#menuLayout .laybtn').forEach(function(b){b.classList.toggle('on',b.dataset.lay===name)});
-      if(save)try{localStorage.setItem('moose-layout',name)}catch(e){}
+      if(save)try{
+        if(name==='default')localStorage.removeItem('moose-layout');
+        else localStorage.setItem('moose-layout',name);
+      }catch(e){}
     }
     document.querySelectorAll('#menuLayout .laybtn').forEach(function(b){
       b.addEventListener('click',function(e){e.stopPropagation();apply(b.dataset.lay,true)});
     });
     var saved=null;try{saved=localStorage.getItem('moose-layout')}catch(e){}
-    if(saved&&saved!=='swing')apply(saved,false);
+    if(saved==='scalp'||saved==='swing'||saved==='research')apply(saved,false);
   })();
 
   // ---- pinned positions strip ----
