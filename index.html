@@ -779,41 +779,9 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
-    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button><button data-ct="herd">The herd chat</button></div>
+    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="herd">The herd chat</button></div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
-      <div class="fund-panel" id="fundPanel">
-        <div class="fund-grid">
-          <div class="f"><span class="k">Price</span><span class="v" id="fPx">—</span></div>
-          <div class="f"><span class="k">Market cap</span><span class="v" id="fMc">—</span></div>
-          <div class="f"><span class="k">FDV</span><span class="v" id="fFdv">—</span></div>
-          <div class="f"><span class="k">Circulating supply</span><span class="v" id="fCirc">—</span></div>
-          <div class="f"><span class="k">Total supply</span><span class="v" id="fTsup">—</span></div>
-          <div class="f"><span class="k">On-chain reserve</span><span class="v" id="fRes">—</span></div>
-          <div class="f"><span class="k">Liquidity (deepest pool)</span><span class="v" id="fLiq">—</span></div>
-          <div class="f"><span class="k">24h DEX volume</span><span class="v" id="fVol">—</span></div>
-          <div class="f"><span class="k">24h trades</span><span class="v" id="fTx">—</span></div>
-          <div class="f"><span class="k">Venue (deepest)</span><span class="v" id="fDex">—</span></div>
-          <div class="f"><span class="k">Trend (multi-TF)</span><span class="v" id="fTrend">—</span></div>
-          <div class="f"><span class="k">Pool age</span><span class="v" id="fAge">—</span></div>
-          <div class="f"><span class="k">Contract</span><span class="v" id="fCa" style="font-size:.78rem">—</span></div>
-          <div class="f"><span class="k">Holders</span><span class="v" id="fHold">—</span></div>
-          <div class="f"><span class="k">Category</span><span class="v" id="fCatFund" style="font-size:.85rem">—</span></div>
-          <div class="f"><span class="k">Points programs</span><span class="v" id="fPts" style="font-size:.8rem">—</span></div>
-        </div>
-        <div class="ynote" style="margin-top:1rem;max-width:720px" id="fNote">Fundamentals are live from the deepest on-chain venue. For shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.</div>
-      </div>
-      <div class="fund-panel" id="replayPanel">
-        <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem;flex-wrap:wrap">
-          <button class="pill-btn" id="rpPlay" style="min-width:64px">▶ Play</button>
-          <button class="pill-btn" id="rpRestart">⏮ Restart</button>
-          <div class="pos-toggle" id="rpSpeed"><button data-sp="400" class="on">1×</button><button data-sp="100">4×</button></div>
-          <span style="font-size:.72rem;color:var(--faint)" id="rpStatus">bar 0 / 40 · MON/USD · last 7d</span>
-          <button class="pill-btn" style="margin-left:auto;color:var(--accent);border-color:var(--accent)">replay duel #46 →</button>
-        </div>
-        <svg id="replaySvg" viewBox="0 0 640 220" preserveAspectRatio="none" style="width:100%;height:60%;display:block"></svg>
-        <div class="ynote" style="margin-top:.6rem;max-width:720px">Practice on history with the future hidden. Step through real bars, place phantom orders, see what your setup would have done. Finished duels replay fill-by-fill.</div>
-      </div>
       <div class="fund-panel" id="herdPanel">
         <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
           <span class="live-dot"></span><span style="font-size:.78rem;font-weight:600">The Herd</span>
@@ -3627,6 +3595,7 @@
     el('idVol').textContent=t.vol24!=null?fmtVol(t.vol24):'—';
     el('idContract').textContent=t.pair?(t.pair.slice(0,6)+'…'+t.pair.slice(-3)):'—';
     // fundamentals
+    if(el('fLiq')){
     el('fLiq').textContent=t.liq!=null?fmtVol(t.liq):'—';
     el('fVol').textContent=t.vol24!=null?fmtVol(t.vol24):'—';
     el('fDex').textContent=t.dex?String(t.dex).replace('monad_',''):'—';
@@ -3634,12 +3603,13 @@
     el('fTrend').className='v '+(t.trend==='bull'?'up':t.trend==='bear'?'down':'');
     el('fHold').textContent=sym==='shMON'?'9,690':'—';
     el('fPts').textContent=PTS_PROGRAMS[sym]||'—';
+    }
     if(el('fPx'))el('fPx').textContent=t.priceUsd!=null?('$'+fmtPx(t.priceUsd)):(t.price!=null?fmtPx(t.price)+' MON':'—');
     if(el('fCatFund'))el('fCatFund').textContent=(t.cat||'—')+(t.live?' · live pool':'');
     ['fMc','fFdv','fCirc','fTsup','fRes','fTx','fAge'].forEach(function(id){if(el(id))el(id).textContent='—'});
     if(el('fCa'))el('fCa').textContent='—';
     if(t.pair)deepFund(sym,t.pair,t.priceUsd);
-    el('fNote').textContent=sym==='shMON'
+    if(el('fNote'))el('fNote').textContent=sym==='shMON'
       ?'Fundamentals are live from the deepest on-chain venue. shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.'
       :'Fundamentals are live from the deepest on-chain venue on Monad.';
     // related markets: same category, top by volume, one-tap switch
@@ -3681,8 +3651,8 @@
     b.addEventListener('click',function(){
       document.querySelectorAll('#chartTabs button[data-ct]').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      document.getElementById('fundPanel').classList.toggle('on',b.dataset.ct==='fund');
-      document.getElementById('replayPanel').classList.toggle('on',b.dataset.ct==='replay');
+      var fp=document.getElementById('fundPanel');if(fp)fp.classList.toggle('on',b.dataset.ct==='fund');
+      var rp=document.getElementById('replayPanel');if(rp)rp.classList.toggle('on',b.dataset.ct==='replay');
       var hp=document.getElementById('herdPanel');if(hp)hp.classList.toggle('on',b.dataset.ct==='herd');
       if(b.dataset.ct==='replay'&&typeof initReplay==='function')initReplay();
     });
