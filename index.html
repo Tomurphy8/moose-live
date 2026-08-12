@@ -711,7 +711,7 @@
   <div class="status-pill"><span class="lv"><span class="dot-lv"></span>Monad · live</span><span>300ms blocks</span></div>
 </div>
 <header>
-  <div class="wordmark" style="display:flex;align-items:center;gap:.5rem"><span style="width:24px;height:24px;display:inline-flex"><svg viewBox="0 0 26 26"><g transform="skewX(-8) translate(3,0)"><rect x="2" y="5" width="4.6" height="17" rx="1.4" fill="#3FB68B"/><rect x="9" y="3.4" width="4.6" height="18.6" rx="1.4" fill="#5B9EFF"/><rect x="16" y="5" width="4.6" height="17" rx="1.4" fill="#E0556B"/></g></svg></span>moose<span class="tick">/</span></div>
+  <div class="wordmark" style="display:flex;align-items:center;gap:.5rem"><span style="width:24px;height:24px;display:inline-flex"><svg viewBox="0 0 26 26"><g transform="skewX(-8) translate(3,0)"><rect x="2" y="5" width="4.6" height="17" rx="1.4" fill="#3FB68B"/><rect x="9" y="3.4" width="4.6" height="18.6" rx="1.4" fill="#5B9EFF"/><rect x="16" y="5" width="4.6" height="17" rx="1.4" fill="#E0556B"/></g></svg></span>moose</div>
   <div class="movers" id="movers"></div>
   <div class="acct">
     <div class="wallet num" id="acctBtn">0xB4…9E2 · 12,480 MON ▾</div>
@@ -1909,7 +1909,7 @@
       }).forEach(function(x){
         var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};
         var row=document.createElement('div');row.className='trow';
-        var ic=document.createElement('div');ic.className='ic';ic.textContent=x[0].slice(0,3);row.appendChild(ic);
+        var ic=document.createElement('div');ic.className='ic';ic.style.background='none';ic.replaceChildren(qLogo(x[0],26));row.appendChild(ic);
         var mid=document.createElement('div');
         var nm=document.createElement('div');nm.className='nm';nm.textContent=x[0];
         var sub=document.createElement('div');sub.className='sub';sub.textContent=x[1]+(x[2]&&x[2]!=='Global'?' · '+x[2]:'')+' · tokenizing';
@@ -1922,6 +1922,7 @@
           if(pickTarget==='M'){
             document.getElementById('pairBase').textContent=x[0];
             try{updateIdentity(x[0])}catch(e){}
+            var icirc=document.getElementById('idCirc');if(icirc){icirc.style.background='none';icirc.replaceChildren(qLogo(x[0],30));}
             document.getElementById('pairQuote').textContent='USD';
             mountTV(TV_COMMOD[x[4]]||x[4]||x[0]);
             var pv=document.getElementById('pairVenue');if(pv)pv.textContent='reference chart · trades on Moose as it tokenizes';
@@ -2446,6 +2447,7 @@
       ts.appendChild(sb);tr.appendChild(ts);
       var t1=document.createElement('td');
       if(t.tradeable){var lg=tokLogo(tokBySym(t.sym)||t.sym,20);lg.style.marginRight='.5rem';t1.appendChild(lg);}
+      else{var ql=qLogo(t.sym,20);ql.style.marginRight='.5rem';t1.appendChild(ql);}
       var b=document.createElement('b'); b.textContent=t.sym; t1.appendChild(b);
       var sub=document.createElement('span'); sub.style.cssText='color:var(--faint);font-size:.72rem;margin-left:.5rem'; sub.textContent=t.name+(t.country?' · '+t.country:''); t1.appendChild(sub); tr.appendChild(t1);
       var t2=document.createElement('td'); t2.className='num'; t2.textContent=t.px||'—'; tr.appendChild(t2);
@@ -3878,6 +3880,24 @@
     }
   })();
 
+  // ---- logos for tokenizing assets: Parqet by symbol, metal badges for commodities ----
+  var CMD_BADGE={GOLD:['Au','#D4AF37'],SILVER:['Ag','#AEB4BD'],COPPER:['Cu','#B87333'],OIL:['Oil','#3a3a3a'],NATGAS:['Gas','#5B9EFF'],URANIUM:['U','#7FA05A']};
+  function qLogo(sym,size){
+    size=size||20;
+    var wrap=document.createElement('span');
+    wrap.style.cssText='width:'+size+'px;height:'+size+'px;border-radius:50%;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;background:var(--raised);font-size:'+Math.round(size*0.34)+'px;font-weight:700;color:var(--dim);flex-shrink:0';
+    var b=CMD_BADGE[sym];
+    if(b){wrap.style.background=b[1];wrap.style.color='#15130c';wrap.textContent=b[0];return wrap;}
+    var img=document.createElement('img');
+    img.src='https://assets.parqet.com/logos/symbol/'+encodeURIComponent(sym)+'?format=png&size=64';
+    img.alt=sym;img.loading='lazy';
+    img.style.cssText='width:100%;height:100%;object-fit:cover';
+    img.addEventListener('error',function(){img.remove();wrap.textContent=sym.slice(0,2)});
+    wrap.appendChild(img);
+    return wrap;
+  }
+  window.qLogo=qLogo;
+
   // ---- deep fundamentals: GT pool + token endpoints, cached per symbol ----
   var FUND_CACHE={};
   function fmtUsdBig(n){n=parseFloat(n);if(!isFinite(n))return '—';if(n>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return '$'+Math.round(n/1e3).toLocaleString()+'K';return '$'+n.toFixed(2)}
@@ -3937,6 +3957,7 @@
       })
       .catch(function(){});
   }
+  window.deepFund=deepFund;
 
   // ---- performance panel PnL|Edge toggle ----
   (function(){
@@ -4068,7 +4089,7 @@
     function qcard(x){
       var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};
       var c=document.createElement('div');c.className='pcard';
-      var ic=document.createElement('div');ic.className='ic';ic.style.cssText='width:22px;height:22px;border-radius:50%;background:var(--raised);display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;color:var(--dim);flex-shrink:0';ic.textContent=x[0].slice(0,3);c.appendChild(ic);
+      c.appendChild(qLogo(x[0],22));
       var mid=document.createElement('div');
       var nm=document.createElement('div');nm.className='pnm';nm.textContent=x[0];
       var sub=document.createElement('div');sub.className='psub';sub.textContent=x[1]+' · tokenizing';
@@ -4083,6 +4104,7 @@
         var l=document.querySelector('#nav a[data-v="trade"]');if(l)l.click();
         document.getElementById('pairBase').textContent=x[0];
         try{updateIdentity(x[0])}catch(e){}
+        var icirc=document.getElementById('idCirc');if(icirc){icirc.style.background='none';icirc.replaceChildren(qLogo(x[0],30));}
         document.getElementById('pairQuote').textContent='USD';
         mountTV((typeof TV_COMMOD!=='undefined'&&TV_COMMOD[x[4]])||x[4]||x[0]);
         var pv=document.getElementById('pairVenue');if(pv)pv.textContent='reference chart · trades on Moose as it tokenizes';
