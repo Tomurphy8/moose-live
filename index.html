@@ -138,7 +138,8 @@
   .chatin:focus{outline:none;border-color:var(--accent)}
   .chatsend{flex-shrink:0}
   .duelchat-card .chatlist{max-height:260px}
-  .fund-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;max-width:720px}
+  .fund-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem 1.1rem;max-width:920px}
+  @media(max-width:1100px){.fund-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:800px){.fund-grid{grid-template-columns:1fr 1fr}}
   .fund-grid .f .k{font-size:.68rem;color:var(--faint);display:block}
   .fund-grid .f .v{font-family:"Spline Sans Mono",monospace;font-size:1.05rem;font-weight:600}
@@ -768,11 +769,21 @@
       <div id="tv_chart"></div>
       <div class="fund-panel" id="fundPanel">
         <div class="fund-grid">
+          <div class="f"><span class="k">Price</span><span class="v" id="fPx">—</span></div>
+          <div class="f"><span class="k">Market cap</span><span class="v" id="fMc">—</span></div>
+          <div class="f"><span class="k">FDV</span><span class="v" id="fFdv">—</span></div>
+          <div class="f"><span class="k">Circulating supply</span><span class="v" id="fCirc">—</span></div>
+          <div class="f"><span class="k">Total supply</span><span class="v" id="fTsup">—</span></div>
+          <div class="f"><span class="k">On-chain reserve</span><span class="v" id="fRes">—</span></div>
           <div class="f"><span class="k">Liquidity (deepest pool)</span><span class="v" id="fLiq">—</span></div>
           <div class="f"><span class="k">24h DEX volume</span><span class="v" id="fVol">—</span></div>
-          <div class="f"><span class="k">Venue</span><span class="v" id="fDex">—</span></div>
+          <div class="f"><span class="k">24h trades</span><span class="v" id="fTx">—</span></div>
+          <div class="f"><span class="k">Venue (deepest)</span><span class="v" id="fDex">—</span></div>
           <div class="f"><span class="k">Trend (multi-TF)</span><span class="v" id="fTrend">—</span></div>
+          <div class="f"><span class="k">Pool age</span><span class="v" id="fAge">—</span></div>
+          <div class="f"><span class="k">Contract</span><span class="v" id="fCa" style="font-size:.78rem">—</span></div>
           <div class="f"><span class="k">Holders</span><span class="v" id="fHold">—</span></div>
+          <div class="f"><span class="k">Category</span><span class="v" id="fCat" style="font-size:.85rem">—</span></div>
           <div class="f"><span class="k">Points programs</span><span class="v" id="fPts" style="font-size:.8rem">—</span></div>
         </div>
         <div class="ynote" style="margin-top:1rem;max-width:720px" id="fNote">Fundamentals are live from the deepest on-chain venue. For shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.</div>
@@ -1343,28 +1354,28 @@
         <div class="alloc-legend" id="allocLegend"></div>
       </div>
       <div class="eq-card" style="margin-bottom:0">
-        <div class="sec-title" style="font-size:.95rem">Performance</div>
-        <div class="ycalc">
+        <div class="sec-title" style="font-size:.95rem;align-items:center">Performance
+          <div class="pos-toggle" id="perfSeg" style="margin-left:auto"><button data-pf="pnl" class="on">PnL</button><button data-pf="edge">Edge</button></div>
+        </div>
+        <div class="ycalc" id="perfPnl">
           <div class="row"><span>30d PnL</span><span class="v up">+2,470 MON · +8.4%</span></div>
           <div class="row"><span>Best day</span><span class="v up">+618 MON</span></div>
           <div class="row"><span>Worst day</span><span class="v down">-241 MON</span></div>
           <div class="row"><span>Realized / unrealized</span><span class="v">+1,910 / +560</span></div>
           <div class="row"><span>Points earned</span><span class="v" style="color:var(--accent)">220,693</span></div>
         </div>
+        <div class="ycalc" id="perfEdge" style="display:none">
+          <div class="row"><span>Win rate · 30d</span><span class="v up">64%</span></div>
+          <div class="row"><span>Avg R</span><span class="v">+0.8R</span></div>
+          <div class="row"><span>Best / worst</span><span class="v">+3.2R / −1.0R</span></div>
+          <div class="row"><span>Expectancy</span><span class="v up">+0.42R / trade</span></div>
+          <div class="row"><span>Journal</span><span class="v" style="color:var(--accent);cursor:pointer" id="perfJournalLink">auto · full journal →</span></div>
+        </div>
       </div>
     </div>
 
     <div class="pf-grid">
       <div>
-        <div class="card" style="margin-bottom:1.15rem">
-          <div class="sec-title">Your edge <span class="hint">from the journal — every fill logged automatically, free</span></div>
-          <div class="mh-top">
-            <div class="s"><span class="k">Win rate · 30d</span><span class="v up" style="font-size:1.3rem">64%</span></div>
-            <div class="s"><span class="k">Avg R</span><span class="v num" style="font-size:1.3rem">+0.8R</span></div>
-            <div class="s"><span class="k">Best / worst</span><span class="v num">+3.2R / −1.0R</span></div>
-            <div class="s"><span class="k">Journal</span><span class="v" style="color:var(--accent)">auto · export CSV</span></div>
-          </div>
-        </div>
         <div class="card" style="margin-bottom:1.15rem">
           <div class="sec-title">Holdings</div>
           <table>
@@ -1378,6 +1389,28 @@
           </table>
           <div class="thesis">"shMON at 3× while underlying APY is 12% and borrow is 6.2% is just positive carry with extra steps. Unwinding after unlocks."<div class="by">your note · attached to shMON long · visible to followers</div></div>
         </div>
+    <div class="card colcard" style="margin-bottom:1.15rem">
+      <div class="sec-title">Collateral &amp; margin <span class="hint">borrow against what you hold — health, tiers and rates</span></div>
+      <div class="mh-top">
+        <div class="s"><span class="k">Borrowing power</span><span class="v">20,600 MON</span></div>
+        <div class="s"><span class="k">Borrowed</span><span class="v">6,000 MON</span></div>
+        <div class="s"><span class="k">Account health</span><span class="v up">1.74</span></div>
+        <div class="s"><span class="k">Liquidation at</span><span class="v">MON −41%</span></div>
+      </div>
+      <div class="health-wide"><i style="width:71%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.9rem"><span>29% of borrowing power used · safe</span><span>maintenance margin 5%</span></div>
+      <table>
+        <thead><tr><th>Tier</th><th>Collateral</th><th>Max LTV</th><th>Borrow APR</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><b>House</b></td><td>shMON · MON · WMON <span style="color:var(--faint);font-size:.72rem">keeps yielding while posted</span></td><td class="num">80%</td><td class="num">6.2%</td><td><span class="tier-status ts-live">live</span></td></tr>
+          <tr><td><b>Majors</b></td><td>WETH · weETH · wstETH · cbBTC · BTC.b</td><td class="num">70%</td><td class="num">5.8%</td><td><span class="tier-status ts-soon">Oct 5</span></td></tr>
+          <tr><td><b>Stables</b></td><td>USDC · USDT0 · aUSD</td><td class="num">90%</td><td class="num">4.4%</td><td><span class="tier-status ts-soon">wk 2–4</span></td></tr>
+          <tr><td><b>RWA</b></td><td>Gold · then tokenized stocks / ETFs <span style="color:var(--faint);font-size:.72rem">tokenized assets as financeable collateral</span></td><td class="num">60%</td><td class="num">7.0%</td><td><span class="tier-status ts-later">with gold</span></td></tr>
+          <tr><td><b>Long tail</b></td><td>curated memecoins · isolated pools, tight caps</td><td class="num">40%</td><td class="num">11%+</td><td><span class="tier-status ts-later">as depth grows</span></td></tr>
+        </tbody>
+      </table>
+      <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
+    </div>
         <div class="card colcard">
           <div class="sec-title">Your Herd NFT <span class="hint">the identity that pays — shMON-backed token-bound account</span></div>
           <div class="mh-top">
@@ -1401,28 +1434,7 @@
         </div>
       </div>
     </div>
-    <div class="card colcard" style="margin-bottom:1.15rem">
-      <div class="sec-title">Collateral &amp; margin <span class="hint">borrow against what you hold — health, tiers and rates</span></div>
-      <div class="mh-top">
-        <div class="s"><span class="k">Borrowing power</span><span class="v">20,600 MON</span></div>
-        <div class="s"><span class="k">Borrowed</span><span class="v">6,000 MON</span></div>
-        <div class="s"><span class="k">Account health</span><span class="v up">1.74</span></div>
-        <div class="s"><span class="k">Liquidation at</span><span class="v">MON −41%</span></div>
-      </div>
-      <div class="health-wide"><i style="width:71%"></i></div>
-      <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.9rem"><span>29% of borrowing power used · safe</span><span>maintenance margin 5%</span></div>
-      <table>
-        <thead><tr><th>Tier</th><th>Collateral</th><th>Max LTV</th><th>Borrow APR</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td><b>House</b></td><td>shMON · MON · WMON <span style="color:var(--faint);font-size:.72rem">keeps yielding while posted</span></td><td class="num">80%</td><td class="num">6.2%</td><td><span class="tier-status ts-live">live</span></td></tr>
-          <tr><td><b>Majors</b></td><td>WETH · weETH · wstETH · cbBTC · BTC.b</td><td class="num">70%</td><td class="num">5.8%</td><td><span class="tier-status ts-soon">Oct 5</span></td></tr>
-          <tr><td><b>Stables</b></td><td>USDC · USDT0 · aUSD</td><td class="num">90%</td><td class="num">4.4%</td><td><span class="tier-status ts-soon">wk 2–4</span></td></tr>
-          <tr><td><b>RWA</b></td><td>Gold · then tokenized stocks / ETFs <span style="color:var(--faint);font-size:.72rem">tokenized assets as financeable collateral</span></td><td class="num">60%</td><td class="num">7.0%</td><td><span class="tier-status ts-later">with gold</span></td></tr>
-          <tr><td><b>Long tail</b></td><td>curated memecoins · isolated pools, tight caps</td><td class="num">40%</td><td class="num">11%+</td><td><span class="tier-status ts-later">as depth grows</span></td></tr>
-        </tbody>
-      </table>
-      <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
-    </div>
+
     </div>
 
     <div class="asec" id="a-journal">
@@ -3575,6 +3587,11 @@
     el('fTrend').className='v '+(t.trend==='bull'?'up':t.trend==='bear'?'down':'');
     el('fHold').textContent=sym==='shMON'?'9,690':'—';
     el('fPts').textContent=PTS_PROGRAMS[sym]||'—';
+    if(el('fPx'))el('fPx').textContent=t.priceUsd!=null?('$'+fmtPx(t.priceUsd)):(t.price!=null?fmtPx(t.price)+' MON':'—');
+    if(el('fCat'))el('fCat').textContent=(t.cat||'—')+(t.live?' · live pool':'');
+    ['fMc','fFdv','fCirc','fTsup','fRes','fTx','fAge'].forEach(function(id){if(el(id))el(id).textContent='—'});
+    if(el('fCa'))el('fCa').textContent='—';
+    if(t.pair)deepFund(sym,t.pair,t.priceUsd);
     el('fNote').textContent=sym==='shMON'
       ?'Fundamentals are live from the deepest on-chain venue. shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.'
       :'Fundamentals are live from the deepest on-chain venue on Monad.';
@@ -3842,6 +3859,73 @@
       setInterval(function(){pushFeed()},11000);
       setInterval(function(){var e=EVT[Math.floor(Math.random()*EVT.length)];toast(e[0],e[1],e[2])},34000);
     }
+  })();
+
+  // ---- deep fundamentals: GT pool + token endpoints, cached per symbol ----
+  var FUND_CACHE={};
+  function fmtUsdBig(n){n=parseFloat(n);if(!isFinite(n))return '—';if(n>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(n>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(n>=1e3)return '$'+Math.round(n/1e3).toLocaleString()+'K';return '$'+n.toFixed(2)}
+  function fmtSup(n){n=parseFloat(n);if(!isFinite(n))return '—';if(n>=1e9)return (n/1e9).toFixed(2)+'B';if(n>=1e6)return (n/1e6).toFixed(2)+'M';if(n>=1e3)return Math.round(n/1e3).toLocaleString()+'K';return n.toLocaleString()}
+  function applyDeepFund(sym,d){
+    var pb=document.getElementById('pairBase');
+    if(!pb||pb.textContent!==sym)return; // user moved on — never paint stale data
+    function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
+    set('fMc',d.mc!=null?fmtUsdBig(d.mc):'—');
+    set('fFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
+    set('fCirc',(d.mc!=null&&d.px>0)?fmtSup(d.mc/d.px):'—');
+    set('fTsup',d.tsup!=null?fmtSup(d.tsup):'—');
+    set('fRes',d.res!=null?fmtUsdBig(d.res):'—');
+    if(d.tx){var buys=d.tx.buys||0,sells=d.tx.sells||0;set('fTx',(buys+sells).toLocaleString()+' · '+buys+'B / '+sells+'S');}
+    if(d.age){var days=Math.max(0,Math.round((Date.now()-new Date(d.age).getTime())/86400000));set('fAge',days>=365?(days/365).toFixed(1)+'y':days+'d');}
+    var ca=document.getElementById('fCa');
+    if(ca&&d.addr){
+      ca.replaceChildren();
+      var a=document.createElement('a');
+      a.href='https://monadscan.com/token/'+d.addr;a.target='_blank';a.rel='noopener';
+      a.style.cssText='color:var(--accent);text-decoration:none;font-family:"Spline Sans Mono",monospace';
+      a.textContent=d.addr.slice(0,6)+'…'+d.addr.slice(-4)+' ↗';
+      ca.appendChild(a);
+    }
+  }
+  function deepFund(sym,pair,pxUsd){
+    if(FUND_CACHE[sym]){applyDeepFund(sym,FUND_CACHE[sym]);return;}
+    fetch('https://api.geckoterminal.com/api/v2/networks/monad/pools/'+pair+'?include=base_token')
+      .then(function(r){return r.json()})
+      .then(function(pd){
+        var pa=(pd.data||{}).attributes||{};
+        var inc=(pd.included||[])[0];
+        var addr=inc&&inc.attributes?inc.attributes.address:null;
+        var base={age:pa.pool_created_at,tx:(pa.transactions||{}).h24,addr:addr,px:pxUsd};
+        if(!addr){FUND_CACHE[sym]=base;applyDeepFund(sym,base);return;}
+        fetch('https://api.geckoterminal.com/api/v2/networks/monad/tokens/'+addr)
+          .then(function(r){return r.json()})
+          .then(function(td){
+            var ta=(td.data||{}).attributes||{};
+            var d={age:base.age,tx:base.tx,addr:addr,
+                   mc:ta.market_cap_usd,fdv:ta.fdv_usd,
+                   tsup:ta.normalized_total_supply,res:ta.total_reserve_in_usd,
+                   px:parseFloat(ta.price_usd)||pxUsd};
+            FUND_CACHE[sym]=d;applyDeepFund(sym,d);
+          })
+          .catch(function(){FUND_CACHE[sym]=base;applyDeepFund(sym,base)});
+      })
+      .catch(function(){});
+  }
+
+  // ---- performance panel PnL|Edge toggle ----
+  (function(){
+    document.querySelectorAll('#perfSeg button').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#perfSeg button').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');
+        var pnl=document.getElementById('perfPnl'),edge=document.getElementById('perfEdge');
+        if(pnl)pnl.style.display=b.dataset.pf==='pnl'?'':'none';
+        if(edge)edge.style.display=b.dataset.pf==='edge'?'':'none';
+      });
+    });
+    var jl=document.getElementById('perfJournalLink');
+    if(jl)jl.addEventListener('click',function(){
+      var b=document.querySelector('#aseg button[data-a="journal"]');if(b)b.click();
+    });
   })();
 
   // ---- layout presets + persistence ----
