@@ -1224,7 +1224,7 @@
       <div>
         <div class="card">
           <div class="sec-title" style="align-items:center">Leaderboard
-            <div class="pos-toggle" id="cseg"><button data-c="traders" class="on">Traders</button><button data-c="points">Points</button></div>
+            <div class="pos-toggle" id="cseg"><button data-c="traders" class="on">Traders</button><button data-c="points">Points</button><button data-c="copy">Copy</button><button data-c="duels">Duels</button><button data-c="pnl">PnL</button></div>
           </div>
           <div id="lbTradersPanel">
           <table>
@@ -1239,18 +1239,9 @@
           </table>
           </div>
           <div id="lbPointsPanel" style="display:none"><div id="lbCompete"></div></div>
-        </div>
-        <div class="card">
-          <div class="sec-title">Copy earnings <span class="hint">who the herd pays to follow</span></div>
-          <div id="lbCopy"></div>
-        </div>
-        <div class="card">
-          <div class="sec-title">Duel kings <span class="hint">season one · W–L · biggest pots</span></div>
-          <div id="lbDuel"></div>
-        </div>
-        <div class="card">
-          <div class="sec-title">PnL leaderboard <span class="hint">30d · realized + unrealized · min 1,000 MON equity</span></div>
-          <div id="lbPnl"></div>
+          <div id="lbCopyPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">who the herd pays to follow · you earn 10% of copier fees</div><div id="lbCopy"></div></div>
+          <div id="lbDuelPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">season one · W–L · biggest pots</div><div id="lbDuel"></div></div>
+          <div id="lbPnlPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">30d · realized + unrealized · min 1,000 MON equity</div><div id="lbPnl"></div></div>
         </div>
         <div class="card">
           <div class="sec-title"><span class="live-dot"></span>The herd feed <span class="hint">fills, theses, whale moves, duels — live · follow anyone</span></div>
@@ -1374,10 +1365,11 @@
       </div>
     </div>
 
-    <div class="pf-grid">
-      <div>
-        <div class="card" style="margin-bottom:1.15rem">
-          <div class="sec-title">Holdings</div>
+    <div class="card">
+      <div class="sec-title" style="align-items:center">Account
+        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="nft">Herd NFT</button><button data-pf2="board">PnL board</button></div>
+      </div>
+      <div id="pfHoldings">
           <table>
             <thead><tr><th>Asset</th><th>Balance</th><th>Value</th><th>24h</th><th></th></tr></thead>
             <tbody>
@@ -1388,9 +1380,9 @@
             </tbody>
           </table>
           <div class="thesis">"shMON at 3× while underlying APY is 12% and borrow is 6.2% is just positive carry with extra steps. Unwinding after unlocks."<div class="by">your note · attached to shMON long · visible to followers</div></div>
-        </div>
-    <div class="card colcard" style="margin-bottom:1.15rem">
-      <div class="sec-title">Collateral &amp; margin <span class="hint">borrow against what you hold — health, tiers and rates</span></div>
+      </div>
+      <div id="pfMargin" style="display:none">
+        <div class="hint" style="display:block;margin:.1rem 0 .5rem">borrow against what you hold — health, tiers and rates</div>
       <div class="mh-top">
         <div class="s"><span class="k">Borrowing power</span><span class="v">20,600 MON</span></div>
         <div class="s"><span class="k">Borrowed</span><span class="v">6,000 MON</span></div>
@@ -1410,9 +1402,9 @@
         </tbody>
       </table>
       <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
-    </div>
-        <div class="card colcard">
-          <div class="sec-title">Your Herd NFT <span class="hint">the identity that pays — shMON-backed token-bound account</span></div>
+      </div>
+      <div id="pfNft" style="display:none">
+        <div class="hint" style="display:block;margin:.1rem 0 .5rem">the identity that pays — shMON-backed token-bound account · Herd #4127</div>
           <div class="mh-top">
             <div class="s"><span class="k">Herd #4127 backing</span><span class="v" style="color:var(--accent)">128 shMON</span></div>
             <div class="s"><span class="k">Backing value · grows every epoch</span><span class="v">202 MON <span class="up" style="font-size:.72rem">+102% since mint</span></span></div>
@@ -1425,13 +1417,10 @@
             <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Drip: wNVDA basket</button>
             <button class="pill-btn">Activate tier 3</button>
           </div>
-        </div>
       </div>
-      <div>
-        <div class="card">
-          <div class="sec-title">PnL leaderboard <span class="hint">30d · min 1,000 MON equity</span></div>
-          <div id="lbPnlPort"></div>
-        </div>
+      <div id="pfBoard" style="display:none">
+        <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
+        <div id="lbPnlPort"></div>
       </div>
     </div>
 
@@ -1497,7 +1486,11 @@
       <div class="pf-grid">
         <div>
           <div class="card">
-            <div class="sec-title">Where your points come from <span class="hint">every source, every program — nothing hidden</span></div>
+            <div class="sec-title" style="align-items:center">Earning
+              <div class="pos-toggle" id="ptSeg"><button data-pt="src" class="on">Sources</button><button data-pt="mult">Multipliers</button><button data-pt="model">The model</button></div>
+            </div>
+            <div id="ptSrc">
+              <div class="hint" style="display:block;margin:.1rem 0 .4rem">every source, every program — nothing hidden</div>
             <table>
               <thead><tr><th>Program</th><th>Source</th><th>/ day</th><th>Total</th><th>Status</th></tr></thead>
               <tbody>
@@ -1509,9 +1502,9 @@
               </tbody>
             </table>
             <div class="ynote" style="margin-top:.5rem">Run rate sums to your header number: 980 + 1,150 + 1,750 + 240 = 4,120/day. YT points accrue with zero principal exposure — you own the yield-and-points stream, not the shMON.</div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Multipliers <span class="hint">points mint on fees paid, not raw volume — wash trading pays the house</span></div>
+            </div>
+            <div id="ptMult" style="display:none">
+              <div class="hint" style="display:block;margin:.1rem 0 .4rem">points mint on fees paid, not raw volume — wash trading pays the house</div>
             <table>
               <thead><tr><th>Action</th><th>Multiplier</th><th></th></tr></thead>
               <tbody>
@@ -1525,9 +1518,9 @@
               </tbody>
             </table>
             <div class="ynote" style="margin-top:.5rem"><b>Season payout:</b> 25% of this season's bought-back $FAST distributes pro-rata to points, then points reset. Your points are a claim ticket on tokens your own fees already bought — the reward budget can never exceed revenue, and nothing is ever minted.</div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Points are a rebate, not an airdrop meter</div>
+            </div>
+            <div id="ptModel" style="display:none">
+              <div class="hint" style="display:block;margin:.1rem 0 .4rem">a rebate, not an airdrop meter</div>
             <div class="ycalc">
               <div class="row"><span>Most points programs</span><span class="v" style="color:var(--down)">die at TGE — the farmers leave with them</span></div>
               <div class="row"><span>Moose points</span><span class="v up">run forever — every season, same loop</span></div>
@@ -1538,40 +1531,27 @@
               <div class="row"><span>Multipliers</span><span class="v">persist — streaks, Herd, loyalty</span></div>
             </div>
             <div class="ynote" style="margin-top:.5rem">Smaller day-one drop than the airdrop farms. But the faucet never shuts off.</div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Points leaderboard <span class="hint">season one · all farmers</span></div>
-            <div id="lbAccount"></div>
+            </div>
           </div>
         </div>
         <div>
           <div class="card">
-            <div class="sec-title">Bots → programs</div>
-            <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">Perpl S1 short leg + Kuru hedge fills</div></div><span class="earn">2,900 pts/day</span></div>
-            <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Market Maker</div><div style="font-size:.7rem;color:var(--faint)">idle · maker rebates count on Kuru when running</div></div><span class="earn" style="color:var(--faint)">0 /day</span></div>
-            <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · fills count as Kuru volume</div></div><span class="earn" style="color:var(--faint)">on fill</span></div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Pendle YT accrual <span class="hint">the points stream, stripped</span></div>
-            <div class="ycalc">
-              <div class="row"><span>Position</span><span class="v">12,000 YT-shMON · 26 Dec 2026</span></div>
-              <div class="row"><span>Points multiplier</span><span class="v" style="color:var(--accent)">2.1× via YT</span></div>
-              <div class="row"><span>Accruing</span><span class="v up">240 pts/day</span></div>
-              <div class="row"><span>Principal exposure</span><span class="v">none — YT only</span></div>
-              <div class="row"><span>At maturity</span><span class="v">points stop · YT → 0</span></div>
+            <div class="sec-title" style="align-items:center">Standing
+              <div class="pos-toggle" id="psSeg"><button data-ps="board" class="on">Leaderboard</button><button data-ps="rank">Your rank</button><button data-ps="ref">Referrals</button><button data-ps="streams">Streams</button></div>
             </div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Your rank</div>
+            <div id="psBoard">
+              <div class="hint" style="display:block;margin:.1rem 0 .4rem">season one · all farmers</div>
+              <div id="lbAccount"></div>
+            </div>
+            <div id="psRank" style="display:none">
             <div class="ycalc">
               <div class="row"><span>Season one</span><span class="v">#83 of 12,406 · top 0.7%</span></div>
               <div class="row"><span>Behind #82</span><span class="v">1,240 pts</span></div>
               <div class="row"><span>Top 100 pool share</span><span class="v" style="color:var(--accent)">≈ 2,500 MON if held</span></div>
             </div>
             <div class="ynote" style="margin-top:.5rem">Levered volume counts double this week — at your run rate a 3-day boosted position closes the gap to #82.</div>
-          </div>
-          <div class="card">
-            <div class="sec-title">Invite the herd <span class="hint">earn forever</span></div>
+            </div>
+            <div id="psRef" style="display:none">
             <div class="ycalc">
               <div class="row"><span>Tier 1 · your invites</span><span class="v" style="color:var(--accent)">10% of their fees</span></div>
               <div class="row"><span>Tier 2 · their invites</span><span class="v">3%</span></div>
@@ -1580,6 +1560,22 @@
             </div>
             <div class="ynote" style="margin-top:.5rem">Paid in $FAST from the buyback treasury — referrals compound the same flywheel they feed. Stacks with your copy-config 10%.</div>
             <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.55rem;font-size:.8rem">Copy invite link</button>
+              <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.55rem;font-size:.8rem">Copy invite link</button>
+            </div>
+            <div id="psStreams" style="display:none">
+              <div class="hint" style="display:block;margin:.1rem 0 .4rem">bots → programs</div>
+            <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">Perpl S1 short leg + Kuru hedge fills</div></div><span class="earn">2,900 pts/day</span></div>
+            <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Market Maker</div><div style="font-size:.7rem;color:var(--faint)">idle · maker rebates count on Kuru when running</div></div><span class="earn" style="color:var(--faint)">0 /day</span></div>
+            <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · fills count as Kuru volume</div></div><span class="earn" style="color:var(--faint)">on fill</span></div>
+              <div class="hint" style="display:block;margin:.6rem 0 .4rem">Pendle YT accrual — the points stream, stripped</div>
+            <div class="ycalc">
+              <div class="row"><span>Position</span><span class="v">12,000 YT-shMON · 26 Dec 2026</span></div>
+              <div class="row"><span>Points multiplier</span><span class="v" style="color:var(--accent)">2.1× via YT</span></div>
+              <div class="row"><span>Accruing</span><span class="v up">240 pts/day</span></div>
+              <div class="row"><span>Principal exposure</span><span class="v">none — YT only</span></div>
+              <div class="row"><span>At maturity</span><span class="v">points stop · YT → 0</span></div>
+            </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2201,10 +2197,26 @@
     b.addEventListener('click',function(){
       document.querySelectorAll('#cseg button').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      document.getElementById('lbTradersPanel').style.display=b.dataset.c==='traders'?'':'none';
-      document.getElementById('lbPointsPanel').style.display=b.dataset.c==='points'?'':'none';
+      var map={traders:'lbTradersPanel',points:'lbPointsPanel',copy:'lbCopyPanel',duels:'lbDuelPanel',pnl:'lbPnlPanel'};
+      Object.keys(map).forEach(function(k){
+        var p=document.getElementById(map[k]); if(p)p.style.display=b.dataset.c===k?'':'none';
+      });
     });
   });
+  function wireSeg(segId,attr,map){
+    document.querySelectorAll('#'+segId+' button').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#'+segId+' button').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');
+        Object.keys(map).forEach(function(k){
+          var p=document.getElementById(map[k]); if(p)p.style.display=b.dataset[attr]===k?'':'none';
+        });
+      });
+    });
+  }
+  wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',nft:'pfNft',board:'pfBoard'});
+  wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
+  wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
 
   // live duels — vertical feed beside the leaderboard
   (function(){
@@ -2515,6 +2527,15 @@
     el.replaceChildren(track);
   }
   function ingestTokens(tokens){
+    // logo cache: survive upstream rate-limit windows where the API returns logo-less fallback data
+    try{
+      var LC=JSON.parse(localStorage.getItem('moose-logos')||'{}'),dirty=false;
+      tokens.forEach(function(t){
+        if(t.logo){if(LC[t.s]!==t.logo){LC[t.s]=t.logo;dirty=true;}}
+        else if(LC[t.s]){t.logo=LC[t.s];}
+      });
+      if(dirty)localStorage.setItem('moose-logos',JSON.stringify(LC));
+    }catch(e){}
     LIVE_TOKENS=tokens; if(assetClass==='crypto') renderDisc(); renderMovers();
     updateIdentity(document.getElementById('pairBase').textContent); refreshNewStrip(); renderTrending();
   }
@@ -2538,7 +2559,8 @@
       }).catch(function(){renderMoversSeed()});
   }
   fetch('/api/discover').then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
-    if(d && d.tokens){ ingestTokens(d.tokens); } else gtFallback();
+    // if the API served its rate-limited fallback shell (no live tokens), go straight to GT
+    if(d && d.tokens && d.tokens.some(function(t){return t.live})){ ingestTokens(d.tokens); } else gtFallback();
   }).catch(function(){ gtFallback(); });
   function renderMoversSeed(){ // ticker never renders empty: seed until the API lands
     if(document.querySelector('#movers .mv-track')) return;
