@@ -1812,6 +1812,7 @@
     });
   });
   function syncSwapChart(){
+    if(window.updatePickLogos)updatePickLogos();
     var simple=document.getElementById('simpleTicket');
     if(!simple||simple.style.display==='none')return;
     var tb=document.getElementById('tokB'); if(!tb)return;
@@ -1845,6 +1846,8 @@
   });
   // Swap is the default ticket mode (deferred past script parse so chart maps exist)
   setTimeout(function(){var sb=document.querySelector('#tmode button[data-tm="simple"]');if(sb)try{sb.click()}catch(e){}},400);
+  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos()}catch(e){}},1200);
+  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos()}catch(e){}},6000);
   // ---- themes ----
   document.querySelectorAll('.swatch').forEach(function(s){
     s.addEventListener('click',function(){
@@ -1921,6 +1924,7 @@
             if(lq.px!=null){var pp=document.getElementById('pairPrice');if(pp)pp.textContent='$'+fmtPx(lq.px);}
           }else{
             document.getElementById(pickTarget==='A'?'tokA':'tokB').textContent=x[0];
+            updatePickLogos();
             if(pickTarget==='B')syncSwapChart();
           }
           modal.classList.remove('show');
@@ -1963,6 +1967,7 @@
         }else{
           document.getElementById(pickTarget==='A'?'tokA':'tokB').textContent=tk[0];
           document.getElementById('rateLine').textContent='1 '+document.getElementById('tokA').textContent+' = … '+document.getElementById('tokB').textContent;
+          updatePickLogos();
           if(pickTarget==='B') syncSwapChart();
         }
         modal.classList.remove('show');
@@ -1976,9 +1981,22 @@
   document.getElementById('mClose').addEventListener('click',function(){modal.classList.remove('show')});
   modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show')});
   document.getElementById('tokSearch').addEventListener('input',function(e){renderList(e.target.value)});
+  window.updatePickLogos=function(){
+    [['pickA','tokA'],['pickB','tokB']].forEach(function(p){
+      var btn=document.getElementById(p[0]),tk=document.getElementById(p[1]);
+      if(!btn||!tk)return;
+      var symEl=btn.querySelector('.sym'); if(!symEl)return;
+      var sym=tk.textContent.trim();
+      symEl.style.background='none';symEl.style.opacity='1';symEl.replaceChildren();
+      var lt=tokBySym(sym);
+      var node=(lt&&lt.logo)?tokLogo(lt,16):(window.qLogo?qLogo(sym,16):null);
+      if(node)symEl.appendChild(node);
+    });
+  };
   document.getElementById('flip').addEventListener('click',function(){
     var a=document.getElementById('tokA'),b=document.getElementById('tokB');
     var tmp=a.textContent;a.textContent=b.textContent;b.textContent=tmp;
+    updatePickLogos();
   });
 
   // ---- yield money markets ----
