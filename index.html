@@ -1813,6 +1813,7 @@
   });
   function syncSwapChart(){
     if(window.updatePickLogos)updatePickLogos();
+    if(window.recalcSwap)recalcSwap();
     var simple=document.getElementById('simpleTicket');
     if(!simple||simple.style.display==='none')return;
     var tb=document.getElementById('tokB'); if(!tb)return;
@@ -1846,8 +1847,8 @@
   });
   // Swap is the default ticket mode (deferred past script parse so chart maps exist)
   setTimeout(function(){var sb=document.querySelector('#tmode button[data-tm="simple"]');if(sb)try{sb.click()}catch(e){}},400);
-  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos()}catch(e){}},1200);
-  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos()}catch(e){}},6000);
+  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos();recalcSwap()}catch(e){}},1200);
+  setTimeout(function(){if(window.updatePickLogos)try{updatePickLogos();recalcSwap()}catch(e){}},6000);
   // ---- themes ----
   document.querySelectorAll('.swatch').forEach(function(s){
     s.addEventListener('click',function(){
@@ -1924,7 +1925,7 @@
             if(lq.px!=null){var pp=document.getElementById('pairPrice');if(pp)pp.textContent='$'+fmtPx(lq.px);}
           }else{
             document.getElementById(pickTarget==='A'?'tokA':'tokB').textContent=x[0];
-            updatePickLogos();
+            updatePickLogos();recalcSwap();
             if(pickTarget==='B')syncSwapChart();
           }
           modal.classList.remove('show');
@@ -1966,8 +1967,7 @@
           setChart(tk[0]);
         }else{
           document.getElementById(pickTarget==='A'?'tokA':'tokB').textContent=tk[0];
-          document.getElementById('rateLine').textContent='1 '+document.getElementById('tokA').textContent+' = … '+document.getElementById('tokB').textContent;
-          updatePickLogos();
+          updatePickLogos();recalcSwap();
           if(pickTarget==='B') syncSwapChart();
         }
         modal.classList.remove('show');
@@ -1981,6 +1981,41 @@
   document.getElementById('mClose').addEventListener('click',function(){modal.classList.remove('show')});
   modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show')});
   document.getElementById('tokSearch').addEventListener('input',function(e){renderList(e.target.value)});
+  function priceUsdOf(sym){
+    var ST={USDC:1,USDT0:1,USDT:1,wnUSDT0:1,USDe:1,aUSD:1,AUSD:1,GHO:1};
+    if(ST[sym]!=null)return ST[sym];
+    var lt=tokBySym(sym);
+    if(lt&&lt.priceUsd!=null)return parseFloat(lt.priceUsd);
+    for(var i=0;i<TOKENS.length;i++)if(TOKENS[i][0]===sym){var v=parseFloat(TOKENS[i][2]);if(isFinite(v))return v;}
+    var lists=[STOCKS,ETFS,COMMODS];
+    for(var L=0;L<lists.length;L++)for(var j=0;j<lists[L].length;j++)
+      if(lists[L][j][0]===sym){var lq=(typeof LIVE_QUOTES!=='undefined')&&LIVE_QUOTES[lists[L][j][4]];return lq&&lq.px!=null?lq.px:null;}
+    return null;
+  }
+  function fmtSwapAmt(n){
+    if(!isFinite(n))return '';
+    if(n>=1000)return Math.round(n).toLocaleString();
+    if(n>=100)return n.toFixed(2);
+    if(n>=1)return n.toFixed(3);
+    return n.toFixed(6).replace(/0+$/,'').replace(/\.$/,'');
+  }
+  window.recalcSwap=function(){
+    var ta=document.getElementById('tokA'),tb=document.getElementById('tokB');
+    var pay=document.getElementById('payAmt'),recv=document.getElementById('recvAmt');
+    var rl=document.getElementById('rateLine');
+    if(!ta||!tb||!pay||!recv)return;
+    var a=ta.textContent.trim(),b=tb.textContent.trim();
+    var pa=priceUsdOf(a),pb=priceUsdOf(b);
+    var amt=parseFloat(String(pay.value).replace(/,/g,''));
+    if(pa!=null&&pb!=null&&pb>0){
+      if(isFinite(amt))recv.value=fmtSwapAmt(amt*pa/pb);
+      if(rl)rl.textContent='1 '+a+' = '+fmtSwapAmt(pa/pb)+' '+b;
+    }else{
+      recv.value='';
+      if(rl)rl.textContent='1 '+a+' = … '+b;
+    }
+  };
+  (function(){var p=document.getElementById('payAmt');if(p)p.addEventListener('input',function(){if(window.recalcSwap)recalcSwap()});})();
   window.updatePickLogos=function(){
     [['pickA','tokA'],['pickB','tokB']].forEach(function(p){
       var btn=document.getElementById(p[0]),tk=document.getElementById(p[1]);
@@ -1996,7 +2031,7 @@
   document.getElementById('flip').addEventListener('click',function(){
     var a=document.getElementById('tokA'),b=document.getElementById('tokB');
     var tmp=a.textContent;a.textContent=b.textContent;b.textContent=tmp;
-    updatePickLogos();
+    updatePickLogos();recalcSwap();
   });
 
   // ---- yield money markets ----
