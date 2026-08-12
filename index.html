@@ -371,7 +371,7 @@
   /* layout presets (rec #2) */
   .laybtn{background:var(--raised);border:1px solid var(--line);color:var(--dim);border-radius:8px;font-size:.66rem;padding:.2rem .45rem;cursor:pointer}
   .laybtn.on{color:var(--accent);border-color:var(--accent)}
-  .pfp-pop{position:fixed;left:88px;top:10px;z-index:120;background:var(--tint-panel);border:1px solid var(--tint-line);border-radius:12px;padding:.5rem;display:none;gap:.45rem}
+  .pfp-pop{position:fixed;left:88px;top:10px;z-index:120;background:var(--tint-panel);border:1px solid var(--tint-line);border-radius:12px;padding:.5rem;display:none;gap:.45rem;flex-wrap:wrap;max-width:216px}
   .pfp-pop.show{display:flex}
   .pfp-pop button{width:46px;height:46px;border-radius:8px;border:1px solid transparent;cursor:pointer;padding:0;background:var(--tint-raised);overflow:hidden;display:flex;align-items:center;justify-content:center}
   .pfp-pop button.on{border-color:var(--accent)}
@@ -3963,7 +3963,10 @@
       ['mark',null,'Moose mark'],
       ['degen','herd-nft/v20/01-degen-og.svg','Herd #201 — Degen'],
       ['chartist','herd-nft/v20/04-chartist.svg','Herd #1971 — Chartist'],
-      ['matrix','herd-nft/v20/13-matrix.svg','Herd #2346 — Matrix']
+      ['matrix','herd-nft/v20/13-matrix.svg','Herd #2346 — Matrix'],
+      ['chog','herd-nft/friends/chog.svg','Chog #1337 — Moose & Friends'],
+      ['r3tard','herd-nft/friends/r3tard.svg','r3tard #812 — Moose & Friends'],
+      ['skrumpey','herd-nft/friends/skrumpey.svg','Skrumpey #45 — Moose & Friends']
     ];
     var pop=document.createElement('div');pop.className='pfp-pop';
     function setPfp(key,save){
