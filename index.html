@@ -1223,51 +1223,15 @@
             <button class="pill-btn chatsend" id="duelSend">Send</button>
           </div>
         </div>
-    <div class="compete-grid" style="margin-bottom:0">
-      <div class="card">
-        <div class="sec-title">Duels <span class="hint">1v1 · same bankroll · 24h · winner takes the pot</span></div>
-        <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
-        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
-        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
-      </div>
-      <div class="card">
-        <div class="sec-title"><span class="live-dot"></span>Live now</div>
-        <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
-          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
-          <div class="race">
-            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
-            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
-          </div>
-          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
-        </div>
-      </div>
-    </div>
     <div class="compete-grid">
       <div>
         <div class="card">
-          <div class="sec-title" style="align-items:center">Leaderboard
-            <div class="pos-toggle" id="cseg"><button data-c="traders" class="on">Traders</button><button data-c="points">Points</button><button data-c="copy">Copy</button><button data-c="duels">Duels</button><button data-c="pnl">PnL</button></div>
+          <div class="sec-title" style="align-items:center">The herd
+            <div class="pos-toggle" id="cseg"><button data-c="feed" class="on">Feed</button><button data-c="traders">Traders</button><button data-c="points">Points</button><button data-c="copy">Copy</button><button data-c="duels">Duel kings</button><button data-c="pnl">PnL</button></div>
           </div>
-          <div id="lbTradersPanel">
-          <table>
-            <thead><tr><th>#</th><th>Trader</th><th>30d PnL</th><th>Win rate</th><th>Followers</th><th></th></tr></thead>
-            <tbody>
-              <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">2</td><td><b>0xpaulchoi</b> <span class="tagg">sniper</span></td><td class="up num">+28,441 MON</td><td class="num">64%</td><td class="num">204</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">3</td><td><b>evil.nad</b></td><td class="up num">+19,077 MON</td><td class="num">58%</td><td class="num">166</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">4</td><td><b>kamarompon</b> <span class="tagg">farmer</span></td><td class="up num">+12,932 MON</td><td class="num">81%</td><td class="num">98</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr class="lb-row-you"><td class="num">47</td><td><b>you</b></td><td class="up num">+1,204 MON</td><td class="num">61%</td><td class="num">7</td><td><span style="font-size:.7rem;color:var(--faint)">53 to top 100 →</span></td></tr>
-            </tbody>
-          </table>
-          </div>
-          <div id="lbPointsPanel" style="display:none"><div id="lbCompete"></div></div>
-          <div id="lbCopyPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">who the herd pays to follow · you earn 10% of copier fees</div><div id="lbCopy"></div></div>
-          <div id="lbDuelPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">season one · W–L · biggest pots</div><div id="lbDuel"></div></div>
-          <div id="lbPnlPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">30d · realized + unrealized · min 1,000 MON equity</div><div id="lbPnl"></div></div>
-        </div>
-        <div class="card">
-          <div class="sec-title"><span class="live-dot"></span>The herd feed <span class="hint">fills, theses, whale moves, duels — live · follow anyone</span></div>
-          <div id="liveFeed">
+          <div id="lbFeedPanel">
+            <div class="hint" style="display:block;margin:.1rem 0 .4rem">fills, theses, whale moves, duels — live · follow anyone</div>
+            <div id="liveFeed">
             <div class="feed-item"><span class="who">you</span><span class="ev ev-streak">STREAK</span><span>3&times; shMON long running 2d · <b class="up">+412 MON</b></span><span class="t">now</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><button class="follow-btn on">Following</button><span class="ev ev-fill">FILL</span><span>levered 3&times; into <b>shMON</b> · 22,000 MON</span><span class="t">2m</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><span class="t">4m</span></div>
@@ -1278,16 +1242,54 @@
             <div class="feed-item"><span class="who">0xpaulchoi</span><button class="follow-btn">Follow</button><span class="ev ev-fill">FILL</span><span>filled <b>JAMES</b> at −22% · thesis: <i>"unlock fear overdone"</i></span><span class="t">1h</span></div>
             <div class="feed-item"><span class="who">0xpaulchoi</span><span class="ev ev-badge">BADGE</span><span>earned <b style="color:var(--accent)">Diamond Antlers</b> · 30d without closing red</span><span class="t">2h</span></div>
           </div>
+          </div>
+          <div id="lbTradersPanelWrap" style="display:none">          <table>
+            <thead><tr><th>#</th><th>Trader</th><th>30d PnL</th><th>Win rate</th><th>Followers</th><th></th></tr></thead>
+            <tbody>
+              <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn">Copy setup</button></td></tr>
+              <tr><td class="num">2</td><td><b>0xpaulchoi</b> <span class="tagg">sniper</span></td><td class="up num">+28,441 MON</td><td class="num">64%</td><td class="num">204</td><td><button class="copy-btn">Copy setup</button></td></tr>
+              <tr><td class="num">3</td><td><b>evil.nad</b></td><td class="up num">+19,077 MON</td><td class="num">58%</td><td class="num">166</td><td><button class="copy-btn">Copy setup</button></td></tr>
+              <tr><td class="num">4</td><td><b>kamarompon</b> <span class="tagg">farmer</span></td><td class="up num">+12,932 MON</td><td class="num">81%</td><td class="num">98</td><td><button class="copy-btn">Copy setup</button></td></tr>
+              <tr class="lb-row-you"><td class="num">47</td><td><b>you</b></td><td class="up num">+1,204 MON</td><td class="num">61%</td><td class="num">7</td><td><span style="font-size:.7rem;color:var(--faint)">53 to top 100 →</span></td></tr>
+            </tbody>
+          </table></div>
+          <div id="lbPointsPanel" style="display:none"><div id="lbCompete"></div></div>
+          <div id="lbCopyPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">who the herd pays to follow · you earn 10% of copier fees</div><div id="lbCopy"></div></div>
+          <div id="lbDuelPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">season one · W–L · biggest pots</div><div id="lbDuel"></div></div>
+          <div id="lbPnlPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">30d · realized + unrealized · min 1,000 MON equity</div><div id="lbPnl"></div></div>
         </div>
       </div>
       <div>
         <div class="card">
-          <div class="sec-title"><span class="live-dot"></span>All live duels <span class="hint">tap any to spectate</span></div>
-          <div id="duelFeedList"></div>
+          <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
+            <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
+          </div>
+          <div id="dlYour">
+            <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
+          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
+          <div class="race">
+            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
+            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
+        </div>
+          </div>
+          <div id="dlOpen" style="display:none">
+            <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
+        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
+        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
+          </div>
+          <div id="dlAll" style="display:none">
+            <div class="hint" style="display:block;margin:.1rem 0 .4rem">tap any to spectate</div>
+            <div id="duelFeedList"></div>
+          </div>
         </div>
         <div class="card">
-          <div class="sec-title">Post to the herd <span class="hint">theses carry your entry, size and live PnL</span></div>
-          <div class="composer">
+          <div class="sec-title" style="align-items:center">Engage
+            <div class="pos-toggle" id="egSeg"><button data-eg="post" class="on">Post</button><button data-eg="badges">Badges</button><button data-eg="crsh">On CRSH</button></div>
+          </div>
+          <div id="egPost">
+            <div class="composer">
             <textarea placeholder="Post a thesis… attach it to a position so it carries your entry, size and PnL. The herd can copy it in one tap."></textarea>
             <div class="row">
               <select><option>attach: shMON long 3&times;</option><option>attach: CHOG</option><option>attach: duel #47</option><option>no position</option></select>
@@ -1295,27 +1297,25 @@
             </div>
           </div>
           <div class="ynote" style="margin-top:.5rem">Every thesis carries your live journal stats — <b class="up">64% win rate</b> · <b>+0.8R avg</b> — pulled straight from your fills. Credibility is automatic, not claimed. Copiers pay you <b style="color:var(--accent)">10% of their bot fees</b> — forever, as long as it runs. Leader PnL is full-history: abandoned configs included, no survivorship trims.</div>
-        </div>
-        <div class="card">
-          <div class="sec-title">Your badges</div>
-          <div class="lp-wedge" style="margin:.2rem 0 0">
+          </div>
+          <div id="egBadges" style="display:none">
+            <div class="lp-wedge" style="margin:.2rem 0 0">
             <span><b>sh-poster</b> · thesis hit 10 copies</span>
             <span><b>First Blood</b> · won your first duel</span>
             <span><b>Iron Hooves</b> · 30d bot uptime</span>
             <span style="color:var(--faint)">Diamond Antlers · 22d / 30d</span>
             <span style="color:var(--faint)">Graduation Day · launch a token</span>
           </div>
-        </div>
-        <div class="card">
-          <div class="sec-title"><span class="live-dot"></span>Live on CRSH <span class="hint">markets on Moose events</span></div>
-          <div class="ycalc">
+          </div>
+          <div id="egCrsh" style="display:none">
+            <div class="ycalc">
             <div class="row"><span>Duel #47 · you win?</span><span class="v num" style="color:var(--accent)">1.62× · $4.1k vol</span></div>
             <div class="row"><span>HORNS graduates in 48h?</span><span class="v num up">YES 68%</span></div>
             <div class="row"><span>MON above $0.025 by Fri?</span><span class="v num down">NO 71%</span></div>
           </div>
           <div class="ynote" style="margin-top:.5rem">Crash markets spun up from live Moose data — duels, graduations, price milestones. Back outcomes with points (free-play) or MON.</div>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -2219,7 +2219,7 @@
     b.addEventListener('click',function(){
       document.querySelectorAll('#cseg button').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      var map={traders:'lbTradersPanel',points:'lbPointsPanel',copy:'lbCopyPanel',duels:'lbDuelPanel',pnl:'lbPnlPanel'};
+      var map={feed:'lbFeedPanel',traders:'lbTradersPanelWrap',points:'lbPointsPanel',copy:'lbCopyPanel',duels:'lbDuelPanel',pnl:'lbPnlPanel'};
       Object.keys(map).forEach(function(k){
         var p=document.getElementById(map[k]); if(p)p.style.display=b.dataset.c===k?'':'none';
       });
@@ -2239,6 +2239,8 @@
   wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',board:'pfBoard'});
   wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
   wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
+  wireSeg('dlSeg','dl',{your:'dlYour',open:'dlOpen',all:'dlAll'});
+  wireSeg('egSeg','eg',{post:'egPost',badges:'egBadges',crsh:'egCrsh'});
 
   // live duels — vertical feed beside the leaderboard
   (function(){
