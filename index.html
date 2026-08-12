@@ -1687,8 +1687,14 @@
 <!-- token modal -->
 <div class="modal-bg" id="tokModal">
   <div class="modal">
-    <div class="mh">Select a token <span id="mClose">✕</span></div>
-    <input class="search" id="tokSearch" placeholder="Search any Monad token…">
+    <div class="mh">Select a market <span id="mClose">✕</span></div>
+    <input class="search" id="tokSearch" placeholder="Search any market — token, stock, ETF, commodity…">
+    <div class="pos-toggle" id="tokClass" style="margin:.55rem .2rem 0;align-self:flex-start">
+      <button data-tc="crypto" class="on">Crypto</button>
+      <button data-tc="stocks">Stocks</button>
+      <button data-tc="etf">ETFs</button>
+      <button data-tc="commodity">Commodities</button>
+    </div>
     <div class="trend-row" id="trendTrade" style="padding:.5rem .2rem 0"></div>
     <div class="tlist" id="tokList"></div>
   </div>
@@ -1776,9 +1782,54 @@
   ];
   var pickTarget='A';
   var modal=document.getElementById('tokModal');
+  var tokClass='crypto';
+  var TV_COMMOD={'GC=F':'TVC:GOLD','SI=F':'TVC:SILVER','HG=F':'COMEX:HG1!','CL=F':'TVC:USOIL','NG=F':'TVC:NATGAS'};
+  document.querySelectorAll('#tokClass button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#tokClass button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');tokClass=b.dataset.tc;
+      var s=document.getElementById('tokSearch');
+      renderList(s?s.value:'');
+    });
+  });
   function renderList(f){
     var list=document.getElementById('tokList');
     list.replaceChildren();
+    if(tokClass!=='crypto'){
+      var src=tokClass==='stocks'?STOCKS:tokClass==='etf'?ETFS:COMMODS;
+      src.filter(function(x){
+        if(!f)return true;var q=f.toLowerCase();
+        return x[0].toLowerCase().indexOf(q)>=0||x[1].toLowerCase().indexOf(q)>=0;
+      }).forEach(function(x){
+        var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};
+        var row=document.createElement('div');row.className='trow';
+        var ic=document.createElement('div');ic.className='ic';ic.textContent=x[0].slice(0,3);row.appendChild(ic);
+        var mid=document.createElement('div');
+        var nm=document.createElement('div');nm.className='nm';nm.textContent=x[0];
+        var sub=document.createElement('div');sub.className='sub';sub.textContent=x[1]+(x[2]&&x[2]!=='Global'?' · '+x[2]:'')+' · tokenizing';
+        mid.appendChild(nm);mid.appendChild(sub);row.appendChild(mid);
+        var px=document.createElement('div');
+        if(lq.px!=null){px.className='px num '+((lq.ch||0)>=0?'up':'down');px.textContent=fmtPx(lq.px)+'  '+((lq.ch||0)>=0?'+':'')+(lq.ch!=null?lq.ch:0)+'%';}
+        else{px.className='px num';px.style.color='var(--faint)';px.textContent='—';}
+        row.appendChild(px);
+        row.addEventListener('click',function(){
+          if(pickTarget==='M'){
+            document.getElementById('pairBase').textContent=x[0];
+            try{updateIdentity(x[0])}catch(e){}
+            document.getElementById('pairQuote').textContent='USD';
+            mountTV(TV_COMMOD[x[4]]||x[4]||x[0]);
+            var pv=document.getElementById('pairVenue');if(pv)pv.textContent='reference chart · trades on Moose as it tokenizes';
+            if(lq.px!=null){var pp=document.getElementById('pairPrice');if(pp)pp.textContent='$'+fmtPx(lq.px);}
+          }else{
+            document.getElementById(pickTarget==='A'?'tokA':'tokB').textContent=x[0];
+            if(pickTarget==='B')syncSwapChart();
+          }
+          modal.classList.remove('show');
+        });
+        list.appendChild(row);
+      });
+      return;
+    }
     // union: static list + every live token from the chain (deduped), live data preferred
     var seen={},merged=[];
     TOKENS.forEach(function(tk){seen[tk[0].toLowerCase()]=1;merged.push(tk)});
