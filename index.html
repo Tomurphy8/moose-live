@@ -101,6 +101,23 @@
   .chart-tabs button.on{background:var(--raised);color:var(--accent);border-color:var(--accent)}
   .fund-panel{position:absolute;inset:0;background:var(--bg);z-index:4;display:none;padding:1.2rem 1.4rem;overflow-y:auto}
   .fund-panel.on{display:block}
+  #herdPanel.on{display:flex;flex-direction:column}
+  /* herd feed + duel chat */
+  .chatlist{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;gap:.15rem;padding-right:.3rem}
+  .chatmsg{display:flex;align-items:baseline;gap:.45rem;font-size:.76rem;line-height:1.45;padding:.28rem .4rem;border-radius:6px}
+  .chatmsg:hover{background:var(--panel)}
+  .chatmsg .cwho{font-weight:600;color:var(--accent);white-space:nowrap;flex-shrink:0}
+  .chatmsg .ctier{font-size:.56rem;font-weight:700;letter-spacing:.04em;color:var(--faint);border:1px solid var(--line);border-radius:4px;padding:0 .28rem;flex-shrink:0;text-transform:uppercase}
+  .chatmsg .ctxt{color:var(--dim);word-break:break-word}
+  .chatmsg .ctxt b{color:var(--ink)}
+  .chatmsg .ct{font-size:.62rem;color:var(--faint);font-family:"Spline Sans Mono",monospace;margin-left:auto;flex-shrink:0;padding-left:.5rem}
+  .chatmsg.sys{background:var(--panel);border-left:2px solid var(--accent)}
+  .chatmsg.sys .ctxt{color:var(--faint);font-size:.7rem}
+  .chatrow{display:flex;gap:.5rem;margin-top:.6rem;flex-shrink:0}
+  .chatin{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:.76rem;padding:.45rem .7rem;font-family:inherit;min-height:32px}
+  .chatin:focus{outline:none;border-color:var(--accent)}
+  .chatsend{flex-shrink:0}
+  .duelchat-card .chatlist{max-height:260px}
   .fund-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.9rem;max-width:720px}
   @media(max-width:800px){.fund-grid{grid-template-columns:1fr 1fr}}
   .fund-grid .f .k{font-size:.68rem;color:var(--faint);display:block}
@@ -677,7 +694,7 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
-    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button></div>
+    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="fund">Fundamentals</button><button data-ct="replay">Replay</button><button data-ct="herd">Herd</button></div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
       <div class="fund-panel" id="fundPanel">
@@ -701,6 +718,17 @@
         </div>
         <svg id="replaySvg" viewBox="0 0 640 220" preserveAspectRatio="none" style="width:100%;height:60%;display:block"></svg>
         <div class="ynote" style="margin-top:.6rem;max-width:720px">Practice on history with the future hidden. Step through real bars, place phantom orders, see what your setup would have done. Finished duels replay fill-by-fill.</div>
+      </div>
+      <div class="fund-panel" id="herdPanel">
+        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
+          <span class="live-dot"></span><span style="font-size:.78rem;font-weight:600">The Herd</span>
+          <span style="font-size:.68rem;color:var(--faint)">live · 1,204 online · holders get a tier badge</span>
+        </div>
+        <div class="chatlist" id="herdChat"></div>
+        <div class="chatrow">
+          <input class="chatin" id="herdIn" type="text" placeholder="Say something to the herd… (Herd NFT unlocks your badge)" maxlength="200">
+          <button class="pill-btn chatsend" id="herdSend">Send</button>
+        </div>
       </div>
     </div>
     <div class="below">
@@ -1344,8 +1372,14 @@
           <div class="sec-title"><span class="live-dot"></span>All live duels <span class="hint">tap any to spectate</span></div>
           <div id="duelFeedList"></div>
         </div>
-
-        
+        <div class="card duelchat-card">
+          <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
+          <div class="chatlist" id="duelChat"></div>
+          <div class="chatrow">
+            <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
+            <button class="pill-btn chatsend" id="duelSend">Send</button>
+          </div>
+        </div>
         <div class="card">
           <div class="sec-title"><span class="live-dot"></span>Live on CRSH <span class="hint">markets on Moose events</span></div>
           <div class="ycalc">
@@ -3609,6 +3643,7 @@
       b.classList.add('on');
       document.getElementById('fundPanel').classList.toggle('on',b.dataset.ct==='fund');
       document.getElementById('replayPanel').classList.toggle('on',b.dataset.ct==='replay');
+      var hp=document.getElementById('herdPanel');if(hp)hp.classList.toggle('on',b.dataset.ct==='herd');
       if(b.dataset.ct==='replay'&&typeof initReplay==='function')initReplay();
     });
   });
@@ -3660,6 +3695,95 @@
       .catch(function(){ /* custom chart already mounted */ });
   }
   setChart('MON'); // default market: MON/USD on TradingView (COINBASE:MONUSD)
+
+// ===== Herd feed + Duel chat (simulated live) =====
+(function(){
+  var TIERS=['CALF','YEARLING','BULL','ALPHA','ANCIENT'];
+  var HERD=[
+    ['gman.mon','BULL','adding to <b>MON</b> here. 400ms blocks and we still trade it like it’s slow'],
+    ['lydicius','ALPHA','<b>aprMON/MON</b> spread tightening all morning — someone’s accumulating quietly'],
+    ['biawakz','YEARLING','who else filled at .0219? route landed same block, no requote'],
+    ['madrigal.mon','ANCIENT','MM bot spread widened on <b>CHOG</b> — vol incoming, size down'],
+    ['0xpaulchoi','BULL','sniped the <b>JAMES</b> dip. unlock fear was overdone, thesis unchanged'],
+    ['kamarompon','CALF','first margin trade today. 2× on <b>shMON</b>, liq price feels far'],
+    ['evil.nad','BULL','watching the 10Y over everything today. risk assets follow'],
+    ['cass','YEARLING','yesterday’s crash replay is a free lesson — run it in Replay before you size up'],
+    ['moosemaxi','ALPHA','points compound on every fee. the tab pays either way'],
+    ['0xkelvin','CALF','which pool has deepest <b>MON/USDC</b> right now? router keeps picking the same one'],
+    ['whale 0xacb1…','ANCIENT','moved <b>780k shMON</b> — first move in 41 days'],
+    ['lydicius','ALPHA','tokenized stocks on margin is the trade nobody’s pricing yet. <b>NVDA</b> 24/7'],
+    ['biawakz','YEARLING','grid bot printed overnight while I slept. levered grid next'],
+    ['gman.mon','BULL','fills here beat my usual venue by 14 bps, receipts in the journal']
+  ];
+  var HERD_SYS=[
+    'gman.mon opened 3× long shMON/MON · 8,200 MON',
+    'duel #47 started · moosemaxi vs 0xkelvin · 500 MON pot',
+    'HORNS curve hit 71% — graduation window opens',
+    'whale 0xacb1… bought 780,000 shMON spot',
+    'season pool ticked up · 250,140 MON'
+  ];
+  var DUEL=[
+    ['gman.mon','BULL','214 watching and he’s still holding that <b>CHOG</b> bag 💀'],
+    ['lydicius','ALPHA','took the other side on CRSH at 1.62×. free money'],
+    ['biawakz','YEARLING','GG evil.nad — rematch at 1k or are we done here'],
+    ['kamarompon','CALF','one more open-duel win and I qualify for the Cup'],
+    ['moosemaxi','ALPHA','he’s up 212 with 7h left. spot margin duels hit different'],
+    ['0xpaulchoi','BULL','stop trading the duel, trade the market. that’s how you lose pots'],
+    ['evil.nad','BULL','posting a 500 MON open duel after this one. anyone'],
+    ['cass','YEARLING','the final streams on Crash — back yourself with points if you’re broke'],
+    ['0xkelvin','CALF','how is he winning with a 48% win rate?? size discipline, noted'],
+    ['madrigal.mon','ANCIENT','watched 40 duels this season. the ones who ladder exits win']
+  ];
+  var DUEL_SYS=[
+    'Duel #47 · moosemaxi takes the lead · +212 MON',
+    'Duel #48 started · lydicius vs open · 250 MON',
+    'CRSH · $800 backed YES on duel #47',
+    'Cup qualifier · kamarompon wins duel #44',
+    'Pot escrowed · 1,000 MON · duel #49'
+  ];
+  function fmtNow(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+  function addMsg(list,item,sys){
+    if(!list)return;
+    var el=document.createElement('div');
+    el.className='chatmsg'+(sys?' sys':'');
+    if(sys){el.innerHTML='<span class="ctxt">'+item+'</span><span class="ct">'+fmtNow()+'</span>';}
+    else{el.innerHTML='<span class="cwho">'+item[0]+'</span><span class="ctier">'+item[1]+'</span><span class="ctxt">'+item[2]+'</span><span class="ct">'+fmtNow()+'</span>';}
+    list.appendChild(el);
+    while(list.children.length>34)list.removeChild(list.firstChild);
+    list.scrollTop=list.scrollHeight;
+  }
+  function seed(list,pool,sysPool){
+    if(!list)return;
+    for(var i=0;i<7;i++)addMsg(list,pool[i%pool.length],false);
+    addMsg(list,sysPool[0],true);
+  }
+  function tick(list,pool,sysPool){
+    if(!list||!document.body.contains(list))return;
+    var sys=Math.random()<0.22;
+    if(sys)addMsg(list,sysPool[Math.floor(Math.random()*sysPool.length)],true);
+    else addMsg(list,pool[Math.floor(Math.random()*pool.length)],false);
+  }
+  function wireInput(inpId,btnId,list){
+    var inp=document.getElementById(inpId),btn=document.getElementById(btnId);
+    if(!inp||!btn||!list)return;
+    function send(){
+      var v=(inp.value||'').trim();if(!v)return;
+      var safe=v.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      addMsg(list,['you','BULL',safe],false);
+      inp.value='';
+    }
+    btn.addEventListener('click',send);
+    inp.addEventListener('keydown',function(e){if(e.key==='Enter')send()});
+  }
+  var herdList=document.getElementById('herdChat');
+  var duelList=document.getElementById('duelChat');
+  seed(herdList,HERD,HERD_SYS);
+  seed(duelList,DUEL,DUEL_SYS);
+  wireInput('herdIn','herdSend',herdList);
+  wireInput('duelIn','duelSend',duelList);
+  setInterval(function(){tick(herdList,HERD,HERD_SYS)},5200);
+  setInterval(function(){tick(duelList,DUEL,DUEL_SYS)},6100);
+})();
 </script>
 </body>
 </html>
