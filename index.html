@@ -708,9 +708,6 @@
   <div class="herd-id">HERD #4127</div>
   <nav id="nav">
     <a data-v="trade" class="active"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4.6" y="7.5" width="4.6" height="9" rx="1.2"/><rect x="6.3" y="4" width="1.2" height="3" rx=".6"/><rect x="6.3" y="17" width="1.2" height="3" rx=".6"/><rect x="14.8" y="5.5" width="4.6" height="8" rx="1.2" opacity=".4"/><rect x="16.5" y="2.8" width="1.2" height="2.2" rx=".6" opacity=".4"/><rect x="16.5" y="14" width="1.2" height="6.5" rx=".6" opacity=".4"/></svg>Trade</a>
-    <a data-v="discover"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".35"/><path d="M16.2 7.8l-2.7 5.1-5.1 2.7 2.7-5.1z"/></svg>Discover</a>
-    <a data-v="yield"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="9" opacity=".35"/><circle cx="9.1" cy="9.2" r="1.8"/><circle cx="14.9" cy="14.8" r="1.8"/><rect x="11.25" y="6.2" width="1.5" height="11.6" rx=".75" transform="rotate(35 12 12)"/></svg>Yield</a>
-    <a data-v="bots"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4.5" y="8" width="15" height="10.5" rx="3" opacity=".35"/><circle cx="9.2" cy="13.2" r="1.6"/><circle cx="14.8" cy="13.2" r="1.6"/><rect x="11.3" y="4.2" width="1.4" height="4" rx=".7"/><circle cx="12" cy="3.6" r="1.4"/></svg>Bots</a>
     <a data-v="compete"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7.3 3.8h9.4v4.9c0 3-2.1 5.4-4.7 5.4s-4.7-2.4-4.7-5.4z" opacity=".35"/><path d="M7.3 5.3H5c-.5 0-.8.4-.8.8 0 2.4 1.4 4.4 3.1 4.9zM16.7 5.3H19c.5 0 .8.4.8.8 0 2.4-1.4 4.4-3.1 4.9z"/><rect x="10.8" y="13.8" width="2.4" height="3.4"/><rect x="7.6" y="17.2" width="8.8" height="2.7" rx="1.1"/></svg>Herd</a>
     <a data-v="portfolio"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="8.6" opacity=".35"/><path d="M12 3.4a8.6 8.6 0 0 1 8.6 8.6H12z"/></svg>Portfolio</a>
   </nav>
@@ -1065,145 +1062,6 @@
 
 
 <!-- YIELD -->
-<div class="view" id="v-yield">
-  <div class="page-pad">
-    <div class="page-head"><h2>Yield</h2></div>
-    <div class="yseg" id="yseg">
-      <button data-y="staking" class="on">Staking</button>
-      <button data-y="mm">Money markets</button>
-      <button data-y="liquidity">Liquidity</button>
-      <button data-y="vaults">Vaults</button>
-      <button data-y="pendle">Pendle</button>
-    </div>
-
-    <div class="ysec on" id="y-staking">
-      <div class="stake-hero">
-        <div class="card ycard-hero">
-          <div class="sec-title" style="margin-bottom:.3rem">Native staking</div>
-          <div class="apy-big">12.1% APY · auto-compounds</div>
-          <div class="ynote">Stake MON, receive shMON. Yield from staking rewards plus MEV revenue accrues into the exchange rate every ~5.5 hours. No claiming, no lockup for traditional unstake.</div>
-          <div class="ycalc">
-            <div class="row"><span>Exchange rate</span><span class="v">1 shMON = 1.5742 MON</span></div>
-            <div class="row"><span>Your shMON</span><span class="v">9,000 · 14,168 MON</span></div>
-            <div class="row"><span>Unstake</span><span class="v">instant 0.005–1% · or free in 7d</span></div>
-          </div>
-          <button class="cta" style="width:100%;margin-top:.8rem;padding:.65rem;font-size:.88rem">Stake MON</button>
-        </div>
-        <div class="card">
-          <div class="sec-title" style="margin-bottom:.3rem">Gas-free trading</div>
-          <div class="apy-big" style="font-size:1.25rem">Commit shMON, never pay gas again</div>
-          <div class="ynote">Commit enough shMON that its staking yield alone covers your gas. The yield tops the balance back up — your principal is never spent, and it keeps earning.</div>
-          <div class="ycalc">
-            <div class="row"><span>Your avg gas / month</span><span class="v">4.1 MON</span></div>
-            <div class="row"><span>Commitment needed</span><span class="v">≈ 610 shMON</span></div>
-            <div class="row"><span>Your shMON</span><span class="v up">9,000 — covered 14×</span></div>
-          </div>
-          <button class="cta ghost" style="width:100%;margin-top:.8rem;padding:.65rem;font-size:.86rem">Commit</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="ysec" id="y-mm">
-      <div class="card">
-        <div class="sec-title">Money markets <span class="hint">shMON, USDC and WMON venues — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
-        <table>
-          <thead><tr><th>Market</th><th>Venue</th><th>APY</th><th>TVL</th><th>Points</th><th></th></tr></thead>
-          <tbody id="mmRows"></tbody>
-        </table>
-        <div class="ynote">shMON rows include the 12.1% underlying staking yield. Deploy routes to the venue in one transaction, withdrawal stays yours.</div>
-      </div>
-    </div>
-
-    <div class="ysec" id="y-liquidity">
-      <div class="yield-grid">
-        <div>
-          <div class="card">
-            <div class="sec-title"><span class="live-dot"></span>LP shMON everywhere it trades <span class="hint">pools live from every Monad venue</span></div>
-            <table>
-              <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Est. APR</th><th>Boost</th><th></th></tr></thead>
-              <tbody id="lqRows"><tr><td colspan="6" style="color:var(--faint);padding:.8rem 0">loading live pools…</td></tr></tbody>
-            </table>
-            <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its 12.1% staking yield while it LPs.</div>
-          </div>
-        </div>
-        <div>
-          <div class="card">
-            <div class="sec-title">Your projection <span class="hint">pick a pool, size it</span></div>
-            <div class="field">
-              <div class="k"><span>Deposit</span><span class="bal" id="lqPool">—</span></div>
-              <div class="amt"><input id="lqAmt" value="1,000"><span class="unit">USD</span></div>
-            </div>
-            <div class="ycalc" style="margin-top:.7rem">
-              <div class="row"><span>Points / day</span><span class="v num" id="lqPts" style="color:var(--accent);font-size:1.35rem;font-weight:700">—</span></div>
-              <div class="row"><span>Boost applied</span><span class="v num" id="lqBoost">—</span></div>
-              <div class="row"><span>Plus underlying yield</span><span class="v up">12.1% APY on the shMON side</span></div>
-            </div>
-            <div style="margin-top:.85rem">
-              <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.3rem"><span id="lqTierLbl">next boost tier at $5,000</span><span class="num" id="lqTierPct">20%</span></div>
-              <div class="health-wide"><i id="lqTierBar" style="width:20%;background:var(--accent);transition:width .45s cubic-bezier(.22,1,.36,1)"></i></div>
-            </div>
-            <button class="cta" style="width:100%;margin-top:.9rem" id="lqCta">Provide liquidity</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="ysec" id="y-vaults">
-      <div class="vault-grid">
-        <div class="bot-card">
-          <div class="top"><span class="dot"></span><h3>Safe Farmer</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
-          <div class="promise">Delta-neutral, farms points and yield across three programs. Market up or down, you don't care.</div>
-          <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">17.4%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$6.1M</span></div>
-            <div class="s"><span class="k">points</span><span class="v">2,900/day</span></div>
-          </div>
-          <button class="cta">Deposit</button>
-        </div>
-                <div class="bot-card">
-          <div class="top"><span class="dot"></span><h3>Li Gomez</h3><span class="tagg" style="margin-left:auto">curator</span></div>
-          <div class="promise">Curated Monad-native vault: shMON looping, isolated lending and LP rotations, risk-managed by the curator.</div>
-          <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">14.8%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$3.4M</span></div>
-            <div class="s"><span class="k">asset</span><span class="v">shMON</span></div>
-          </div>
-          <button class="cta ghost">Deposit</button>
-        </div>
-        <div class="bot-card">
-          <div class="top"><span class="dot"></span><h3>NAV Pool LP</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
-          <div class="promise">Provide liquidity to Moose's NAV-centered pools (indexes, graduated launches). The curve re-centers on fair value every block — LFJ Liquidity-Book style — so your capital quotes tight and earns fees, not impermanent regret.</div>
-          <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">21.3%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$1.9M</span></div>
-            <div class="s"><span class="k">points</span><span class="v">1.5× LP</span></div>
-          </div>
-          <button class="cta ghost">Provide liquidity</button>
-        </div>
-              </div>
-      <div class="ynote" style="margin-top:.8rem">Rates are live venue quotes, not projections. Points columns show active programs you'd farm by holding the position.</div>
-    </div>
-
-    <div class="ysec" id="y-pendle">
-      <div class="card">
-        <div class="sec-title">Pendle <span class="hint">lock a rate, or buy the yield itself</span></div>
-        <table>
-          <thead><tr><th>Market</th><th>Maturity</th><th>Fixed APY</th><th>What you get</th><th></th></tr></thead>
-          <tbody>
-            <tr><td><b>PT-shMON</b></td><td class="num">26 Dec 2026</td><td class="up num" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><button class="pill-btn">Lock</button></td></tr>
-            <tr><td><b>YT-shMON</b></td><td class="num">26 Dec 2026</td><td class="num" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><button class="pill-btn">Buy</button></td></tr>
-            <tr><td><b>LP shMON</b></td><td class="num">26 Dec 2026</td><td class="up num">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><button class="pill-btn">Provide</button></td></tr>
-          </tbody>
-        </table>
-        <div class="ynote">PT locks a fixed rate to maturity. YT is the stripped variable yield and points. LP earns both sides with no impermanent loss to maturity.</div>
-      </div>
-    </div>
-
-    
-  </div>
-</div>
-
-<!-- BOTS -->
 <div class="view" id="v-bots">
   <div class="page-pad">
     <div class="page-head"><h2>Bots</h2>
@@ -1399,6 +1257,7 @@
     </div>
     <div class="yseg" id="aseg" style="margin-bottom:1.1rem">
       <button data-a="portfolio" class="on">Portfolio</button>
+      <button data-a="earn">Earn</button>
       <button data-a="journal">Journal</button>
       <button data-a="points">Points</button>
     </div>
@@ -1449,7 +1308,7 @@
       <div>
     <div class="card">
       <div class="sec-title" style="align-items:center">Account
-        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="board">PnL board</button></div>
+        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="bots">Bots</button><button data-pf2="board">PnL board</button></div>
       </div>
       <div id="pfHoldings">
           <table>
@@ -1485,6 +1344,12 @@
       </table>
       <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
       </div>
+      <div id="pfBots" style="display:none">
+        <div class="hint" style="display:block;margin:.1rem 0 .5rem">running strategies — deploy new ones from the trade ticket's Bot mode</div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="earn">+2,900 pts/day</span></div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · buy at −20%</div></div><span class="earn">armed</span></div>
+        <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">idle · deploy from the ticket</div></div><span class="earn" style="color:var(--faint)">start</span></div>
+      </div>
       <div id="pfBoard" style="display:none">
         <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
         <div id="lbPnlPort"></div>
@@ -1509,6 +1374,142 @@
         </div>
       </div>
     </div>
+
+    </div>
+
+    <div class="asec" id="a-earn">
+      <div class="yseg" id="yseg">
+      <button data-y="staking" class="on">Staking</button>
+      <button data-y="mm">Money markets</button>
+      <button data-y="liquidity">Liquidity</button>
+      <button data-y="vaults">Vaults</button>
+      <button data-y="pendle">Pendle</button>
+    </div>
+
+    <div class="ysec on" id="y-staking">
+      <div class="stake-hero">
+        <div class="card ycard-hero">
+          <div class="sec-title" style="margin-bottom:.3rem">Native staking</div>
+          <div class="apy-big">12.1% APY · auto-compounds</div>
+          <div class="ynote">Stake MON, receive shMON. Yield from staking rewards plus MEV revenue accrues into the exchange rate every ~5.5 hours. No claiming, no lockup for traditional unstake.</div>
+          <div class="ycalc">
+            <div class="row"><span>Exchange rate</span><span class="v">1 shMON = 1.5742 MON</span></div>
+            <div class="row"><span>Your shMON</span><span class="v">9,000 · 14,168 MON</span></div>
+            <div class="row"><span>Unstake</span><span class="v">instant 0.005–1% · or free in 7d</span></div>
+          </div>
+          <button class="cta" style="width:100%;margin-top:.8rem;padding:.65rem;font-size:.88rem">Stake MON</button>
+        </div>
+        <div class="card">
+          <div class="sec-title" style="margin-bottom:.3rem">Gas-free trading</div>
+          <div class="apy-big" style="font-size:1.25rem">Commit shMON, never pay gas again</div>
+          <div class="ynote">Commit enough shMON that its staking yield alone covers your gas. The yield tops the balance back up — your principal is never spent, and it keeps earning.</div>
+          <div class="ycalc">
+            <div class="row"><span>Your avg gas / month</span><span class="v">4.1 MON</span></div>
+            <div class="row"><span>Commitment needed</span><span class="v">≈ 610 shMON</span></div>
+            <div class="row"><span>Your shMON</span><span class="v up">9,000 — covered 14×</span></div>
+          </div>
+          <button class="cta ghost" style="width:100%;margin-top:.8rem;padding:.65rem;font-size:.86rem">Commit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ysec" id="y-mm">
+      <div class="card">
+        <div class="sec-title">Money markets <span class="hint">shMON, USDC and WMON venues — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
+        <table>
+          <thead><tr><th>Market</th><th>Venue</th><th>APY</th><th>TVL</th><th>Points</th><th></th></tr></thead>
+          <tbody id="mmRows"></tbody>
+        </table>
+        <div class="ynote">shMON rows include the 12.1% underlying staking yield. Deploy routes to the venue in one transaction, withdrawal stays yours.</div>
+      </div>
+    </div>
+
+    <div class="ysec" id="y-liquidity">
+      <div class="yield-grid">
+        <div>
+          <div class="card">
+            <div class="sec-title"><span class="live-dot"></span>LP shMON everywhere it trades <span class="hint">pools live from every Monad venue</span></div>
+            <table>
+              <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Est. APR</th><th>Boost</th><th></th></tr></thead>
+              <tbody id="lqRows"><tr><td colspan="6" style="color:var(--faint);padding:.8rem 0">loading live pools…</td></tr></tbody>
+            </table>
+            <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its 12.1% staking yield while it LPs.</div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="sec-title">Your projection <span class="hint">pick a pool, size it</span></div>
+            <div class="field">
+              <div class="k"><span>Deposit</span><span class="bal" id="lqPool">—</span></div>
+              <div class="amt"><input id="lqAmt" value="1,000"><span class="unit">USD</span></div>
+            </div>
+            <div class="ycalc" style="margin-top:.7rem">
+              <div class="row"><span>Points / day</span><span class="v num" id="lqPts" style="color:var(--accent);font-size:1.35rem;font-weight:700">—</span></div>
+              <div class="row"><span>Boost applied</span><span class="v num" id="lqBoost">—</span></div>
+              <div class="row"><span>Plus underlying yield</span><span class="v up">12.1% APY on the shMON side</span></div>
+            </div>
+            <div style="margin-top:.85rem">
+              <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.3rem"><span id="lqTierLbl">next boost tier at $5,000</span><span class="num" id="lqTierPct">20%</span></div>
+              <div class="health-wide"><i id="lqTierBar" style="width:20%;background:var(--accent);transition:width .45s cubic-bezier(.22,1,.36,1)"></i></div>
+            </div>
+            <button class="cta" style="width:100%;margin-top:.9rem" id="lqCta">Provide liquidity</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ysec" id="y-vaults">
+      <div class="vault-grid">
+        <div class="bot-card">
+          <div class="top"><span class="dot"></span><h3>Safe Farmer</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
+          <div class="promise">Delta-neutral, farms points and yield across three programs. Market up or down, you don't care.</div>
+          <div class="bot-stats">
+            <div class="s"><span class="k">live APY</span><span class="v up">17.4%</span></div>
+            <div class="s"><span class="k">TVL</span><span class="v">$6.1M</span></div>
+            <div class="s"><span class="k">points</span><span class="v">2,900/day</span></div>
+          </div>
+          <button class="cta">Deposit</button>
+        </div>
+                <div class="bot-card">
+          <div class="top"><span class="dot"></span><h3>Li Gomez</h3><span class="tagg" style="margin-left:auto">curator</span></div>
+          <div class="promise">Curated Monad-native vault: shMON looping, isolated lending and LP rotations, risk-managed by the curator.</div>
+          <div class="bot-stats">
+            <div class="s"><span class="k">live APY</span><span class="v up">14.8%</span></div>
+            <div class="s"><span class="k">TVL</span><span class="v">$3.4M</span></div>
+            <div class="s"><span class="k">asset</span><span class="v">shMON</span></div>
+          </div>
+          <button class="cta ghost">Deposit</button>
+        </div>
+        <div class="bot-card">
+          <div class="top"><span class="dot"></span><h3>NAV Pool LP</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
+          <div class="promise">Provide liquidity to Moose's NAV-centered pools (indexes, graduated launches). The curve re-centers on fair value every block — LFJ Liquidity-Book style — so your capital quotes tight and earns fees, not impermanent regret.</div>
+          <div class="bot-stats">
+            <div class="s"><span class="k">live APY</span><span class="v up">21.3%</span></div>
+            <div class="s"><span class="k">TVL</span><span class="v">$1.9M</span></div>
+            <div class="s"><span class="k">points</span><span class="v">1.5× LP</span></div>
+          </div>
+          <button class="cta ghost">Provide liquidity</button>
+        </div>
+              </div>
+      <div class="ynote" style="margin-top:.8rem">Rates are live venue quotes, not projections. Points columns show active programs you'd farm by holding the position.</div>
+    </div>
+
+    <div class="ysec" id="y-pendle">
+      <div class="card">
+        <div class="sec-title">Pendle <span class="hint">lock a rate, or buy the yield itself</span></div>
+        <table>
+          <thead><tr><th>Market</th><th>Maturity</th><th>Fixed APY</th><th>What you get</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>PT-shMON</b></td><td class="num">26 Dec 2026</td><td class="up num" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><button class="pill-btn">Lock</button></td></tr>
+            <tr><td><b>YT-shMON</b></td><td class="num">26 Dec 2026</td><td class="num" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><button class="pill-btn">Buy</button></td></tr>
+            <tr><td><b>LP shMON</b></td><td class="num">26 Dec 2026</td><td class="up num">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><button class="pill-btn">Provide</button></td></tr>
+          </tbody>
+        </table>
+        <div class="ynote">PT locks a fixed rate to maturity. YT is the stripped variable yield and points. LP earns both sides with no impermanent loss to maturity.</div>
+      </div>
+    </div>
+
+    
 
     </div>
 
@@ -1899,6 +1900,7 @@
     </div>
     <div class="trend-row" id="trendTrade" style="padding:.5rem .2rem 0"></div>
     <div class="tlist" id="tokList"></div>
+    <button class="pill-btn" id="fullScreener" style="margin-top:.5rem;align-self:flex-start;color:var(--accent);border-color:var(--accent)">Open full screener →</button>
   </div>
 </div>
 
@@ -1912,6 +1914,11 @@
 
 <script>
   // ---- tabs ----
+  window.showView=function(v){
+    document.querySelectorAll('#nav a').forEach(function(x){x.classList.toggle('active',x.dataset.v===v)});
+    document.querySelectorAll('.view').forEach(function(x){x.classList.remove('on')});
+    var el=document.getElementById('v-'+v); if(el)el.classList.add('on');
+  };
   document.querySelectorAll('#nav a').forEach(function(a){
     a.addEventListener('click',function(){
       document.querySelectorAll('#nav a').forEach(function(x){x.classList.remove('active')});
@@ -2097,6 +2104,8 @@
   document.getElementById('pickA').addEventListener('click',function(){pickTarget='A';renderList('');modal.classList.add('show');document.getElementById('tokSearch').focus()});
   document.getElementById('pickB').addEventListener('click',function(){pickTarget='B';renderList('');modal.classList.add('show')});
   document.getElementById('mClose').addEventListener('click',function(){modal.classList.remove('show')});
+  (function(){var fs=document.getElementById('fullScreener');
+    if(fs)fs.addEventListener('click',function(){modal.classList.remove('show');if(window.showView)showView('discover');});})();
   modal.addEventListener('click',function(e){if(e.target===modal)modal.classList.remove('show')});
   document.getElementById('tokSearch').addEventListener('input',function(e){renderList(e.target.value)});
   function priceUsdOf(sym){
@@ -2376,7 +2385,7 @@
       });
     });
   }
-  wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',board:'pfBoard'});
+  wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',bots:'pfBots',board:'pfBoard'});
   wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
   wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
   wireSeg('dlSeg','dl',{your:'dlYour',open:'dlOpen',all:'dlAll'});
@@ -4599,9 +4608,9 @@
     function actions(){
       var a=[
         {t:'Go to Trade',k:'tab',fn:function(){navTo('trade')}},
-        {t:'Go to Discover',k:'tab',fn:function(){navTo('discover')}},
-        {t:'Go to Yield',k:'tab',fn:function(){navTo('yield')}},
-        {t:'Go to Bots',k:'tab',fn:function(){navTo('bots')}},
+        {t:'Open screener (Discover)',k:'tab',fn:function(){if(window.showView)showView('discover')}},
+        {t:'Go to Earn',k:'tab',fn:function(){navTo('portfolio');var b=document.querySelector('#aseg button[data-a=\'earn\']');if(b)b.click();}},
+        {t:'Open Bots workshop',k:'tab',fn:function(){if(window.showView)showView('bots')}},
         {t:'Go to The Herd',k:'tab',fn:function(){navTo('compete')}},
         {t:'Go to Portfolio',k:'tab',fn:function(){navTo('portfolio')}},
         {t:'Fold research panel',k:'action',fn:function(){setIdentPanel(false)}},
