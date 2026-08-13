@@ -868,6 +868,7 @@
     <div class="pos-toggle" id="tmode" style="align-self:flex-start">
       <button data-tm="simple" class="on">Swap</button>
       <button data-tm="pro">Pro</button>
+      <button data-tm="bot">Bot</button>
     </div>
     <div id="proTicket" style="display:contents">
     <div class="buysell" id="buysell"><button data-side="buy" class="on">Buy</button><button data-side="sell">Sell</button></div>
@@ -882,7 +883,7 @@
       </div>
       <div id="limitSingle">
         <div class="amt"><input value="1.5600" id="limIn"><span class="unit">MON</span></div>
-        <div class="chips" id="limChips"><button data-p="mid">mid</button><button data-p="-0.5">-0.5%</button><button data-p="-1">-1%</button><button data-p="po">post-only</button><button data-p="chase">chase</button></div>
+        <div class="chips" id="limChips"><button data-p="mid">mid</button><button data-p="-0.5">-0.5%</button><button data-p="-1">-1%</button><button data-p="po">post-only</button></div>
       </div>
       <div id="limitLadder" style="display:none">
         <div class="k" style="margin-top:.3rem"><span id="ladderLbl">Buy ladder</span><span class="bal">equal rungs across the range</span></div>
@@ -919,10 +920,10 @@
       <div style="font-size:.62rem;color:var(--faint)" id="riskCap">or size by risk — we compute the position from your stop distance</div>
     </div>
     <div class="field">
-      <div class="k"><span>Leverage</span><span class="bal num" id="levRead" style="color:var(--accent);font-weight:700;font-size:.95rem">3×</span></div>
+      <div class="k"><span>Leverage <span class="src-tag" style="margin-left:.3rem">margin v2 preview</span></span><span class="bal num" id="levRead" style="color:var(--accent);font-weight:700;font-size:.95rem">3×</span></div>
       <input type="range" id="levSlide" min="1" max="5" step="0.5" value="3" aria-label="Leverage" style="width:100%;accent-color:var(--accent);margin:.3rem 0 .1rem">
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);font-family:'Spline Sans Mono',monospace"><span>1×</span><span>2×</span><span>3×</span><span>4×</span><span>5×</span></div>
-      <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">5× on correlated pairs only (shMON/MON) · majors cap at 3×</div>
+      <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">margin v1 ships borrow &amp; short at ≤1× — looping to 5× on correlated pairs lands with margin v2</div>
     </div>
     <details class="adv">
       <summary>TP / SL — <span class="num" id="sumTp" style="color:var(--up)">1.8100</span> / <span class="num" id="sumSl" style="color:var(--down)">1.4200</span></summary>
@@ -993,6 +994,32 @@
       <div class="row"><span>Fee</span><span class="v">0.05%</span></div>
     </div>
     <button class="cta swap-cta">Swap</button>
+    </div>
+    <div id="botTicket" style="display:none">
+      <div class="swap-head" style="font-size:1.05rem;margin-bottom:.6rem">Deploy a bot on <b id="botPair">MON/USDC</b></div>
+      <div class="chips" id="botType" style="margin-bottom:.6rem"><button class="on" data-bt="grid">Grid</button><button data-bt="lev">Leveraged grid</button><button data-bt="dca">DCA</button></div>
+      <div class="field">
+        <div class="k"><span>Range · lower / upper</span><span class="bal" style="color:var(--accent);cursor:pointer" id="botAuto">use 7d range</span></div>
+        <div class="lp-2">
+          <div class="amt"><input id="botLo" value="0.0201"><span class="unit">USD</span></div>
+          <div class="amt"><input id="botHi" value="0.0238"><span class="unit">USD</span></div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="k"><span>Grids</span></div>
+        <div class="lev-opts" id="botGrids" style="grid-template-columns:repeat(4,1fr)"><button data-g="10">10</button><button data-g="20" class="on">20</button><button data-g="50">50</button><button data-g="100">100</button></div>
+      </div>
+      <div class="field">
+        <div class="k"><span>Investment</span><span class="bal">balance 276 USDC</span></div>
+        <div class="amt"><input id="botAmt" value="1,000"><span class="unit">USDC</span></div>
+      </div>
+      <div class="ycalc" style="margin-top:.5rem">
+        <div class="row"><span>Est. fills / day</span><span class="v num" id="botFills">—</span></div>
+        <div class="row"><span>Points / day</span><span class="v num" id="botPts" style="color:var(--accent)">—</span></div>
+        <div class="row"><span>Grid spacing</span><span class="v num" id="botStep">—</span></div>
+      </div>
+      <div class="ynote" style="margin:.5rem 0 .6rem">Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.</div>
+      <button class="cta" style="width:100%" id="botDeploy">Deploy Grid Bot</button>
     </div>
   </aside>
 </div>
@@ -1876,10 +1903,12 @@
   var lastTicketMode='simple';
   function setTicketMode(mode,calm){
     lastTicketMode=mode;
-    var pro=document.getElementById('proTicket'),simple=document.getElementById('simpleTicket');
+    var pro=document.getElementById('proTicket'),simple=document.getElementById('simpleTicket'),bt=document.getElementById('botTicket');
     if(!pro||!simple)return;
     pro.style.display=mode==='pro'?'contents':'none';
     simple.style.display=mode==='simple'?'':'none';
+    if(bt)bt.style.display=mode==='bot'?'':'none';
+    if(mode==='bot'&&window.botRecalc)botRecalc();
     document.querySelectorAll('#tmode button').forEach(function(x){x.classList.toggle('on',x.dataset.tm===mode)});
     var wrap=document.querySelector('#v-trade .wrap');
     if(wrap)wrap.classList.toggle('calm',!!calm);
@@ -3205,7 +3234,7 @@
     });
     document.querySelectorAll('#limChips button').forEach(function(b){
       b.addEventListener('click',function(){
-        if(b.dataset.p==='po'||b.dataset.p==='chase'){b.classList.toggle('on');return;}
+        if(b.dataset.p==='po'){b.classList.toggle('on');return;}
         var el=document.getElementById('limIn'); if(!el)return;
         el.value=b.dataset.p==='mid'?MID.toFixed(4):(MID*(1+parseFloat(b.dataset.p)/100)).toFixed(4);
         refreshAnchorNote();
@@ -4274,6 +4303,56 @@
     if(cta)cta.addEventListener('click',function(){
       var old=cta.textContent;cta.textContent='✓ Position queued';cta.disabled=true;
       setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
+    });
+  })();
+
+  // ---- ticket Bot mode (Pionex pattern: deploy a grid from the order panel) ----
+  (function(){
+    var lo=document.getElementById('botLo'),hi=document.getElementById('botHi'),amt=document.getElementById('botAmt');
+    if(!lo)return;
+    var grids=20,btype='grid';
+    window.botRecalc=function(){
+      var pb=document.getElementById('pairBase');
+      var bp=document.getElementById('botPair');if(bp&&pb)bp.textContent=pb.textContent.trim()+'/USDC';
+      var l=parseFloat(lo.value),u=parseFloat(hi.value),a=parseFloat(String(amt.value).replace(/,/g,''))||0;
+      if(!(u>l&&l>0))return;
+      var step=(u-l)/grids;
+      var stepPct=step/((u+l)/2)*100;
+      var el=function(id){return document.getElementById(id)};
+      if(el('botStep'))el('botStep').textContent=stepPct.toFixed(2)+'% per grid';
+      var fills=Math.max(1,Math.round(24/(stepPct*2)));
+      if(el('botFills'))el('botFills').textContent='≈ '+fills;
+      var mult=btype==='lev'?2:1.25;
+      if(el('botPts'))el('botPts').textContent='≈ '+Math.round(a*mult).toLocaleString();
+    };
+    [lo,hi,amt].forEach(function(i){i.addEventListener('input',botRecalc)});
+    document.querySelectorAll('#botGrids button').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#botGrids button').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');grids=parseInt(b.dataset.g,10);botRecalc();
+      });
+    });
+    document.querySelectorAll('#botType button').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#botType button').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');btype=b.dataset.bt;
+        var d=document.getElementById('botDeploy');
+        if(d)d.textContent=btype==='dca'?'Deploy DCA Bot':btype==='lev'?'Deploy Leveraged Grid':'Deploy Grid Bot';
+        botRecalc();
+      });
+    });
+    var auto=document.getElementById('botAuto');
+    if(auto)auto.addEventListener('click',function(){
+      var pb=document.getElementById('pairBase');
+      var t=pb?tokBySym(pb.textContent.trim()):null;
+      var px=t&&t.priceUsd!=null?t.priceUsd:0.0221;
+      lo.value=(px*0.92).toPrecision(3);hi.value=(px*1.08).toPrecision(3);
+      botRecalc();
+    });
+    var dep=document.getElementById('botDeploy');
+    if(dep)dep.addEventListener('click',function(){
+      var old=dep.textContent;dep.textContent='✓ Bot deployed — see Bots tab';dep.disabled=true;
+      setTimeout(function(){dep.textContent=old;dep.disabled=false},1800);
     });
   })();
 
