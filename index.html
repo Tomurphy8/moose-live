@@ -771,6 +771,18 @@
       <div class="row"><span>24h DEX vol</span><span class="v" id="idVol">—</span></div>
       <div class="row"><span>Contract</span><span class="v" id="idContract">0x1B68…19c</span></div>
     </div>
+    <h4>Pressure · 24h</h4>
+    <div id="idPress" style="font-size:.66rem;font-family:'Spline Sans Mono',monospace;color:var(--dim)">
+      <div style="display:flex;justify-content:space-between"><span id="ipBuys" class="up">— buys</span><span id="ipSells" class="down">— sells</span></div>
+      <div style="display:flex;gap:2px;margin:.25rem 0 .45rem"><i id="ipBarB" style="height:5px;border-radius:3px;background:var(--up);width:50%"></i><i id="ipBarS" style="height:5px;border-radius:3px;background:var(--down);width:50%"></i></div>
+      <div style="display:flex;justify-content:space-between"><span id="ipByers" class="up">— buyers</span><span id="ipSlrs" class="down">— sellers</span></div>
+      <div style="display:flex;gap:2px;margin:.25rem 0 0"><i id="ipBarB2" style="height:5px;border-radius:3px;background:var(--up);width:50%"></i><i id="ipBarS2" style="height:5px;border-radius:3px;background:var(--down);width:50%"></i></div>
+    </div>
+    <h4>Theses <span style="color:var(--faint);font-weight:400" id="idThesisCount">· 214</span></h4>
+    <div id="idTheses">
+      <div class="fcard" style="margin:.3rem 0"><div style="display:flex;gap:.4rem;align-items:baseline;font-size:.7rem"><b style="color:var(--accent)">madrigal.mon</b><span class="up num">+41%</span><span class="feng"><button>♥ 174</button></span></div><div style="font-size:.72rem;color:var(--dim);margin-top:.15rem;font-style:italic;font-family:'Fraunces',serif">"unlock fear is the entry, not the exit"</div></div>
+      <div class="fcard" style="margin:.3rem 0"><div style="display:flex;gap:.4rem;align-items:baseline;font-size:.7rem"><b style="color:var(--accent)">evil.nad</b><span class="down num">−8%</span><span class="feng"><button>♥ 56</button></span></div><div style="font-size:.72rem;color:var(--dim);margin-top:.15rem;font-style:italic;font-family:'Fraunces',serif">"holding through the chop, grid does the work"</div></div>
+    </div>
     <h4>News</h4>
     <div class="id-news" id="idNews"><span style="font-size:.72rem;color:var(--faint)">loading…</span></div>
     <h4>Related markets</h4>
@@ -4106,6 +4118,21 @@
     set('fTsup',d.tsup!=null?fmtSup(d.tsup):'—');
     set('fRes',d.res!=null?fmtUsdBig(d.res):'—');
     if(d.tx){var buys=d.tx.buys||0,sells=d.tx.sells||0;set('fTx',(buys+sells).toLocaleString()+' · '+buys+'B / '+sells+'S');}
+    if(d.tx){
+      var b=d.tx.buys||0,s=d.tx.sells||0,tot=Math.max(1,b+s);
+      set('ipBuys',b.toLocaleString()+' buys');set('ipSells',s.toLocaleString()+' sells');
+      var bb=document.getElementById('ipBarB'),bs=document.getElementById('ipBarS');
+      if(bb)bb.style.width=Math.round(b/tot*100)+'%';
+      if(bs)bs.style.width=Math.round(s/tot*100)+'%';
+      var by=d.tx.buyers,sl=d.tx.sellers;
+      if(by!=null&&sl!=null){
+        var t2=Math.max(1,by+sl);
+        set('ipByers',by.toLocaleString()+' buyers');set('ipSlrs',sl.toLocaleString()+' sellers');
+        var b2=document.getElementById('ipBarB2'),s2=document.getElementById('ipBarS2');
+        if(b2)b2.style.width=Math.round(by/t2*100)+'%';
+        if(s2)s2.style.width=Math.round(sl/t2*100)+'%';
+      }
+    }
     if(d.age){var days=Math.max(0,Math.round((Date.now()-new Date(d.age).getTime())/86400000));set('fAge',days>=365?(days/365).toFixed(1)+'y':days+'d');}
     var ca=document.getElementById('fCa');
     if(ca&&d.addr){
@@ -4319,6 +4346,11 @@
       setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
     });
   })();
+
+  // thesis hearts in the research panel
+  document.querySelectorAll('#idTheses .feng button').forEach(function(b){
+    b.addEventListener('click',function(){b.textContent='♥ '+(parseInt(b.textContent.slice(2),10)+1);b.style.color='var(--accent)';});
+  });
 
   // ---- feed scope + leaderboard window (FOMO patterns) ----
   document.querySelectorAll('#feedScope button').forEach(function(b){
