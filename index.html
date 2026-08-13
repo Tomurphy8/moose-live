@@ -1008,6 +1008,7 @@
     <div class="yseg" id="yseg">
       <button data-y="staking" class="on">Staking</button>
       <button data-y="mm">Money markets</button>
+      <button data-y="liquidity">Liquidity</button>
       <button data-y="vaults">Vaults</button>
       <button data-y="pendle">Pendle</button>
     </div>
@@ -1041,12 +1042,46 @@
 
     <div class="ysec" id="y-mm">
       <div class="card">
-        <div class="sec-title">Money markets <span class="hint">Aave · Euler · Curvance · Morpho — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
+        <div class="sec-title">Money markets <span class="hint">shMON, USDC and WMON venues — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
         <table>
           <thead><tr><th>Market</th><th>Venue</th><th>APY</th><th>TVL</th><th>Points</th><th></th></tr></thead>
           <tbody id="mmRows"></tbody>
         </table>
         <div class="ynote">shMON rows include the 12.1% underlying staking yield. Deploy routes to the venue in one transaction, withdrawal stays yours.</div>
+      </div>
+    </div>
+
+    <div class="ysec" id="y-liquidity">
+      <div class="yield-grid">
+        <div>
+          <div class="card">
+            <div class="sec-title"><span class="live-dot"></span>LP shMON everywhere it trades <span class="hint">pools live from every Monad venue</span></div>
+            <table>
+              <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Boost</th><th></th></tr></thead>
+              <tbody id="lqRows"><tr><td colspan="6" style="color:var(--faint);padding:.8rem 0">loading live pools…</td></tr></tbody>
+            </table>
+            <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its 12.1% staking yield while it LPs.</div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <div class="sec-title">Your projection <span class="hint">pick a pool, size it</span></div>
+            <div class="field">
+              <div class="k"><span>Deposit</span><span class="bal" id="lqPool">—</span></div>
+              <div class="amt"><input id="lqAmt" value="1,000"><span class="unit">USD</span></div>
+            </div>
+            <div class="ycalc" style="margin-top:.7rem">
+              <div class="row"><span>Points / day</span><span class="v num" id="lqPts" style="color:var(--accent);font-size:1.35rem;font-weight:700">—</span></div>
+              <div class="row"><span>Boost applied</span><span class="v num" id="lqBoost">—</span></div>
+              <div class="row"><span>Plus underlying yield</span><span class="v up">12.1% APY on the shMON side</span></div>
+            </div>
+            <div style="margin-top:.85rem">
+              <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.3rem"><span id="lqTierLbl">next boost tier at $5,000</span><span class="num" id="lqTierPct">20%</span></div>
+              <div class="health-wide"><i id="lqTierBar" style="width:20%;background:var(--accent);transition:width .45s cubic-bezier(.22,1,.36,1)"></i></div>
+            </div>
+            <button class="cta" style="width:100%;margin-top:.9rem" id="lqCta">Provide liquidity</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -2839,12 +2874,12 @@
 
   var MM=[
     ["shMON loop","Moose native","19.6%","$4.1M","Moose 2×",19.6,4.1],
-    ["Hyperithm USDC","Morpho","12.3%","$52.0M","—",12.3,52.0],
     ["shMON collateral","Curvance","14.6%","$8.2M","Kuru",14.6,8.2],
-    ["aUSD","Euler","7.5%","$39.9M","—",7.5,39.9],
-    ["USDT0","Aave v3","5.8%","$27.9M","—",5.8,27.9],
+    ["shMON supply","Euler","13.4%","$2.9M","—",13.4,2.9],
+    ["USDC","Morpho","12.3%","$52.0M","—",12.3,52.0],
     ["USDC","Aave v3","5.5%","$16.7M","—",5.5,16.7],
-    ["WETH","Euler","3.2%","$52.2M","—",3.2,52.2]
+    ["WMON","Aave v3","6.4%","$11.2M","—",6.4,11.2],
+    ["WMON","Euler","5.9%","$4.8M","—",5.9,4.8]
   ];
   var mmSortKey='apy';
   function renderMM(){
@@ -4114,6 +4149,93 @@
     pop.addEventListener('mouseleave',hideSoon);
     var saved=null;try{saved=localStorage.getItem('moose-pfp')}catch(e){}
     if(saved&&saved!=='mark')setPfp(saved,false);
+  })();
+
+  // ---- Liquidity: live shMON pools + projection (goal-gradient, count-up — earned feedback only) ----
+  (function(){
+    var body=document.getElementById('lqRows'); if(!body)return;
+    var SHMON='0x1B68626dCa36c7fE922fD2d55E4f631d962dE19c';
+    var BOOST={'curve-monad':3,'uniswap-v4-monad':2,'uniswap-v3-monad':2,'capricorn-monad':1.5,'pancakeswap-v3-monad':1.5,'octoswap-cl':1.5};
+    var chosen=null;
+    function dexName(id){
+      return id.replace('-monad','').replace(/-/g,' ')
+        .replace('uniswap v4','Uniswap v4').replace('uniswap v3','Uniswap v3')
+        .replace('pancakeswap v3','Pancake v3').replace('curve','Curve')
+        .replace('capricorn','Capricorn').replace('octoswap cl','Octoswap');
+    }
+    function fmtUsd(n){n=parseFloat(n)||0;return n>=1e6?'$'+(n/1e6).toFixed(2)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+Math.round(n)}
+    var cuRaf=null;
+    function countUp(el,target){
+      if(!el)return;
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){el.textContent=Math.round(target).toLocaleString();return;}
+      var from=parseFloat(String(el.textContent).replace(/[^0-9.]/g,''))||0;
+      var t0=performance.now();
+      if(cuRaf)cancelAnimationFrame(cuRaf);
+      (function step(t){
+        var p=Math.min(1,(t-t0)/500);p=1-Math.pow(1-p,3);
+        el.textContent=Math.round(from+(target-from)*p).toLocaleString();
+        if(p<1)cuRaf=requestAnimationFrame(step);
+      })(t0);
+    }
+    function project(){
+      var amt=parseFloat(String(document.getElementById('lqAmt').value).replace(/,/g,''))||0;
+      var mult=chosen?(BOOST[chosen.dex]||1.5):1.5;
+      countUp(document.getElementById('lqPts'),amt*mult);
+      var bo=document.getElementById('lqBoost');if(bo)bo.textContent=mult+'× · '+(chosen?dexName(chosen.dex):'—');
+      var next=amt<5000?5000:amt<25000?25000:null;
+      var lbl=document.getElementById('lqTierLbl'),pct=document.getElementById('lqTierPct'),bar=document.getElementById('lqTierBar');
+      if(next){
+        var p=Math.min(100,Math.round(amt/next*100));
+        if(lbl)lbl.textContent='next boost tier at $'+next.toLocaleString();
+        if(pct)pct.textContent=p+'%';
+        if(bar){bar.style.width=p+'%';bar.style.background='var(--accent)';}
+      }else{
+        if(lbl)lbl.textContent='top tier unlocked';
+        if(pct)pct.textContent='✓';
+        if(bar){bar.style.width='100%';bar.style.background='var(--up)';}
+      }
+    }
+    function select(p,tr){
+      chosen=p;
+      Array.prototype.forEach.call(body.children,function(r){r.style.background=''});
+      if(tr)tr.style.background='color-mix(in srgb, var(--accent) 7%, transparent)';
+      var lp=document.getElementById('lqPool');if(lp)lp.textContent=p.name+' · '+dexName(p.dex);
+      project();
+    }
+    fetch('https://api.geckoterminal.com/api/v2/networks/monad/tokens/'+SHMON+'/pools?page=1')
+      .then(function(r){return r.json()})
+      .then(function(d){
+        var pools=(d.data||[]).map(function(p){
+          return {name:p.attributes.name.replace(/ 0\.\d+%$/,''),dex:p.relationships.dex.data.id,
+                  tvl:parseFloat(p.attributes.reserve_in_usd)||0,
+                  vol:parseFloat((p.attributes.volume_usd||{}).h24)||0};
+        }).filter(function(p){return p.tvl>500&&p.vol>=1&&p.name.indexOf('shMON')>=0})
+          .sort(function(a,b){return b.tvl-a.tvl}).slice(0,8);
+        if(!pools.length)return;
+        body.replaceChildren();
+        pools.forEach(function(p){
+          var tr=document.createElement('tr');
+          function td(t,c){var d=document.createElement('td');if(c)d.className=c;d.textContent=t;return d}
+          var t1=document.createElement('td');var bb=document.createElement('b');bb.textContent=p.name;t1.appendChild(bb);tr.appendChild(t1);
+          tr.appendChild(td(dexName(p.dex)));
+          tr.appendChild(td(fmtUsd(p.tvl),'num'));
+          tr.appendChild(td(fmtUsd(p.vol),'num'));
+          var t5=document.createElement('td');var chip=document.createElement('span');chip.className='tier-status ts-live';chip.textContent=(BOOST[p.dex]||1.5)+'× pts';t5.appendChild(chip);tr.appendChild(t5);
+          var t6=document.createElement('td');var btn=document.createElement('button');btn.className='pill-btn';btn.textContent='LP';
+          btn.addEventListener('click',function(){select(p,tr)});t6.appendChild(btn);tr.appendChild(t6);
+          tr.style.cursor='pointer';
+          tr.addEventListener('click',function(){select(p,tr)});
+          body.appendChild(tr);
+        });
+        select(pools[0],body.children[0]);
+      }).catch(function(){});
+    var ai=document.getElementById('lqAmt');
+    if(ai)ai.addEventListener('input',project);
+    var cta=document.getElementById('lqCta');
+    if(cta)cta.addEventListener('click',function(){
+      var old=cta.textContent;cta.textContent='✓ Position queued';cta.disabled=true;
+      setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
+    });
   })();
 
   // ---- layout presets + persistence ----
