@@ -142,7 +142,7 @@
   .chatin{flex:1;background:var(--panel);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:.76rem;padding:.45rem .7rem;font-family:inherit;min-height:32px}
   .chatin:focus{outline:none;border-color:var(--accent)}
   .chatsend{flex-shrink:0}
-  .duelchat-card .chatlist{max-height:260px}
+  .duelchat-card .chatlist{max-height:252px;max-height:260px}
   .fund-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem 1.1rem;max-width:920px}
   @media(max-width:1100px){.fund-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:800px){.fund-grid{grid-template-columns:1fr 1fr}}
@@ -1191,14 +1191,50 @@
       <div class="s"><span class="k">Season rank</span><span class="v">#61 <span class="up" style="font-size:.72rem">▲2 today</span></span></div>
     </div>
     <div class="compete-grid" style="margin-bottom:1.1rem;align-items:stretch">
-        <div class="card pool-card">
-          <div class="sec-title" style="margin-bottom:.4rem">Season One pool</div>
-          <div class="amt-lg num">250,000 MON</div>
-          <div style="font-size:.77rem;color:var(--dim);margin-top:.3rem">top 100 split it · 19 days left · sponsored by the ecosystem</div>
+        <div class="card pool-card" style="display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap">
+          <div>
+            <div class="sec-title" style="margin-bottom:.15rem">Season One pool</div>
+            <div class="amt-lg num" style="font-size:1.7rem">250,000 MON</div>
+          </div>
+          <div style="font-size:.77rem;color:var(--dim);margin-left:auto;text-align:right">top 100 split it<br>19 days left · sponsored by the ecosystem</div>
         </div>
       <div><div class="season" style="cursor:pointer"><div class="t">Duel Cup · September</div>64-bracket single elimination · 100,000 MON prize pool · every match is a live Crash market · winners stream the final. Qualify by winning 3 open duels.</div></div>
     </div>
-        <div class="card duelchat-card" style="margin-bottom:1.1rem">
+    <div class="compete-grid" style="margin-bottom:1.1rem">
+      <div>
+        <div class="card">
+          <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
+            <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
+          </div>
+          <div id="dlYour">
+            <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
+          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
+          <div class="race">
+            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
+            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;font-size:.72rem;color:var(--dim);align-items:center;flex-wrap:wrap">
+          <span style="color:var(--faint)">open challenges:</span>
+          <button class="pill-btn">lydicius · 250 MON</button>
+          <button class="pill-btn">biawakz · 1,000 MON</button>
+          <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Post a duel</button>
+        </div>
+          </div>
+          <div id="dlOpen" style="display:none">
+            <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
+        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
+        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
+          </div>
+          <div id="dlAll" style="display:none">
+            <div class="hint" style="display:block;margin:.1rem 0 .4rem">tap any to spectate</div>
+            <div id="duelFeedList"></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card duelchat-card">
           <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
           <div class="chatlist" id="duelChat"></div>
           <div class="chatrow">
@@ -1206,6 +1242,8 @@
             <button class="pill-btn chatsend" id="duelSend">Send</button>
           </div>
         </div>
+      </div>
+    </div>
     <div class="compete-grid">
       <div>
         <div class="card">
@@ -1243,30 +1281,6 @@
         </div>
       </div>
       <div>
-        <div class="card">
-          <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
-            <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
-          </div>
-          <div id="dlYour">
-            <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
-          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
-          <div class="race">
-            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
-            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
-          </div>
-          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
-        </div>
-          </div>
-          <div id="dlOpen" style="display:none">
-            <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
-        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
-        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
-          </div>
-          <div id="dlAll" style="display:none">
-            <div class="hint" style="display:block;margin:.1rem 0 .4rem">tap any to spectate</div>
-            <div id="duelFeedList"></div>
-          </div>
-        </div>
         <div class="card">
           <div class="sec-title" style="align-items:center">Engage
             <div class="pos-toggle" id="egSeg"><button data-eg="post" class="on">Post</button><button data-eg="badges">Badges</button><button data-eg="crsh">On CRSH</button></div>
@@ -3885,20 +3899,22 @@
     'Pot escrowed · 1,000 MON · duel #49'
   ];
   function fmtNow(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
-  function addMsg(list,item,sys){
+  function addMsg(list,item,sys,ago){
     if(!list)return;
     var el=document.createElement('div');
     el.className='chatmsg'+(sys?' sys':'');
-    if(sys){el.innerHTML='<span class="ctxt">'+item+'</span><span class="ct">'+fmtNow()+'</span>';}
-    else{el.innerHTML='<span class="cwho">'+item[0]+'</span><span class="ctier">'+item[1]+'</span><span class="ctxt">'+item[2]+'</span><span class="ct">'+fmtNow()+'</span>';}
+    var ts=ago||fmtNow();
+    if(sys){el.innerHTML='<span class="ctxt">'+item+'</span><span class="ct">'+ts+'</span>';}
+    else{el.innerHTML='<span class="cwho">'+item[0]+'</span><span class="ctier">'+item[1]+'</span><span class="ctxt">'+item[2]+'</span><span class="ct">'+ts+'</span>';}
     list.appendChild(el);
     while(list.children.length>34)list.removeChild(list.firstChild);
     list.scrollTop=list.scrollHeight;
   }
   function seed(list,pool,sysPool){
     if(!list)return;
-    for(var i=0;i<7;i++)addMsg(list,pool[i%pool.length],false);
-    addMsg(list,sysPool[0],true);
+    var AGO=['26m','19m','13m','9m','6m','4m','2m'];
+    for(var i=0;i<7;i++)addMsg(list,pool[i%pool.length],false,AGO[i]);
+    addMsg(list,sysPool[0],true,'now');
   }
   function tick(list,pool,sysPool){
     if(!list||!document.body.contains(list))return;
