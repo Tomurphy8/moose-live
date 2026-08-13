@@ -795,7 +795,6 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
-    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button></div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
     </div>
@@ -1016,6 +1015,10 @@
       <div class="chips" data-slip="swap"><button data-s="auto" class="on">auto</button><button data-s="0.1">0.1%</button><button data-s="0.5">0.5%</button><button data-s="1">1%</button><button data-s="custom">custom</button><input id="slipSwapIn" style="display:none;width:3.6rem;background:var(--raised);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:.72rem;padding:.2rem .35rem" placeholder="2.5%"></div>
       <div class="row"><span>Fee</span><span class="v">0.05%</span></div>
     </div>
+    <div class="field" style="margin-top:.2rem">
+      <div class="k"><span>Attach a thesis <span style="color:var(--faint);font-weight:400">optional</span></span><span class="bal">posts to the herd with your entry</span></div>
+      <textarea id="swapThesis" placeholder="Why this trade? One line is enough — or paste an 𝕏 post link…" style="width:100%;background:var(--raised);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:.55rem .7rem;font-size:.78rem;font-family:'Fraunces',serif;font-style:italic;resize:none;outline:none;min-height:44px"></textarea>
+    </div>
     <button class="cta swap-cta">Swap</button>
     </div>
     <div id="botTicket" style="display:none">
@@ -1134,6 +1137,11 @@
           <button class="pill-btn">biawakz · 1,000 MON</button>
           <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Post a duel</button>
         </div>
+        <div class="mh-top" style="grid-template-columns:repeat(3,1fr);margin:.75rem 0 0">
+          <div class="s"><span class="k">Your record</span><span class="v">8W – 3L <span class="up" style="font-size:.7rem">3 streak</span></span></div>
+          <div class="s"><span class="k">Biggest live pot</span><span class="v num">12,000 MON</span></div>
+          <div class="s"><span class="k">Duel Cup starts</span><span class="v num" style="color:var(--accent)">9 days</span></div>
+        </div>
           </div>
           <div id="dlOpen" style="display:none">
             <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
@@ -1212,6 +1220,13 @@
           </div>
           <div class="ynote" style="margin-top:.5rem">Every thesis carries your live journal stats — <b class="up">64% win rate</b> · <b>+0.8R avg</b> — pulled straight from your fills. Credibility is automatic, not claimed. Copiers pay you <b style="color:var(--accent)">10% of their bot fees</b> — forever, as long as it runs. Leader PnL is full-history: abandoned configs included, no survivorship trims.</div>
           </div>
+        <div class="card">
+          <div class="sec-title">Top clans <span class="hint">combined PnL · 24h</span></div>
+          <div class="lb-row"><span class="rk">#1</span><span class="w">The Antler Office <span style="color:var(--faint);font-size:.66rem">· 11 members</span></span><span class="pts up num">+41,624 MON</span></div>
+          <div class="lb-row"><span class="rk">#2</span><span class="w">Gm Basement <span style="color:var(--faint);font-size:.66rem">· 9 members</span></span><span class="pts up num">+25,092 MON</span></div>
+          <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
+          <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
+        </div>
           <div id="egBadges" style="display:none">
             <div class="lp-wedge" style="margin:.2rem 0 0">
             <span><b>sh-poster</b> · thesis hit 10 copies</span>
@@ -4375,6 +4390,40 @@
   document.querySelectorAll('#idTheses .feng button, #thesisPanel .feng button').forEach(function(b){
     b.addEventListener('click',function(){b.textContent='♥ '+(parseInt(b.textContent.slice(2),10)+1);b.style.color='var(--accent)';});
   });
+
+  // swap-ticket thesis: publishes into the Thesis panel with the trade
+  (function(){
+    var cta=document.querySelector('.swap-cta'),ta=document.getElementById('swapThesis');
+    if(!cta||!ta)return;
+    cta.addEventListener('click',function(){
+      var txt=ta.value.trim();
+      var old=cta.textContent;
+      cta.textContent=txt?'✓ Swapped — thesis posted':'✓ Swapped';cta.disabled=true;
+      setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
+      if(!txt)return;
+      var panel=document.getElementById('thesisPanel');
+      if(panel){
+        var tokB=document.getElementById('tokB'),amt=document.getElementById('recvAmt');
+        var card=document.createElement('div');card.className='fcard';
+        var top=document.createElement('div');top.style.cssText='display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap';
+        var nm=document.createElement('b');nm.style.color='var(--accent)';nm.textContent='you';
+        var tag=document.createElement('span');tag.className='tagg';tag.textContent=(amt?amt.value:'')+' '+(tokB?tokB.textContent.trim():'');
+        var when=document.createElement('span');when.style.cssText='color:var(--faint);font-size:.64rem';when.textContent='just now · entry attached';
+        var eng=document.createElement('span');eng.className='feng';
+        var hb=document.createElement('button');hb.textContent='♥ 0';
+        hb.addEventListener('click',function(){hb.textContent='♥ '+(parseInt(hb.textContent.slice(2),10)+1);hb.style.color='var(--accent)';});
+        eng.appendChild(hb);
+        top.appendChild(nm);top.appendChild(tag);top.appendChild(when);top.appendChild(eng);
+        var body=document.createElement('div');body.style.cssText="font-size:.76rem;color:var(--dim);margin-top:.2rem;font-style:italic;font-family:'Fraunces',serif";
+        body.textContent='"'+txt+'"';
+        card.appendChild(top);card.appendChild(body);
+        panel.insertBefore(card,panel.querySelector('.fcard'));
+        var tc=document.getElementById('thCount');
+        if(tc){var n=parseInt(tc.textContent,10)||214;tc.textContent=(n+1)+' theses';}
+      }
+      ta.value='';
+    });
+  })();
 
   // ---- feed scope + leaderboard window (FOMO patterns) ----
   document.querySelectorAll('#feedScope button').forEach(function(b){
