@@ -1057,7 +1057,7 @@
           <div class="card">
             <div class="sec-title"><span class="live-dot"></span>LP shMON everywhere it trades <span class="hint">pools live from every Monad venue</span></div>
             <table>
-              <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Boost</th><th></th></tr></thead>
+              <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Est. APR</th><th>Boost</th><th></th></tr></thead>
               <tbody id="lqRows"><tr><td colspan="6" style="color:var(--faint);padding:.8rem 0">loading live pools…</td></tr></tbody>
             </table>
             <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its 12.1% staking yield while it LPs.</div>
@@ -4211,7 +4211,10 @@
       .then(function(r){return r.json()})
       .then(function(d){
         var pools=(d.data||[]).map(function(p){
-          return {name:p.attributes.name.replace(/ 0\.\d+%$/,''),dex:p.relationships.dex.data.id,
+          var nm=p.attributes.name;
+          var feeM=nm.match(/(\d*\.?\d+)%$/);
+          var fee=feeM?parseFloat(feeM[1]):(p.relationships.dex.data.id==='curve-monad'?0.04:0.3);
+          return {name:nm.replace(/ \d*\.?\d+%$/,''),dex:p.relationships.dex.data.id,fee:fee,
                   tvl:parseFloat(p.attributes.reserve_in_usd)||0,
                   vol:parseFloat((p.attributes.volume_usd||{}).h24)||0};
         }).filter(function(p){return p.tvl>500&&p.vol>=1&&p.name.indexOf('shMON')>=0})
@@ -4225,6 +4228,11 @@
           tr.appendChild(td(dexName(p.dex)));
           tr.appendChild(td(fmtUsd(p.tvl),'num'));
           tr.appendChild(td(fmtUsd(p.vol),'num'));
+          var apr=p.tvl>0?(p.vol*(p.fee/100)/p.tvl*365*100):0;
+          var t45=document.createElement('td');t45.className='num '+(apr>=5?'up':'');
+          t45.textContent=apr>=0.05?apr.toFixed(1)+'%':'<0.1%';
+          t45.title='fee APR est: 24h vol × '+p.fee+'% fee ÷ TVL, annualized · shMON side adds 12.1% staking';
+          tr.appendChild(t45);
           var t5=document.createElement('td');var chip=document.createElement('span');chip.className='tier-status ts-live';chip.textContent=(BOOST[p.dex]||1.5)+'× pts';t5.appendChild(chip);tr.appendChild(t5);
           var t6=document.createElement('td');var btn=document.createElement('button');btn.className='pill-btn';btn.textContent='LP';
           btn.addEventListener('click',function(){select(p,tr)});t6.appendChild(btn);tr.appendChild(t6);
