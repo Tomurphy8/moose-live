@@ -78,8 +78,9 @@
   .tagg{font-family:"Spline Sans Mono",monospace;font-size:.67rem;color:var(--accent);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);border-radius:5px;padding:.07rem .34rem}
 
   /* TRADE */
-  .wrap{display:grid;grid-template-columns:264px minmax(0,1fr) 340px;gap:1px;background:var(--line)}
-  .main,.side,.ident{background:var(--bg)}
+  .wrap{display:grid;grid-template-columns:264px minmax(0,1fr) 340px;gap:12px;background:transparent;padding:12px 14px 0}
+  .main,.side,.ident{background:var(--panel);border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.22)}
+  .main{overflow:hidden;display:flex;flex-direction:column}
   @media(max-width:1180px){.wrap{grid-template-columns:minmax(0,1fr) 340px}.ident{display:none}}
   /* asset identity panel (Arcus-style) */
   .ident{padding:1rem 1rem 1.2rem;overflow-y:auto;min-height:0;align-self:stretch}
@@ -121,7 +122,7 @@
   .ident .id-news .t{font-size:.76rem;font-weight:600;line-height:1.35;color:var(--ink)}
   .ident .id-news .m{font-size:.64rem;color:var(--faint);margin-top:.2rem;font-family:"Spline Sans Mono",monospace}
   /* chart Price|Fundamentals tabs */
-  .chart-tabs{display:flex;gap:.2rem;padding:.5rem .7rem;border-bottom:1px solid var(--line);background:var(--bg)}
+  .chart-tabs{display:flex;gap:.2rem;padding:.5rem .7rem;background:transparent}
   .chart-tabs button{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;font-size:.72rem;font-weight:600;padding:.3rem .8rem;cursor:pointer;min-height:28px}
   .chart-tabs button.on{background:var(--raised);color:var(--accent);border-color:var(--accent)}
   .fund-panel{position:absolute;inset:0;background:var(--bg);z-index:4;display:none;padding:1.2rem 1.4rem;overflow-y:auto}
@@ -177,16 +178,16 @@
   .rail-pfp{width:63px;height:63px;border-radius:12px;background:color-mix(in srgb,var(--accent) 18%,var(--raised));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;margin-bottom:.35rem;padding:0}
   .rail-pfp svg{width:36px;height:36px}
   .rail .herd-id{font-size:.55rem;color:var(--faint);font-family:"Spline Sans Mono",monospace;margin-bottom:.8rem}
-  .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:1rem 1.4rem .8rem;border-bottom:1px solid var(--line)}
+  .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:1rem 1.4rem .8rem}
   .pair h1{font-family:"Fraunces",serif;font-weight:500;font-size:1.45rem;display:inline}
   .pair .sub{color:var(--faint);font-size:.77rem;margin-left:.6rem}
   .price-lg{font-family:"Fraunces",serif;font-weight:600;font-size:2rem;font-variant-numeric:tabular-nums}
   .stat{display:flex;flex-direction:column;gap:.1rem}
   .stat .k{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
   .stat .v{font-size:.82rem}
-  .tv-panel{height:clamp(426px,calc((100vh - 400px)*1.33),745px);border-bottom:1px solid var(--line);position:relative}
+  .tv-panel{height:clamp(426px,calc((100vh - 400px)*1.33),745px);position:relative;border-radius:0 0 16px 16px;overflow:hidden}
   #tv_chart{position:absolute;inset:0}
-  .below{display:grid;grid-template-columns:1fr;gap:1px;background:var(--line)}
+  .below{display:grid;grid-template-columns:1fr;gap:12px;background:transparent;margin-top:12px}
   .below>section{background:var(--bg);padding:1rem 1.4rem}
   .health{display:flex;align-items:center;gap:.5rem}
   .health .bar{width:68px;height:5px;border-radius:3px;background:var(--raised);overflow:hidden}
@@ -283,7 +284,7 @@
 
   .compete-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.15rem}
   @media(max-width:900px){.compete-grid{grid-template-columns:1fr}}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.05rem;margin-bottom:1rem}
+  .card{background:var(--panel);border-radius:16px;padding:1.05rem;margin-bottom:1rem;box-shadow:0 10px 28px rgba(0,0,0,.18)}
   .pool-card{border-color:color-mix(in srgb, var(--accent) 35%, transparent);background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), var(--panel))}
   .pool-card .amt-lg{font-family:"Fraunces",serif;font-size:2rem;font-weight:600;color:var(--accent)}
   .lb-row-you{background:color-mix(in srgb, var(--accent) 7%, transparent)}
@@ -366,7 +367,7 @@
   .pcard .buy-quick{background:var(--raised);border:1px solid var(--line);color:var(--accent);border-radius:8px;font-size:.68rem;font-weight:700;padding:.3rem .6rem;cursor:pointer;flex-shrink:0}
   .pcard .buy-quick:hover{background:var(--accent);color:#1b1409;border-color:var(--accent)}
   /* pinned positions strip (rec #6) */
-  #posStrip{position:sticky;bottom:0;z-index:30;display:flex;gap:1.1rem;align-items:center;background:var(--panel);border-top:1px solid var(--line);padding:.5rem 1.1rem;font-size:.72rem;color:var(--dim);cursor:pointer}
+  #posStrip{position:sticky;bottom:10px;z-index:30;display:flex;gap:1.1rem;align-items:center;background:var(--raised);border-radius:12px;margin:10px 14px;padding:.5rem 1.1rem;font-size:.72rem;color:var(--dim);cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.35)}
   #posStrip b{color:var(--ink)}
   /* cmd+K palette (rec #4) */
   #cmdk .modal{max-width:520px}
@@ -794,20 +795,9 @@
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
     </div>
-    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button><button data-ct="herd">The herd chat</button></div>
+    <div class="chart-tabs" id="chartTabs"><button data-ct="price" class="on">Price</button></div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
-      <div class="fund-panel" id="herdPanel">
-        <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.6rem">
-          <span class="live-dot"></span><span style="font-size:.78rem;font-weight:600">The Herd</span>
-          <span style="font-size:.68rem;color:var(--faint)">live · 1,204 online · holders get a tier badge</span>
-        </div>
-        <div class="chatlist" id="herdChat"></div>
-        <div class="chatrow">
-          <input class="chatin" id="herdIn" type="text" placeholder="Say something to the herd… (Herd NFT unlocks your badge)" maxlength="200">
-          <button class="pill-btn chatsend" id="herdSend">Send</button>
-        </div>
-      </div>
     </div>
     <div class="below">
       <section>
@@ -1346,9 +1336,15 @@
       </div>
       <div id="pfBots" style="display:none">
         <div class="hint" style="display:block;margin:.1rem 0 .5rem">running strategies — deploy new ones from the trade ticket's Bot mode</div>
-        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="earn">+2,900 pts/day</span></div>
-        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · buy at −20%</div></div><span class="earn">armed</span></div>
-        <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">idle · deploy from the ticket</div></div><span class="earn" style="color:var(--faint)">start</span></div>
+        <div class="mh-top" style="margin:.2rem 0 .7rem">
+          <div class="s"><span class="k">Bot PnL · 30d</span><span class="v up">+549 MON</span></div>
+          <div class="s"><span class="k">Fees earned back</span><span class="v" style="color:var(--accent)">71 MON rebates</span></div>
+          <div class="s"><span class="k">Points from bots</span><span class="v">87,300</span></div>
+          <div class="s"><span class="k">Uptime · 30d</span><span class="v up">99.2%</span></div>
+        </div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="num up" style="font-size:.78rem">+302 MON</span><span class="earn">+2,900 pts/day</span></div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · buy at −20%</div></div><span class="num up" style="font-size:.78rem">+38 MON</span><span class="earn">2 fills</span></div>
+        <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">last run: 412 fills · deploy from the ticket</div></div><span class="num up" style="font-size:.78rem">+209 MON</span><span class="earn" style="color:var(--faint)">start</span></div>
       </div>
       <div id="pfBoard" style="display:none">
         <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
