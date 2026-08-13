@@ -178,14 +178,14 @@
   .rail-pfp{width:63px;height:63px;border-radius:12px;background:color-mix(in srgb,var(--accent) 18%,var(--raised));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;margin-bottom:.35rem;padding:0}
   .rail-pfp svg{width:36px;height:36px}
   .rail .herd-id{font-size:.55rem;color:var(--faint);font-family:"Spline Sans Mono",monospace;margin-bottom:.8rem}
-  .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:1rem 1.4rem .8rem}
+  .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:.65rem 1.4rem .5rem}
   .pair h1{font-family:"Fraunces",serif;font-weight:500;font-size:1.45rem;display:inline}
   .pair .sub{color:var(--faint);font-size:.77rem;margin-left:.6rem}
   .price-lg{font-family:"Fraunces",serif;font-weight:600;font-size:2rem;font-variant-numeric:tabular-nums}
   .stat{display:flex;flex-direction:column;gap:.1rem}
   .stat .k{font-size:.64rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
   .stat .v{font-size:.82rem}
-  .tv-panel{height:clamp(426px,calc((100vh - 400px)*1.33),745px);position:relative;border-radius:0 0 16px 16px;overflow:hidden}
+  .tv-panel{height:clamp(340px,calc(100vh - 470px),560px);position:relative;border-radius:0 0 16px 16px;overflow:hidden}
   #tv_chart{position:absolute;inset:0}
   .below{display:grid;grid-template-columns:1fr;gap:12px;background:transparent;margin-top:12px}
   .below>section{background:var(--bg);padding:1rem 1.4rem}
@@ -385,7 +385,7 @@
   .pfp-pop img{width:100%;height:100%;display:block;image-rendering:pixelated}
   .pfp-pop button svg{width:26px;height:26px;color:var(--accent)}
   .rail-pfp img{width:100%;height:100%;display:block;image-rendering:pixelated;border-radius:11px}
-  .lay-scalp .tv-panel{height:clamp(500px,calc((100vh - 320px)*1.4),860px)}
+  .lay-scalp .tv-panel{height:clamp(480px,calc(100vh - 340px),820px)}
   .composer .row{display:flex;gap:.5rem;align-items:center}
   .composer select{background:var(--raised);border:1px solid var(--line);color:var(--dim);border-radius:8px;font-size:.74rem;padding:.35rem .5rem;outline:none;font-family:"Schibsted Grotesk",sans-serif}
   .cs-param{display:flex;justify-content:space-between;font-size:.78rem;color:var(--dim);padding:.32rem 0;border-top:1px solid var(--line)}
@@ -1119,55 +1119,6 @@
     <div class="compete-grid" style="margin-bottom:1.1rem">
       <div>
         <div class="card">
-          <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
-            <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
-          </div>
-          <div id="dlYour">
-            <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
-          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
-          <div class="race">
-            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
-            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
-          </div>
-          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
-        </div>
-        <div style="display:flex;gap:.5rem;margin-top:.6rem;font-size:.72rem;color:var(--dim);align-items:center;flex-wrap:wrap">
-          <span style="color:var(--faint)">open challenges:</span>
-          <button class="pill-btn">lydicius · 250 MON</button>
-          <button class="pill-btn">biawakz · 1,000 MON</button>
-          <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Post a duel</button>
-        </div>
-        <div class="mh-top" style="grid-template-columns:repeat(3,1fr);margin:.75rem 0 0">
-          <div class="s"><span class="k">Your record</span><span class="v">8W – 3L <span class="up" style="font-size:.7rem">3 streak</span></span></div>
-          <div class="s"><span class="k">Biggest live pot</span><span class="v num">12,000 MON</span></div>
-          <div class="s"><span class="k">Duel Cup starts</span><span class="v num" style="color:var(--accent)">9 days</span></div>
-        </div>
-          </div>
-          <div id="dlOpen" style="display:none">
-            <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
-        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
-        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
-          </div>
-          <div id="dlAll" style="display:none">
-            <div class="hint" style="display:block;margin:.1rem 0 .4rem">tap any to spectate</div>
-            <div id="duelFeedList"></div>
-          </div>
-        </div>
-      </div>
-      <div>
-        <div class="card duelchat-card">
-          <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
-          <div class="chatlist" id="duelChat"></div>
-          <div class="chatrow">
-            <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
-            <button class="pill-btn chatsend" id="duelSend">Send</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="compete-grid">
-      <div>
-        <div class="card">
           <div class="sec-title" style="align-items:center">The herd
             <div class="pos-toggle" id="cseg"><button data-c="feed" class="on">Feed</button><button data-c="traders">Traders</button><button data-c="points">Points</button><button data-c="copy">Copy</button><button data-c="duels">Duel kings</button><button data-c="pnl">PnL</button></div>
           </div>
@@ -1207,6 +1158,55 @@
       </div>
       <div>
         <div class="card">
+          <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
+            <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
+          </div>
+          <div id="dlYour">
+            <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
+          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
+          <div class="race">
+            <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
+            <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
+        </div>
+        <div style="display:flex;gap:.5rem;margin-top:.6rem;font-size:.72rem;color:var(--dim);align-items:center;flex-wrap:wrap">
+          <span style="color:var(--faint)">open challenges:</span>
+          <button class="pill-btn">lydicius · 250 MON</button>
+          <button class="pill-btn">biawakz · 1,000 MON</button>
+          <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Post a duel</button>
+        </div>
+        <div class="mh-top" style="grid-template-columns:repeat(3,1fr);margin:.75rem 0 0">
+          <div class="s"><span class="k">Your record</span><span class="v">8W – 3L <span class="up" style="font-size:.7rem">3 streak</span></span></div>
+          <div class="s"><span class="k">Biggest live pot</span><span class="v num">12,000 MON</span></div>
+          <div class="s"><span class="k">Duel Cup starts</span><span class="v num" style="color:var(--accent)">9 days</span></div>
+        </div>
+          </div>
+          <div id="dlOpen" style="display:none">
+            <div class="duel duel-open" data-opp="lydicius" data-stake="250"><b>lydicius</b><span class="vs">vs</span><b>open</b><span class="stake">stake 250 MON</span></div>
+        <div class="duel duel-open" data-opp="biawakz" data-stake="1,000"><b>biawakz</b><span class="vs">vs</span><b>open</b><span class="stake">stake 1,000 MON</span></div>
+        <button class="cta" id="postDuelBtn" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Post a duel</button>
+          </div>
+          <div id="dlAll" style="display:none">
+            <div class="hint" style="display:block;margin:.1rem 0 .4rem">tap any to spectate</div>
+            <div id="duelFeedList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="compete-grid">
+      <div>
+        <div class="card duelchat-card">
+          <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">trash talk travels at 400ms too</span></div>
+          <div class="chatlist" id="duelChat"></div>
+          <div class="chatrow">
+            <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
+            <button class="pill-btn chatsend" id="duelSend">Send</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
           <div class="sec-title" style="align-items:center">Engage
             <div class="pos-toggle" id="egSeg"><button data-eg="post" class="on">Post</button><button data-eg="badges">Badges</button><button data-eg="crsh">On CRSH</button></div>
           </div>
@@ -1220,13 +1220,6 @@
           </div>
           <div class="ynote" style="margin-top:.5rem">Every thesis carries your live journal stats — <b class="up">64% win rate</b> · <b>+0.8R avg</b> — pulled straight from your fills. Credibility is automatic, not claimed. Copiers pay you <b style="color:var(--accent)">10% of their bot fees</b> — forever, as long as it runs. Leader PnL is full-history: abandoned configs included, no survivorship trims.</div>
           </div>
-        <div class="card">
-          <div class="sec-title">Top clans <span class="hint">combined PnL · 24h</span></div>
-          <div class="lb-row"><span class="rk">#1</span><span class="w">The Antler Office <span style="color:var(--faint);font-size:.66rem">· 11 members</span></span><span class="pts up num">+41,624 MON</span></div>
-          <div class="lb-row"><span class="rk">#2</span><span class="w">Gm Basement <span style="color:var(--faint);font-size:.66rem">· 9 members</span></span><span class="pts up num">+25,092 MON</span></div>
-          <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
-          <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
-        </div>
           <div id="egBadges" style="display:none">
             <div class="lp-wedge" style="margin:.2rem 0 0">
             <span><b>sh-poster</b> · thesis hit 10 copies</span>
@@ -1244,6 +1237,13 @@
           </div>
           <div class="ynote" style="margin-top:.5rem">Crash markets spun up from live Moose data — duels, graduations, price milestones. Back outcomes with points (free-play) or MON.</div>
           </div>
+        </div>
+        <div class="card">
+          <div class="sec-title">Top clans <span class="hint">combined PnL · 24h</span></div>
+          <div class="lb-row"><span class="rk">#1</span><span class="w">The Antler Office <span style="color:var(--faint);font-size:.66rem">· 11 members</span></span><span class="pts up num">+41,624 MON</span></div>
+          <div class="lb-row"><span class="rk">#2</span><span class="w">Gm Basement <span style="color:var(--faint);font-size:.66rem">· 9 members</span></span><span class="pts up num">+25,092 MON</span></div>
+          <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
+          <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
         </div>
       </div>
     </div>
