@@ -4162,7 +4162,7 @@
     var layout=document.querySelector('#v-discover .disc-layout');
     if(!wrap||!layout)return;
     var mode='pulse';
-    try{mode=localStorage.getItem('moose-dview')||'pulse'}catch(e){}
+    try{mode=localStorage.getItem('moose-dview2')||'pulse'}catch(e){}
     function pcard(t){
       var c=document.createElement('div');c.className='pcard';
       c.appendChild(tokLogo(tokBySym(t.s)||t.s,22));
@@ -4245,7 +4245,7 @@
       layout.style.display=m==='pulse'?'none':'';
       document.querySelectorAll('#dview button').forEach(function(b){b.classList.toggle('on',b.dataset.dv===m)});
       if(m==='pulse')render();
-      if(save)try{localStorage.setItem('moose-dview',m)}catch(e){}
+      if(save)try{localStorage.setItem('moose-dview2',m)}catch(e){}
     }
     document.querySelectorAll('#dview button').forEach(function(b){
       b.addEventListener('click',function(){setMode(b.dataset.dv,true)});
@@ -4253,7 +4253,7 @@
     document.querySelectorAll('#aclass button').forEach(function(b){
       b.addEventListener('click',function(){setTimeout(function(){if(mode==='pulse')render()},0)});
     });
-    if(mode==='pulse')setMode('pulse',false);
+    setMode(mode,false);
     var n=0,iv=setInterval(function(){
       n++;
       if(LIVE_TOKENS&&LIVE_TOKENS.length){if(mode==='pulse')render();clearInterval(iv);}
