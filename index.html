@@ -840,7 +840,7 @@
         <div id="botsPanel" style="display:none">
           <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="earn">+2,900 pts/day</span></div>
           <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">watching JAMES · buy at −20%</div></div><span class="earn">armed</span></div>
-          <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Market Maker</div><div style="font-size:.7rem;color:var(--faint)">idle · last run earned 1,220 pts</div></div><span class="earn" style="color:var(--faint)">start</span></div>
+          <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">idle · last run earned 1,220 pts</div></div><span class="earn" style="color:var(--faint)">start</span></div>
         </div>
         <div id="histPanel" style="display:none">
           <div class="mh-top" style="margin:.2rem 0 .6rem">
@@ -1159,8 +1159,9 @@
     </div>
     <div class="bots-grid">
       <div class="bot-card">
-        <div class="top"><span class="dot idle"></span><h3>Market Maker</h3><span class="tagg" style="margin-left:auto">RANGE ENGINE</span></div>
-        <div class="promise">A real market maker: quotes both sides of your range, earns the spread and maker rebates, and shows you its inventory risk honestly. Not a volume printer.</div>
+        <div class="top"><span class="dot idle"></span><h3>Grid Bot</h3><span class="tagg" style="margin-left:auto">RANGE ENGINE</span></div>
+        <div class="promise">Buy low, sell high, on rails — a grid across your range earns the chop. The same engine runs pro market-making with maker rebates.</div>
+        <div class="chips" style="margin:.35rem 0 .1rem"><button class="on">Grid</button><button>Leveraged grid · shMON/MON 5×</button><button>Pro MM</button></div>
         <div class="bot-stats" id="bsMM"></div>
         <button class="cta">Start</button>
       </div>
@@ -1173,6 +1174,7 @@
       <div class="bot-card">
         <div class="top"><span class="dot"></span><h3>Dip Sniper</h3><span class="tagg" style="margin-left:auto">TRIGGER ENGINE</span></div>
         <div class="promise">Catches the dips you always miss. Buy JAMES at −20% at 4am without being awake for it. Dips, whale copies, DCA schedules — same engine, different trigger.</div>
+        <div class="chips" style="margin:.35rem 0 .1rem"><button class="on">Dip buy</button><button>DCA</button><button>Launch snipe</button><button>Whale copy</button></div>
         <div class="bot-stats" id="bsDS"></div>
         <button class="cta ghost">Edit ladder</button>
       </div>
@@ -1592,7 +1594,7 @@
             <div id="psStreams" style="display:none">
               <div class="hint" style="display:block;margin:.1rem 0 .4rem">bots → programs</div>
             <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">Perpl S1 short leg + Kuru hedge fills</div></div><span class="earn">2,900 pts/day</span></div>
-            <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Market Maker</div><div style="font-size:.7rem;color:var(--faint)">idle · maker rebates count on Kuru when running</div></div><span class="earn" style="color:var(--faint)">0 /day</span></div>
+            <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">idle · maker rebates count on Kuru when running</div></div><span class="earn" style="color:var(--faint)">0 /day</span></div>
             <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · fills count as Kuru volume</div></div><span class="earn" style="color:var(--faint)">on fill</span></div>
               <div class="hint" style="display:block;margin:.6rem 0 .4rem">Pendle YT accrual — the points stream, stripped</div>
             <div class="ycalc">
