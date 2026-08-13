@@ -344,6 +344,12 @@
   .ev-streak{background:color-mix(in srgb,var(--up) 16%,transparent);color:var(--up)}
   .ev-rank{background:color-mix(in srgb,var(--accent) 26%,transparent);color:var(--accent)}
   .ev-copy,.ev-thesis,.ev-badge{background:var(--raised);color:var(--dim)}
+  .feng{display:inline-flex;gap:.55rem;margin-left:auto;flex-shrink:0;align-items:center}
+  .feng button{background:none;border:none;color:var(--faint);font-size:.68rem;cursor:pointer;font-family:"Spline Sans Mono",monospace;padding:0}
+  .feng button:hover{color:var(--accent)}
+  .fcard{background:var(--raised);border-radius:10px;padding:.5rem .65rem;margin:.35rem 0}
+  .fcard .spark2{width:100%;height:34px;display:block;margin-top:.3rem}
+  .yourank{display:flex;align-items:center;gap:.6rem;background:color-mix(in srgb,var(--accent) 8%,transparent);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-radius:10px;padding:.45rem .7rem;margin-bottom:.55rem;font-size:.78rem}
   #toasts{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;flex-direction:column;gap:.5rem}
   .toast{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:.55rem .8rem;font-size:.74rem;color:var(--ink);max-width:330px;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer;display:flex;gap:.5rem;align-items:center;animation:fadein .3s ease}
   @media(prefers-reduced-motion: reduce){.toast{animation:none}}
@@ -1280,12 +1286,14 @@
             <div class="pos-toggle" id="cseg"><button data-c="feed" class="on">Feed</button><button data-c="traders">Traders</button><button data-c="points">Points</button><button data-c="copy">Copy</button><button data-c="duels">Duel kings</button><button data-c="pnl">PnL</button></div>
           </div>
           <div id="lbFeedPanel">
-            <div class="hint" style="display:block;margin:.1rem 0 .4rem">fills, theses, whale moves, duels — live · follow anyone</div>
+            <div style="display:flex;align-items:center;margin:.1rem 0 .45rem"><div class="pos-toggle" id="feedScope"><button data-fs="you" class="on">For you</button><button data-fs="fol">Following</button></div><span class="hint" style="margin-left:.6rem">fills, theses, whale moves — live</span></div>
             <div id="liveFeed">
             <div class="feed-item"><span class="who">you</span><span class="ev ev-streak">STREAK</span><span>3&times; shMON long running 2d · <b class="up">+412 MON</b></span><span class="t">now</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><button class="follow-btn on">Following</button><span class="ev ev-fill">FILL</span><span>levered 3&times; into <b>shMON</b> · 22,000 MON</span><span class="t">2m</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><span class="t">4m</span></div>
             <div class="feed-item"><span class="who">gman.mon</span><span class="ev ev-win">WIN</span><span>won duel #46 vs biawakz · pot <b>2,000 MON</b></span><span class="t">12m</span></div>
+            <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.78rem"><span class="who" style="color:var(--accent);font-weight:700">andy.mon</span><span class="ev ev-fill">CLOSED</span><span>shMON 3&times; long · <b class="up">+163%</b></span><span class="feng"><button>♥ 132</button><button>💬 12</button><button>↗</button></span></div><svg class="spark2" viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0,26 L20,24 L40,25 L60,20 L80,22 L100,15 L120,17 L140,10 L160,12 L180,6 L200,4" fill="none" stroke="var(--up)" stroke-width="1.6"/></svg></div>
+            <div class="feed-item"><span class="who">the herd</span><span class="ev ev-whale">SIGNAL</span><span><b>12 herd members</b> bought CHOG in the last 24h · avg entry −6% from here</span><span class="t">26m</span></div>
             <div class="feed-item"><span class="who">whale 0xacb1…</span><button class="follow-btn">Follow</button><span class="ev ev-whale">WHALE</span><span>bought <b>780,000 shMON</b> spot — first move in 41 days</span><span class="t">18m</span></div>
             <div class="feed-item"><span class="who">copier 0x7d1…</span><span class="ev ev-copy">COPY</span><span>deployed your Safe Farmer config · you earn 10%</span><span class="t">31m</span></div>
             <div class="feed-item"><span class="who">evil.nad</span><span class="ev ev-fill">FILL</span><span>sniped <b>TUNDRA</b> on the curve · already +38%</span><span class="t">44m</span></div>
@@ -1293,7 +1301,9 @@
             <div class="feed-item"><span class="who">0xpaulchoi</span><span class="ev ev-badge">BADGE</span><span>earned <b style="color:var(--accent)">Diamond Antlers</b> · 30d without closing red</span><span class="t">2h</span></div>
           </div>
           </div>
-          <div id="lbTradersPanelWrap" style="display:none">          <table>
+          <div id="lbTradersPanelWrap" style="display:none">
+          <div class="yourank"><b>Your rank #61</b><span class="up num" id="yrPnl">+2,470 MON · 30d</span><div class="pos-toggle" id="lbWin" style="margin-left:auto"><button data-w="24h">24h</button><button data-w="7d">7d</button><button data-w="30d" class="on">30d</button></div></div>
+          <table>
             <thead><tr><th>#</th><th>Trader</th><th>30d PnL</th><th>Win rate</th><th>Followers</th><th></th></tr></thead>
             <tbody>
               <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn">Copy setup</button></td></tr>
@@ -4004,7 +4014,11 @@
       var e=document.createElement('span');e.className='ev ev-'+kind;e.textContent=TAG[kind]||kind.toUpperCase();
       var tx=document.createElement('span');tx.textContent=txt;
       var t=document.createElement('span');t.className='t';t.textContent='now';
-      d.appendChild(w);d.appendChild(e);d.appendChild(tx);d.appendChild(t);
+      d.appendChild(w);d.appendChild(e);d.appendChild(tx);
+      var eng=document.createElement('span');eng.className='feng';
+      var hb=document.createElement('button');hb.textContent='♥ '+(3+((who.length*7+txt.length)%38));
+      hb.addEventListener('click',function(ev){ev.stopPropagation();hb.textContent='♥ '+(parseInt(hb.textContent.slice(2),10)+1);hb.style.color='var(--accent)';});
+      eng.appendChild(hb);d.appendChild(eng);d.appendChild(t);
       return d;
     }
     var ei=0;
@@ -4305,6 +4319,30 @@
       setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
     });
   })();
+
+  // ---- feed scope + leaderboard window (FOMO patterns) ----
+  document.querySelectorAll('#feedScope button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#feedScope button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      var feed=document.getElementById('liveFeed');
+      if(!feed)return;
+      if(b.dataset.fs==='fol'){
+        Array.prototype.forEach.call(feed.children,function(r){
+          var t=r.textContent;
+          r.style.display=(t.indexOf('madrigal')>=0||t.indexOf('you')>=0||t.indexOf('andy')>=0)?'':'none';
+        });
+      }else{Array.prototype.forEach.call(feed.children,function(r){r.style.display=''});}
+    });
+  });
+  document.querySelectorAll('#lbWin button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#lbWin button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');
+      var yr=document.getElementById('yrPnl');
+      if(yr)yr.textContent=b.dataset.w==='24h'?'+214 MON · 24h':b.dataset.w==='7d'?'+890 MON · 7d':'+2,470 MON · 30d';
+    });
+  });
 
   // ---- ticket Bot mode (Pionex pattern: deploy a grid from the order panel) ----
   (function(){
