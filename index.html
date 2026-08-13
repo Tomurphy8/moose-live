@@ -174,7 +174,7 @@
   .pfp{width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;color:#fff;flex-shrink:0;margin-right:.45rem;vertical-align:middle}
   .pfp.me{background:color-mix(in srgb,var(--accent) 22%,var(--raised));border:1px solid var(--accent);color:var(--accent)}
   .pfp svg{width:12px;height:12px}
-  .rail-pfp{width:63px;height:63px;border-radius:15px;background:color-mix(in srgb,var(--accent) 18%,var(--raised));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;margin-bottom:.35rem;padding:0}
+  .rail-pfp{width:63px;height:63px;border-radius:12px;background:color-mix(in srgb,var(--accent) 18%,var(--raised));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;margin-bottom:.35rem;padding:0}
   .rail-pfp svg{width:36px;height:36px}
   .rail .herd-id{font-size:.55rem;color:var(--faint);font-family:"Spline Sans Mono",monospace;margin-bottom:.8rem}
   .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:1rem 1.4rem .8rem;border-bottom:1px solid var(--line)}
@@ -375,9 +375,9 @@
   .pfp-pop.show{display:flex}
   .pfp-pop button{width:46px;height:46px;border-radius:8px;border:1px solid transparent;cursor:pointer;padding:0;background:var(--tint-raised);overflow:hidden;display:flex;align-items:center;justify-content:center}
   .pfp-pop button.on{border-color:var(--accent)}
-  .pfp-pop img{width:100%;height:100%;display:block;image-rendering:pixelated;object-fit:cover;object-position:center top}
+  .pfp-pop img{width:100%;height:100%;display:block;image-rendering:pixelated}
   .pfp-pop button svg{width:26px;height:26px;color:var(--accent)}
-  .rail-pfp img{width:100%;height:100%;display:block;image-rendering:pixelated;border-radius:13px;object-fit:cover;object-position:center top}
+  .rail-pfp img{width:100%;height:100%;display:block;image-rendering:pixelated;border-radius:11px}
   .lay-scalp .tv-panel{height:clamp(500px,calc((100vh - 320px)*1.4),860px)}
   .composer .row{display:flex;gap:.5rem;align-items:center}
   .composer select{background:var(--raised);border:1px solid var(--line);color:var(--dim);border-radius:8px;font-size:.74rem;padding:.35rem .5rem;outline:none;font-family:"Schibsted Grotesk",sans-serif}
@@ -698,7 +698,7 @@
 <body>
 
 <div class="rail">
-  <button class="rail-pfp" id="railPfp" title="Herd #4127 — your token-bound account" aria-label="Your Herd NFT — open account"><img src="brand-moose-mark.svg" alt="Moose" style="width:100%;height:100%;border-radius:13px;display:block"></button>
+  <button class="rail-pfp" id="railPfp" title="Herd #4127 — your token-bound account" aria-label="Your Herd NFT — open account"><img src="brand-moose-tile.svg" alt="Moose" style="width:100%;height:100%;border-radius:11px;display:block"></button>
   <div class="herd-id">HERD #4127</div>
   <nav id="nav">
     <a data-v="trade" class="active"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="4.6" y="7.5" width="4.6" height="9" rx="1.2"/><rect x="6.3" y="4" width="1.2" height="3" rx=".6"/><rect x="6.3" y="17" width="1.2" height="3" rx=".6"/><rect x="14.8" y="5.5" width="4.6" height="8" rx="1.2" opacity=".4"/><rect x="16.5" y="2.8" width="1.2" height="2.2" rx=".6" opacity=".4"/><rect x="16.5" y="14" width="1.2" height="6.5" rx=".6" opacity=".4"/></svg>Trade</a>
@@ -2049,6 +2049,13 @@
     }
   };
   (function(){var p=document.getElementById('payAmt');if(p)p.addEventListener('input',function(){if(window.recalcSwap)recalcSwap()});})();
+  window.updateTradeCta=function(){
+    var cta=document.querySelector('.side .cta'); if(!cta)return;
+    var bs=document.getElementById('buysell');
+    var sell=bs&&bs.querySelector('button.on')&&bs.querySelector('button.on').dataset.side==='sell';
+    var pb=document.getElementById('pairBase');
+    cta.textContent=(sell?'Sell':'Buy')+' '+(pb?pb.textContent.trim():'');
+  };
   window.updatePickLogos=function(){
     [['pickA','tokA'],['pickB','tokB']].forEach(function(p){
       var btn=document.getElementById(p[0]),tk=document.getElementById(p[1]);
@@ -3359,7 +3366,7 @@
         var sell=b.dataset.side==='sell';
         bs.classList.toggle('selling',sell);
         var cta=document.querySelector('.side .cta');
-        if(cta)cta.textContent=(sell?'Sell':'Buy')+' shMON';
+        if(cta){var pb0=document.getElementById('pairBase');cta.textContent=(sell?'Sell':'Buy')+' '+(pb0?pb0.textContent.trim():'shMON');}
         var lbl=document.getElementById('ladderLbl');
         if(lbl)lbl.textContent=sell?'Sell ladder':'Buy ladder';
         // pay leg: buy is USD-denominated, sell is asset-denominated
@@ -3794,6 +3801,7 @@
   }
   function setChart(sym){
     try{updateIdentity(sym)}catch(e){} // identity must never block the chart
+    if(window.updateTradeCta)try{updateTradeCta()}catch(e){}
     if(TV_MAP[sym]){ mountTV(TV_MAP[sym]); document.getElementById('pairVenue').textContent=''; return; }
     // every live token has a known pool — chart it directly, guaranteed
     var lt=tokBySym(sym);
