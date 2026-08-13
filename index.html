@@ -1736,7 +1736,6 @@
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptMo">Momentum · 24h</span></div><div id="pcolMo"></div></div>
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptBlue">Majors &amp; LSTs</span></div><div id="pcolBlue"></div></div>
       </div>
-      <div class="ynote" style="margin-top:.7rem">Every card is live from on-chain pools. Buy executes from the feed — no navigation between finding and trading.</div>
     </div>
     <div class="disc-layout">
       <div class="card">
@@ -2372,7 +2371,8 @@
     var syms=list.map(function(x){return x[4]});
     apiQuotes(syms).then(function(qs){
       qs.forEach(function(q){LIVE_QUOTES[q.s]=q});
-      if(assetClass===cls) renderDisc();
+      if(assetClass===cls){renderDisc();if(window.refreshPulse)refreshPulse();}
+      if(window.renderTrending)try{renderTrending()}catch(e){}
     }).catch(function(){quotesFetched[cls]=false});
   }
   var assetClass='crypto';
@@ -2616,7 +2616,7 @@
       });
       if(dirty)localStorage.setItem('moose-logos',JSON.stringify(LC));
     }catch(e){}
-    LIVE_TOKENS=tokens; if(assetClass==='crypto') renderDisc(); renderMovers();
+    LIVE_TOKENS=tokens; if(assetClass==='crypto'){renderDisc();if(window.refreshPulse)refreshPulse();} renderMovers();
     updateIdentity(document.getElementById('pairBase').textContent); refreshNewStrip(); renderTrending();
   }
   function gtFallback(){ // static hosting: call GeckoTerminal directly (CORS-open)
@@ -2692,6 +2692,10 @@
       if(assetClass!=='crypto') fetchQuotes(assetClass);
     });
   });
+  // idle prefetch: stocks/ETF/commodity quotes warm before the first click
+  setTimeout(function(){try{fetchQuotes('stocks')}catch(e){}},2500);
+  setTimeout(function(){try{fetchQuotes('etf')}catch(e){}},3300);
+  setTimeout(function(){try{fetchQuotes('commodity')}catch(e){}},4100);
   document.getElementById('fCountry').addEventListener('change',renderDisc);
   document.getElementById('fCat').addEventListener('change',renderDisc);
   document.querySelectorAll('.disc-go').forEach(function(c){c.addEventListener('click',function(){goTrade(c.dataset.sym)})});
@@ -2743,6 +2747,7 @@
   })();
   // live prices on the new-strip cards
   // 🔥 trending: momentum × depth, CoinGecko-style, one source for all three surfaces
+  window.renderTrending=renderTrending;
   function renderTrending(){
     if(!LIVE_TOKENS) return;
     var top=LIVE_TOKENS.filter(function(t){return t.live&&t.cat!=='stable'&&t.ch24!=null})
@@ -4374,6 +4379,7 @@
     document.querySelectorAll('#aclass button').forEach(function(b){
       b.addEventListener('click',function(){setTimeout(function(){if(mode==='pulse')render()},0)});
     });
+    window.refreshPulse=function(){if(mode==='pulse')render()};
     setMode(mode,false);
     var n=0,iv=setInterval(function(){
       n++;
