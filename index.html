@@ -816,13 +816,36 @@
       <section>
         <div class="sec-title" style="align-items:center">
           <div class="pos-toggle" id="posToggle">
-            <button data-p="pos" class="on">Positions</button>
-            <button data-p="bots">Bots</button>
+            <button data-p="thesis" class="on">Thesis</button>
+            <button data-p="holders">Holders</button>
+            <button data-p="pos">Positions</button>
             <button data-p="hist">History</button>
             <button data-p="duel"><span class="ld"></span>Duel · live</button>
           </div>
         </div>
-        <div id="posPanel">
+        <div id="thesisPanel">
+          <div style="display:flex;align-items:center;gap:.6rem;margin:.1rem 0 .5rem">
+            <span class="hint">what holders are saying about <b id="thPair">shMON</b> · <span id="thCount">214 theses</span></span>
+            <button class="pill-btn" style="margin-left:auto" id="thPost">Post yours</button>
+          </div>
+          <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">madrigal.mon</b><span class="tagg">9.5M shMON</span><span class="up num">+41%</span><span style="color:var(--faint);font-size:.64rem">entry $0.029 · held 12d</span><span class="feng"><button>♥ 174</button><button>💬 9</button></span></div><div style="font-size:.76rem;color:var(--dim);margin-top:.2rem;font-style:italic;font-family:'Fraunces',serif">"unlock fear is the entry, not the exit — the exchange rate only goes one way"</div></div>
+          <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">0xpaulchoi</b><span class="tagg">1.2M shMON</span><span class="up num">+18%</span><span style="color:var(--faint);font-size:.64rem">entry $0.031 · held 5d</span><span class="feng"><button>♥ 88</button><button>💬 4</button></span></div><div style="font-size:.76rem;color:var(--dim);margin-top:.2rem;font-style:italic;font-family:'Fraunces',serif">"12% underlying while I wait for the margin flywheel. easiest carry on the chain"</div></div>
+          <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">evil.nad</b><span class="tagg">410K shMON</span><span class="down num">−8%</span><span style="color:var(--faint);font-size:.64rem">entry $0.038 · held 2d</span><span class="feng"><button>♥ 56</button><button>💬 11</button></span></div><div style="font-size:.76rem;color:var(--dim);margin-top:.2rem;font-style:italic;font-family:'Fraunces',serif">"holding through the chop, the grid does the work"</div></div>
+        </div>
+        <div id="holdersPanel" style="display:none">
+          <div class="hint" style="display:block;margin:.1rem 0 .4rem"><span id="hpCount">9,690</span> holders · top positions with live PnL</div>
+          <table>
+            <thead><tr><th>Trader</th><th>Position</th><th>PnL</th><th>Avg entry</th><th>Held</th><th></th></tr></thead>
+            <tbody>
+              <tr><td><b>madrigal.mon</b></td><td class="num">9.5M</td><td class="up num">+$576K · +41%</td><td class="num">$0.029</td><td class="num">12d</td><td><button class="follow-btn on">Following</button></td></tr>
+              <tr><td><b>whale 0xacb1…</b></td><td class="num">4.1M</td><td class="up num">+$102K · +9%</td><td class="num">$0.033</td><td class="num">41d</td><td><button class="follow-btn">Follow</button></td></tr>
+              <tr><td><b>0xpaulchoi</b></td><td class="num">1.2M</td><td class="up num">+$61K · +18%</td><td class="num">$0.031</td><td class="num">5d</td><td><button class="follow-btn">Follow</button></td></tr>
+              <tr><td><b>kamarompon</b></td><td class="num">880K</td><td class="up num">+$12K · +4%</td><td class="num">$0.035</td><td class="num">19d</td><td><button class="follow-btn">Follow</button></td></tr>
+              <tr><td><b>evil.nad</b></td><td class="num">410K</td><td class="down num">−$11K · −8%</td><td class="num">$0.038</td><td class="num">2d</td><td><button class="follow-btn">Follow</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="posPanel" style="display:none">
         <table>
           <thead><tr><th>Position</th><th>Size</th><th>Entry</th><th>Liq.</th><th>Health</th><th>PnL</th><th></th></tr></thead>
           <tbody>
@@ -854,11 +877,6 @@
             <div class="dmt-row"><span>gman.mon sold JAMES quarter</span><span class="tt">1m</span></div>
           </div>
           <button class="pill-btn" id="tOpenDuel" style="margin-top:.6rem">Open full duel view →</button>
-        </div>
-        <div id="botsPanel" style="display:none">
-          <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="earn">+2,900 pts/day</span></div>
-          <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">watching JAMES · buy at −20%</div></div><span class="earn">armed</span></div>
-          <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">idle · last run earned 1,220 pts</div></div><span class="earn" style="color:var(--faint)">start</span></div>
         </div>
         <div id="histPanel" style="display:none">
           <div class="mh-top" style="margin:.2rem 0 .6rem">
@@ -2329,7 +2347,7 @@
     b.addEventListener('click',function(){
       document.querySelectorAll('#posToggle button').forEach(function(x){x.classList.remove('on')});
       b.classList.add('on');
-      var map={pos:'posPanel',bots:'botsPanel',hist:'histPanel',duel:'duelPanel'};
+      var map={thesis:'thesisPanel',holders:'holdersPanel',pos:'posPanel',hist:'histPanel',duel:'duelPanel'};
       Object.keys(map).forEach(function(k){
         document.getElementById(map[k]).style.display=(b.dataset.p===k)?(k==='duel'?'block':''):'none';
       });
@@ -3869,6 +3887,7 @@
   function setChart(sym){
     try{updateIdentity(sym)}catch(e){} // identity must never block the chart
     if(window.updateTradeCta)try{updateTradeCta()}catch(e){}
+    var thp=document.getElementById('thPair');if(thp)thp.textContent=sym;
     if(TV_MAP[sym]){ mountTV(TV_MAP[sym]); document.getElementById('pairVenue').textContent=''; return; }
     // every live token has a known pool — chart it directly, guaranteed
     var lt=tokBySym(sym);
@@ -4110,7 +4129,7 @@
     var pb=document.getElementById('pairBase');
     if(!pb||pb.textContent!==sym)return; // user moved on — never paint stale data
     function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
-    if(d.holders!=null)set('fHold',Number(d.holders).toLocaleString());
+    if(d.holders!=null){set('fHold',Number(d.holders).toLocaleString());set('hpCount',Number(d.holders).toLocaleString());}
     if(d.desc){var ab=document.getElementById('idAbout');if(ab)ab.textContent=d.desc.split('\n')[0].slice(0,220);}
     set('fMc',d.mc!=null?fmtUsdBig(d.mc):'—');
     set('fFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
@@ -4347,8 +4366,8 @@
     });
   })();
 
-  // thesis hearts in the research panel
-  document.querySelectorAll('#idTheses .feng button').forEach(function(b){
+  // thesis hearts in the research panel + below-chart thesis panel
+  document.querySelectorAll('#idTheses .feng button, #thesisPanel .feng button').forEach(function(b){
     b.addEventListener('click',function(){b.textContent='♥ '+(parseInt(b.textContent.slice(2),10)+1);b.style.color='var(--accent)';});
   });
 
