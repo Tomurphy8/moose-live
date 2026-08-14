@@ -1041,7 +1041,7 @@
     </div>
     <div id="botTicket" style="display:none">
       <div class="swap-head" style="font-size:1.05rem;margin-bottom:.6rem">Deploy a bot on <b id="botPair">MON/USDC</b></div>
-      <div class="chips" id="botType" style="margin-bottom:.6rem"><button class="on" data-bt="grid">Grid</button><button data-bt="lev">Leveraged grid</button><button data-bt="dca">DCA</button></div>
+      <div class="chips" id="botType" style="margin-bottom:.6rem"><button class="on" data-bt="grid">Grid</button><button data-bt="lev">Leveraged grid</button><button data-bt="dca">DCA</button><button data-bt="range">Range</button><button data-bt="yield">Yield</button><button data-bt="trigger">Trigger</button></div>
       <div class="field">
         <div class="k"><span>Range · lower / upper</span><span class="bal" style="color:var(--accent);cursor:pointer" id="botAuto">use 7d range</span></div>
         <div class="lp-2">
@@ -1062,7 +1062,7 @@
         <div class="row"><span>Points / day</span><span class="v num" id="botPts" style="color:var(--accent)">—</span></div>
         <div class="row"><span>Grid spacing</span><span class="v num" id="botStep">—</span></div>
       </div>
-      <div class="ynote" style="margin:.5rem 0 .6rem">Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.</div>
+      <div class="ynote" id="botNote" style="margin:.5rem 0 .6rem">Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.</div>
       <button class="cta" style="width:100%" id="botDeploy">Deploy Grid Bot</button>
     </div>
     <details class="adv" id="balancesFold" style="margin-top:.6rem">
@@ -4556,7 +4556,18 @@
         document.querySelectorAll('#botType button').forEach(function(x){x.classList.remove('on')});
         b.classList.add('on');btype=b.dataset.bt;
         var d=document.getElementById('botDeploy');
-        if(d)d.textContent=btype==='dca'?'Deploy DCA Bot':btype==='lev'?'Deploy Leveraged Grid':'Deploy Grid Bot';
+        var CTA={grid:'Deploy Grid Bot',lev:'Deploy Leveraged Grid',dca:'Deploy DCA Bot',range:'Deploy Range Bot',yield:'Deploy Yield Bot',trigger:'Deploy Trigger Bot'};
+        if(d)d.textContent=CTA[btype]||'Deploy Bot';
+        var NOTE={
+          grid:'Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.',
+          lev:'Grid on borrowed size: up to 1× extra from the money market. Wider swings, borrow APR applies.',
+          dca:'Buys a fixed slice on schedule between your bounds. Boring on purpose; estimates are demo math.',
+          range:'The Range engine: works your bounds as live limit orders, maker rebates on every fill.',
+          yield:'The Yield engine: idle balance parks in shMON and money markets between fills, so the float earns while it waits.',
+          trigger:'The Trigger engine: fires on price, whale, or launch events. Snipe listings, ladder stops, copy a wallet.'
+        };
+        var bn=document.getElementById('botNote');
+        if(bn)bn.textContent=NOTE[btype]||NOTE.grid;
         botRecalc();
       });
     });
