@@ -94,6 +94,10 @@
   .wrap.theatre .below{display:none}
   .wrap.theatre .tv-panel{height:clamp(420px,calc(100vh - 240px),1200px)}
   button.fold-chip.on{color:var(--accent);border-color:var(--accent)}
+  .bal-tbl{width:100%;border-collapse:collapse;margin-top:.35rem}
+  .bal-tbl th{text-align:right;font-size:.6rem;font-weight:500;color:var(--faint);text-transform:uppercase;letter-spacing:.4px;padding:.15rem .3rem}
+  .bal-tbl td{text-align:right;font-size:.72rem;color:var(--dim);padding:.28rem .3rem;border-top:1px solid var(--line)}
+  .bal-tbl td:first-child{text-align:left;color:var(--ink)}
   .fold-chip[data-tip]{position:relative}
   .fold-chip[data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);left:0;background:var(--raised);border:1px solid var(--line);color:var(--ink);font-size:.68rem;font-family:'Spline Sans',sans-serif;padding:.3rem .55rem;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(-2px);transition:opacity .12s ease .1s,transform .12s ease .1s;z-index:60;box-shadow:0 6px 18px rgba(0,0,0,.3)}
   .fold-chip[data-tip]:hover::after,.fold-chip[data-tip]:focus-visible::after{opacity:1;transform:translateY(0)}
@@ -1067,12 +1071,15 @@
       <div class="ynote" id="botNote" style="margin:.5rem 0 .6rem">Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.</div>
       <button class="cta" style="width:100%" id="botDeploy">Deploy Grid Bot</button>
     </div>
-    <details class="adv" id="balancesFold" style="margin-top:.6rem">
-      <summary>Balances — <span class="num">$1,204</span> total</summary>
-      <div class="tmeta">
-        <div class="row"><span>Wallet</span><span class="v num">12,480 MON · 276 USDC</span></div>
-        <div class="row"><span>Collateral · lending markets</span><span class="v num">3,000 MON</span></div>
-        <div class="row"><span>Borrowed</span><span class="v num" style="color:var(--down)">−41 USDC</span></div>
+    <details class="adv" id="balancesFold" open style="margin-top:.6rem">
+      <summary>Balances — <span class="num">$744</span> total</summary>
+      <table class="bal-tbl">
+        <tr><th style="text-align:left">Token</th><th>Wallet</th><th>Collateral</th><th>Borrow</th><th>Value</th></tr>
+        <tr><td><b>MON</b></td><td class="num">12,480</td><td class="num" style="color:var(--accent)">3,000</td><td class="num" style="color:var(--faint)">—</td><td class="num">$320</td></tr>
+        <tr><td><b>shMON</b></td><td class="num">5,718</td><td class="num" style="color:var(--faint)">—</td><td class="num" style="color:var(--faint)">—</td><td class="num">$189</td></tr>
+        <tr><td><b>USDC</b></td><td class="num">276</td><td class="num" style="color:var(--faint)">—</td><td class="num" style="color:var(--down)">−41</td><td class="num">$235</td></tr>
+      </table>
+      <div class="tmeta" style="margin-top:.3rem">
         <div class="row"><span>Net exposure</span><span class="v num" style="color:var(--up)">long 1.24× equity</span></div>
       </div>
       <div style="font-size:.62rem;color:var(--faint);margin-top:.3rem;line-height:1.5">Collateral sits in lending markets, so your wallet alone understates what you hold. This is the full picture.</div>
