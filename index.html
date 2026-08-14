@@ -949,10 +949,10 @@
       <div style="font-size:.62rem;color:var(--faint)" id="riskCap">or size by risk — we compute the position from your stop distance</div>
     </div>
     <div class="field">
-      <div class="k"><span>Leverage <span class="src-tag" style="margin-left:.3rem">margin v2 preview</span></span><span class="bal num" id="levRead" style="color:var(--accent);font-weight:700;font-size:.95rem">3×</span></div>
-      <input type="range" id="levSlide" min="1" max="5" step="0.5" value="3" aria-label="Leverage" style="width:100%;accent-color:var(--accent);margin:.3rem 0 .1rem">
-      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);font-family:'Spline Sans Mono',monospace"><span>1×</span><span>2×</span><span>3×</span><span>4×</span><span>5×</span></div>
-      <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">margin v1 ships borrow &amp; short at ≤1× — looping to 5× on correlated pairs lands with margin v2</div>
+      <div class="k"><span>Leverage</span><span class="bal num" id="levRead" style="color:var(--accent);font-weight:700;font-size:.95rem">1.5×</span></div>
+      <input type="range" id="levSlide" min="1" max="2" step="0.25" value="1.5" aria-label="Leverage" style="width:100%;accent-color:var(--accent);margin:.3rem 0 .1rem">
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);font-family:'Spline Sans Mono',monospace"><span>1×</span><span>1.25×</span><span>1.5×</span><span>1.75×</span><span>2×</span></div>
+      <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">borrows up to 1× your collateral — 2× max on longs, 1× on shorts</div>
     </div>
     <details class="adv">
       <summary>TP / SL — <span class="num" id="sumTp" style="color:var(--up)">1.8100</span> / <span class="num" id="sumSl" style="color:var(--down)">1.4200</span></summary>
@@ -3615,11 +3615,12 @@
     function upd(){
       var L=parseFloat(sl.value);
       var read=document.getElementById('levRead');
-      read.textContent=(L===1?'Off':(L%1?L.toFixed(1):L.toFixed(0))+'\u00d7');
+      var fmtL=(L%1?String(L).replace(/(\.\d\d)\d+$/,'$1'):L.toFixed(0));
+      read.textContent=(L===1?'Off':fmtL+'\u00d7');
       var hold=Math.round(PAY*L/MID).toLocaleString();
       var oh=document.getElementById('ordHold');
       if(oh)oh.textContent='\u2248 '+hold+' shMON';
-      var lbl=(L%1?L.toFixed(1):L.toFixed(0))+'\u00d7';
+      var lbl=fmtL+'\u00d7';
       var oy=document.getElementById('ordYield'),op=document.getElementById('ordPts');
       if(oy)oy.textContent=(L===1?'1\u00d7':lbl)+' staking yield';
       if(op)op.textContent=(L===1?'1\u00d7':lbl)+' points';
@@ -3639,7 +3640,9 @@
         }
       }
       var note=document.getElementById('levNote');
-      if(note)note.textContent=(L>3?'above 3\u00d7 is correlated-pairs only (shMON/MON) \u2014 this pair qualifies':'5\u00d7 on correlated pairs only (shMON/MON) \u00b7 majors cap at 3\u00d7');
+      if(note)note.textContent=(L===1
+        ?'no borrow \u2014 plain spot, no liquidation risk'
+        :'borrows '+Math.round(PAY*(L-1)).toLocaleString()+' MON against your collateral \u00b7 max borrow 1\u00d7 \u00b7 2\u00d7 cap on longs, 1\u00d7 on shorts');
     }
     sl.addEventListener('input',upd);
     upd();
