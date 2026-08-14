@@ -91,6 +91,9 @@
   .ident{min-width:0;overflow-x:hidden;transition:opacity .16s ease,padding .24s cubic-bezier(.4,0,.2,1)}
   .ident>*{width:232px;flex-shrink:0}
   .wrap.ifold .ident{opacity:0;padding-left:0;padding-right:0;pointer-events:none}
+  .wrap.theatre .below{display:none}
+  .wrap.theatre .tv-panel{height:clamp(420px,calc(100vh - 240px),1200px)}
+  button.fold-chip.on{color:var(--accent);border-color:var(--accent)}
   button.fold-chip{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;width:32px;min-width:32px;min-height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0}
   button.fold-chip:hover{color:var(--accent);border-color:var(--accent)}
   .fold-chip svg{width:16px;height:16px;flex-shrink:0}
@@ -801,6 +804,7 @@
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
+      <button class="fold-chip" id="theatreBtn" title="Theatre mode — full-height chart" aria-pressed="false" style="align-self:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5H3.5V8"/><path d="M16 3.5h4.5V8"/><path d="M8 20.5H3.5V16"/><path d="M16 20.5h4.5V16"/></svg></button>
     </div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
@@ -4102,6 +4106,15 @@
   }
   if(idf)idf.addEventListener('click',function(){setIdentPanel(false)});
   if(idu)idu.addEventListener('click',function(){setIdentPanel(true)});
+  // theatre mode: full-height chart, research folded, thesis row reclaimed
+  var thb=document.getElementById('theatreBtn'),thWasOpen=null;
+  if(thb)thb.addEventListener('click',function(){
+    if(!tw)return;
+    var on=!tw.classList.contains('theatre');
+    if(on){thWasOpen=!tw.classList.contains('ifold');tw.classList.add('theatre');setIdentPanel(false);}
+    else{tw.classList.remove('theatre');if(thWasOpen)setIdentPanel(true);}
+    thb.classList.toggle('on',on);thb.setAttribute('aria-pressed',String(on));
+  });
 
   // ---- earned-dopamine layer: every hit ties to a real event ----
   (function(){
