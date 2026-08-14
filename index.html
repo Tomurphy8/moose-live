@@ -94,6 +94,10 @@
   .wrap.theatre .below{display:none}
   .wrap.theatre .tv-panel{height:clamp(420px,calc(100vh - 240px),1200px)}
   button.fold-chip.on{color:var(--accent);border-color:var(--accent)}
+  .fold-chip[data-tip]{position:relative}
+  .fold-chip[data-tip]::after{content:attr(data-tip);position:absolute;top:calc(100% + 6px);left:0;background:var(--raised);border:1px solid var(--line);color:var(--ink);font-size:.68rem;font-family:'Spline Sans',sans-serif;padding:.3rem .55rem;border-radius:7px;white-space:nowrap;opacity:0;pointer-events:none;transform:translateY(-2px);transition:opacity .12s ease .1s,transform .12s ease .1s;z-index:60;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+  .fold-chip[data-tip]:hover::after,.fold-chip[data-tip]:focus-visible::after{opacity:1;transform:translateY(0)}
+  #theatreBtn[data-tip]::after{left:auto;right:0}
   button.fold-chip{background:var(--panel);border:1px solid var(--line);color:var(--dim);border-radius:8px;width:32px;min-width:32px;min-height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0}
   button.fold-chip:hover{color:var(--accent);border-color:var(--accent)}
   .fold-chip svg{width:16px;height:16px;flex-shrink:0}
@@ -763,7 +767,7 @@
     <div class="id-row">
       <div class="tok-circ" id="idCirc">MON</div>
       <div class="id-nm"><b id="idName">Monad</b><span id="idCat">blue · verified</span></div>
-      <button class="fold-chip" id="identFold" title="Fold research panel" aria-expanded="false" aria-label="Fold research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/><rect class="pane" x="4.6" y="5.8" width="4" height="12.4" rx="1.2" fill="currentColor" opacity=".5" stroke="none"/></svg></button>
+      <button class="fold-chip" id="identFold" data-tip="Fold research panel" aria-expanded="false" aria-label="Fold research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/><rect class="pane" x="4.6" y="5.8" width="4" height="12.4" rx="1.2" fill="currentColor" opacity=".5" stroke="none"/></svg></button>
     </div>
     <div class="id-px num" id="idPx">$0.0221</div>
     <div class="id-ch down num" id="idCh">▼ 3.2% · 24h</div>
@@ -798,13 +802,13 @@
   <div class="main">
     <div class="fav-strip" id="favStrip"></div>
     <div class="pair-strip">
-      <button class="fold-chip" id="identUnfold" title="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
+      <button class="fold-chip" id="identUnfold" data-tip="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
       <div class="pair" id="pairPick" style="cursor:pointer"><h1><span id="pairBase">MON</span> / <span id="pairQuote">USD</span> <span style="color:var(--faint);font-size:.95rem">▾</span></h1><span class="sub" id="pairVenue"></span></div>
       <div class="price-lg num" id="pairPrice">$0.0221</div>
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
-      <button class="fold-chip" id="theatreBtn" title="Theatre mode — full-height chart" aria-pressed="false" style="align-self:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5H3.5V8"/><path d="M16 3.5h4.5V8"/><path d="M8 20.5H3.5V16"/><path d="M16 20.5h4.5V16"/></svg></button>
+      <button class="fold-chip" id="theatreBtn" data-tip="Theatre mode — full-height chart" aria-label="Theatre mode" aria-pressed="false" style="align-self:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5H3.5V8"/><path d="M16 3.5h4.5V8"/><path d="M8 20.5H3.5V16"/><path d="M16 20.5h4.5V16"/></svg></button>
     </div>
     <div class="tv-panel">
       <div id="tv_chart"></div>
