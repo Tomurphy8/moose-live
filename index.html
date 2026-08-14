@@ -1468,6 +1468,18 @@
     </div>
 
     <div class="ysec" id="y-mm">
+      <div class="card" style="border-color:color-mix(in srgb,var(--accent) 45%,transparent);margin-bottom:1rem">
+        <div class="sec-title"><span class="live-dot"></span>Moose margin markets <span class="hint">Moose-curated on Morpho — deposits supply the margin book</span></div>
+        <table>
+          <thead><tr><th>Market</th><th>Curator</th><th>Supply APY</th><th>Points</th><th>TVL</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><b>USDC</b> <span style="color:var(--faint);font-size:.72rem">funds levered longs</span></td><td>Moose · Morpho</td><td class="num up">8.4%</td><td class="num" style="color:var(--accent)">2×</td><td class="num">$2.1M</td><td><button class="pill-btn" data-msup="USDC">Supply</button></td></tr>
+            <tr><td><b>MON</b> <span style="color:var(--faint);font-size:.72rem">funds shorts</span></td><td>Moose · Morpho</td><td class="num up">5.2%</td><td class="num" style="color:var(--accent)">2×</td><td class="num">$1.4M</td><td><button class="pill-btn" data-msup="MON">Supply</button></td></tr>
+            <tr><td><b>shMON</b> <span style="color:var(--faint);font-size:.72rem">collateral · 80% LTV</span></td><td>Moose · Morpho</td><td class="num up">12.1% <span style="color:var(--faint);font-size:.68rem">while posted</span></td><td class="num" style="color:var(--accent)">2×</td><td class="num">$3.6M</td><td><button class="pill-btn" data-msup="shMON">Post collateral</button></td></tr>
+          </tbody>
+        </table>
+        <div class="ynote" style="margin-top:.5rem">Your deposit supplies the Moose margin book on Moose-curated Morpho markets: traders pay borrow APR, suppliers earn it. Isolated markets, on-chain positions, built for continuous third-party verification.</div>
+      </div>
       <div class="card">
         <div class="sec-title">Money markets <span class="hint">shMON, USDC and WMON venues — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
         <table>
@@ -4923,6 +4935,17 @@
   })();
   setInterval(function(){tick(herdList,HERD,HERD_SYS)},5200);
   setInterval(function(){tick(duelList,DUEL,DUEL_SYS)},6100);
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll('button[data-msup]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var old=b.textContent;
+      b.textContent='✓ Supplied to Moose market';b.disabled=true;
+      setTimeout(function(){b.textContent=old;b.disabled=false},1800);
+    });
+  });
 })();
 </script>
 </body>
