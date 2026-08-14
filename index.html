@@ -2579,11 +2579,58 @@
   function fmtPx(p){ if(p==null) return '—'; if(p>=1000) return p.toLocaleString(undefined,{maximumFractionDigits:0});
     if(p>=1) return p.toFixed(4); return p.toPrecision(3); }
   function fmtVol(v){ if(v==null) return '—'; if(v>=1e6) return '$'+(v/1e6).toFixed(1)+'M'; if(v>=1e3) return '$'+(v/1e3).toFixed(1)+'K'; return '$'+Math.round(v); }
+  window.LOGO_SEED={
+    "ANAGO":"https://cdn.dexscreener.com/cms/images/NilURnxg_K31CKU_",
+    "APR":"https://coin-images.coingecko.com/coins/images/70220/large/capricorn.jpg?1786687781",
+    "AUSD":"https://coin-images.coingecko.com/coins/images/39284/large/AUSD_1024px.png?1764684132",
+    "AZND":"https://coin-images.coingecko.com/coins/images/70762/large/AZND_4x.png?1763565962",
+    "BOB":"https://cdn.dexscreener.com/cms/images/1HdqfXpbdugh4ja8",
+    "BOLD":"https://cdn.dexscreener.com/cms/images/nk46-rmhvuRqCXd1",
+    "BTC.b":"https://coin-images.coingecko.com/coins/images/26115/large/btcb.png",
+    "Cake":"https://coin-images.coingecko.com/coins/images/12632/large/pancakeswap-cake-logo_%281%29.png",
+    "cbBTC":"https://coin-images.coingecko.com/coins/images/40143/large/cbbtc.webp?1726136727",
+    "DAK":"https://cdn.dexscreener.com/cms/images/3ab41b4d02227da05e15fbce2c4c90f9387ae03270139ef2854ac2b63b5fe1cd",
+    "DAKS":"https://coin-images.coingecko.com/coins/images/28988/large/AKS.png",
+    "DUST":"https://cdn.dexscreener.com/cms/images/a7efe29afe139ac03be1028f0a76ec91169a6961bbda55b70060a8692ba7d09e",
+    "EURW":"https://coin-images.coingecko.com/coins/images/102173287/large/newrails.jpeg?1778830747",
+    "GHO":"https://coin-images.coingecko.com/coins/images/30663/large/gho-token-logo.png?1720517092",
+    "gMON":"https://coin-images.coingecko.com/coins/images/39746/large/gMonad_200px.png?1723781729",
+    "GMONAD":"https://cdn.dexscreener.com/cms/images/44174f213c3fb1e32637465e0a3c9e4fa3aff8a0ad14f95579da174df4c60661",
+    "GROK":"https://cdn.dexscreener.com/cms/images/19ac2da068979dad41d54e7079d7f7b82ca89c28413a05d128936a549ee0a26f",
+    "JAMES":"https://cdn.dexscreener.com/cms/images/IK_rOnQDyOrPs04k",
+    "JOE":"https://cdn.dexscreener.com/cms/images/2f2cf8849814de01b0a1a685e16be3f8dfd6c473d73b76b1145e0e6c074626b1",
+    "LV":"https://cdn.dexscreener.com/cms/images/748b4a87ba8c59eb7a18e3a82ee75f08a20c5821e42e8ff1357174938bc18856",
+    "LVMON":"https://coin-images.coingecko.com/coins/images/102172662/large/lvmon_%282%29.png?1774540128",
+    "LVUSD":"https://coin-images.coingecko.com/coins/images/102172663/large/lvusd_%282%29.png",
+    "MOLANDAK":"https://cdn.dexscreener.com/cms/images/LOSbbIxSV2CGPifR",
+    "MON":"https://assets.geckoterminal.com/9xdwl3g60zjse39w6njtvstqg3hs",
+    "moncock":"https://cdn.dexscreener.com/cms/images/eQul0Xt0bPgmCju0",
+    "MONSTER":"https://cdn.dexscreener.com/cms/images/M29fW1P-7lM0uZEn",
+    "Moo":"https://cdn.dexscreener.com/cms/images/3SGYQHVlc2lWaKhC",
+    "muBOND":"https://coin-images.coingecko.com/coins/images/70763/large/muBOND_4x.png?1763566024",
+    "musd":"https://coin-images.coingecko.com/coins/images/68451/large/MetaMask-mUSD-Icon-200x200.png?1755878384",
+    "PEPE":"https://cdn.dexscreener.com/cms/images/ae001139fa1fcd24f8421d82caf72d8e06fabafab33b089c5d2e6d18039354e7",
+    "RUN":"https://cdn.dexscreener.com/cms/images/6fe10cc89673825ef2c705a44c8040de119221593a1ccd791c3194e6e8698887",
+    "savUSD":"https://coin-images.coingecko.com/coins/images/53558/large/token-savusd.png",
+    "sMON":"https://coin-images.coingecko.com/coins/images/70835/large/sMON_%281%29.png?1764091581",
+    "syrupUSDC":"https://coin-images.coingecko.com/coins/images/54658/large/syrupUSDC.png?1761824955",
+    "USDat":"https://coin-images.coingecko.com/coins/images/102172645/large/usdat.png?1774503009",
+    "USDC":"https://coin-images.coingecko.com/coins/images/6319/large/USDC.png?1769615602",
+    "USDe":"https://coin-images.coingecko.com/coins/images/33613/large/usde.png?1733810059",
+    "waMonUSDe":"https://coin-images.coingecko.com/coins/images/33613/large/usde.png",
+    "WBTC":"https://coin-images.coingecko.com/coins/images/7598/large/WBTCLOGO.png?1764496367",
+    "weETH":"https://coin-images.coingecko.com/coins/images/33033/large/weETH.png?1701438396",
+    "WMON":"https://coin-images.coingecko.com/coins/images/70784/large/wmon.png?1766028904",
+    "wnUSDT0":"https://coin-images.coingecko.com/coins/images/102172923/large/wnusdt0.png?1776663586",
+    "wstETH":"https://coin-images.coingecko.com/coins/images/18834/large/wstETH.png?1696518295"
+  };
+  window.seedLogo=function(sym){if(!sym)return null;var m=window.LOGO_SEED;if(m[sym])return m[sym];var lo=String(sym).toLowerCase();for(var k in m)if(k.toLowerCase()===lo)return m[k];return null};
   function tokLogo(t,size){ // real logo with initials fallback
     var wrap=document.createElement('span');
     wrap.style.cssText='width:'+size+'px;height:'+size+'px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--accent) 14%,var(--raised));color:var(--accent);font-weight:700;font-size:'+Math.max(7,size*.34)+'px;flex-shrink:0;overflow:hidden;vertical-align:middle';
     var sym=(typeof t==='string')?t:t.s;
     var logo=(typeof t==='object'&&t&&t.logo)?t.logo:null;
+    if(!logo&&window.seedLogo)logo=seedLogo(sym);
     if(logo){
       var img=document.createElement('img');
       img.src=logo;img.alt='';img.loading='lazy';
@@ -2834,6 +2881,7 @@
     try{
       var LC=JSON.parse(localStorage.getItem('moose-logos')||'{}'),dirty=false;
       tokens.forEach(function(t){
+        if(!t.logo&&window.seedLogo){var sl=seedLogo(t.s);if(sl)t.logo=sl;}
         if(t.logo){if(LC[t.s]!==t.logo){LC[t.s]=t.logo;dirty=true;}}
         else if(LC[t.s]){t.logo=LC[t.s];}
       });
