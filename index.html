@@ -537,16 +537,13 @@
   .rail .status-pill .dot-lv{width:6px;height:6px;border-radius:50%;background:var(--up);animation:pulse 2s infinite}
   /* movers ticker */
   .movers{flex:1;min-width:0;overflow:hidden;position:relative;margin:0 1rem;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-  .movers .mv-track{display:flex;gap:.4rem;width:max-content;animation:mvscroll 40s linear infinite;will-change:transform;transform:translateZ(0);backface-visibility:hidden}
-  .movers:hover .mv-track{animation-play-state:paused}
-  @keyframes mvscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .movers .mv-track{display:flex;gap:.4rem;width:max-content;will-change:transform;transform:translateZ(0);backface-visibility:hidden;contain:layout}
   .mv-chip{display:flex;align-items:center;gap:.4rem;background:var(--raised);border:1px solid var(--line);border-radius:99px;padding:.28rem .7rem;font-size:.72rem;cursor:pointer;white-space:nowrap;min-height:30px}
   header .mv-chip{background:var(--tint-raised);border-color:var(--tint-line)}
   .mv-chip b{font-weight:700}
   .mv-chip .px{font-family:"Spline Sans Mono",monospace;color:var(--dim)}
   .mv-chip .chg{font-family:"Spline Sans Mono",monospace;font-weight:600}
   .duel-banner{overflow:hidden;position:relative;margin-bottom:1.1rem;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:.45rem 0;-webkit-mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
-  .duel-banner .mv-track{animation-duration:30s}
   .duel-banner .mv-chip .ld{width:6px;height:6px;border-radius:50%;background:var(--down);animation:pulse 1.6s infinite}
   @media (prefers-reduced-motion: reduce){.movers .mv-track,.duel-banner .mv-track{animation:none}.movers,.duel-banner{overflow-x:auto}}
   @media(max-width:900px){body{padding-left:0}.rail{display:none}}
@@ -2872,10 +2869,36 @@
         track.appendChild(c);
       });
     });
-    var t0=window.__mvT0||(window.__mvT0=Date.now());
-    track.style.animationDelay='-'+(((Date.now()-t0)/1000)%40).toFixed(2)+'s';
     el.replaceChildren(track);
   }
+  // marquee engine: time-based rAF, subpixel translate3d, offsets survive DOM rebuilds
+  (function(){
+    if(window.__mvEngine)return;window.__mvEngine=true;
+    if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var offs={},paused={},wired=new WeakSet(),last=performance.now();
+    function key(tr){var h=tr.parentElement;return h?(h.id||h.className||'mv'):'mv'}
+    function frame(now){
+      var dt=Math.min(0.05,(now-last)/1000);last=now;
+      var tracks=document.querySelectorAll('.mv-track');
+      for(var i=0;i<tracks.length;i++){
+        var tr=tracks[i],k=key(tr),host=tr.parentElement;
+        if(host&&!wired.has(host)){
+          wired.add(host);
+          (function(kk,h){
+            h.addEventListener('mouseenter',function(){paused[kk]=true});
+            h.addEventListener('mouseleave',function(){paused[kk]=false});
+          })(k,host);
+        }
+        var half=tr.scrollWidth/2;
+        if(!(half>10))continue;
+        var off=offs[k]||0;
+        if(!paused[k]){off+=46*dt;if(off>=half)off-=half;offs[k]=off;}
+        tr.style.transform='translate3d(-'+off.toFixed(2)+'px,0,0)';
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
   function ingestTokens(tokens){
     // logo cache: survive upstream rate-limit windows where the API returns logo-less fallback data
     try{
