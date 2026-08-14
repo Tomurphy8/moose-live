@@ -767,6 +767,7 @@
     <div class="id-row">
       <div class="tok-circ" id="idCirc">MON</div>
       <div class="id-nm"><b id="idName">Monad</b><span id="idCat">blue · verified</span></div>
+      <button class="star-btn" id="identStar" aria-label="Favorite this market">☆</button>
       <button class="fold-chip" id="identFold" data-tip="Fold research panel" aria-expanded="false" aria-label="Fold research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/><rect class="pane" x="4.6" y="5.8" width="4" height="12.4" rx="1.2" fill="currentColor" opacity=".5" stroke="none"/></svg></button>
     </div>
     <div class="id-px num" id="idPx">$0.0221</div>
@@ -804,6 +805,7 @@
     <div class="pair-strip">
       <button class="fold-chip" id="identUnfold" data-tip="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
       <div class="pair" id="pairPick" style="cursor:pointer"><h1><span id="pairBase">MON</span> / <span id="pairQuote">USD</span> <span style="color:var(--faint);font-size:.95rem">▾</span></h1><span class="sub" id="pairVenue"></span></div>
+      <button class="star-btn" id="pairStar" aria-label="Favorite this market" style="font-size:1.1rem;align-self:center">☆</button>
       <div class="price-lg num" id="pairPrice">$0.0221</div>
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
@@ -2061,6 +2063,14 @@
   function renderList(f){
     var list=document.getElementById('tokList');
     list.replaceChildren();
+    function mkStar(sym){
+      var st=document.createElement('button');st.className='star-btn';
+      st.setAttribute('aria-label','favorite '+sym);
+      function paint(){var w=window.isWatched&&window.isWatched(sym);st.textContent=w?'★':'☆';st.classList.toggle('on',!!w);}
+      paint();
+      st.addEventListener('click',function(ev){ev.stopPropagation();if(window.toggleWatch)window.toggleWatch(sym);paint();});
+      return st;
+    }
     if(tokClass!=='crypto'){
       var src=tokClass==='stocks'?STOCKS:tokClass==='etf'?ETFS:COMMODS;
       src.filter(function(x){
@@ -2069,6 +2079,7 @@
       }).forEach(function(x){
         var lq=(typeof LIVE_QUOTES!=='undefined'&&LIVE_QUOTES[x[4]])||{};
         var row=document.createElement('div');row.className='trow';
+        row.appendChild(mkStar(x[0]));
         var ic=document.createElement('div');ic.className='ic';ic.style.background='none';ic.replaceChildren(qLogo(x[0],26));row.appendChild(ic);
         var mid=document.createElement('div');
         var nm=document.createElement('div');nm.className='nm';nm.textContent=x[0];
@@ -2082,6 +2093,7 @@
           if(pickTarget==='M'){
             document.getElementById('pairBase').textContent=x[0];
             try{updateIdentity(x[0])}catch(e){}
+            if(window.syncStars)try{syncStars()}catch(e){}
             var icirc=document.getElementById('idCirc');if(icirc){icirc.style.background='none';icirc.replaceChildren(qLogo(x[0],30));}
             document.getElementById('pairQuote').textContent='USD';
             mountTV(TV_COMMOD[x[4]]||x[4]||x[0]);
@@ -2113,6 +2125,7 @@
     }).forEach(function(tk){
       var lt=tokBySym(tk[0]);
       var row=document.createElement('div');row.className='trow';
+      row.appendChild(mkStar(tk[0]));
       var ic=document.createElement('div');ic.className='ic';
       if(lt&&lt.logo){ic.replaceChildren(tokLogo(lt,26));ic.style.background='none';}
       else ic.textContent=tk[0].slice(0,3);
@@ -2596,6 +2609,14 @@
   }
   // watchlist + sort + sparkline state
   var WATCH=new Set(JSON.parse(localStorage.getItem('moose-watch')||'[]'));
+  window.isWatched=function(s){return WATCH.has(s)};
+  window.toggleWatch=function(s){
+    if(WATCH.has(s))WATCH.delete(s);else WATCH.add(s);
+    try{localStorage.setItem('moose-watch',JSON.stringify(Array.from(WATCH)))}catch(e){}
+    try{renderDisc()}catch(e){}
+    if(window.renderFavStrip)try{renderFavStrip()}catch(e){}
+    if(window.syncStars)try{syncStars()}catch(e){}
+  };
   var watchOnly=false, sortKey=null, sortDir=-1, trendMode='1d';
   var sparkCache={}, sparkBudget=0;
   function drawSpark(svg,closes){
@@ -2670,10 +2691,7 @@
       var ts=document.createElement('td');
       var sb=document.createElement('button');sb.className='star-btn'+(WATCH.has(t.sym)?' on':'');
       sb.textContent=WATCH.has(t.sym)?'★':'☆';sb.setAttribute('aria-label','watch '+t.sym);
-      sb.addEventListener('click',function(ev){ev.stopPropagation();
-        if(WATCH.has(t.sym))WATCH.delete(t.sym);else WATCH.add(t.sym);
-        try{localStorage.setItem('moose-watch',JSON.stringify(Array.from(WATCH)))}catch(e){}
-        renderDisc();if(window.renderFavStrip)try{renderFavStrip()}catch(e){}});
+      sb.addEventListener('click',function(ev){ev.stopPropagation();window.toggleWatch(t.sym)});
       ts.appendChild(sb);tr.appendChild(ts);
       var t1=document.createElement('td');
       if(t.tradeable){var lg=tokLogo(tokBySym(t.sym)||t.sym,20);lg.style.marginRight='.5rem';t1.appendChild(lg);}
@@ -2737,7 +2755,17 @@
       c.addEventListener('click',function(){goTrade(s)});
       el.appendChild(c);
     });
+    if(window.syncStars)try{syncStars()}catch(e){}
   };
+  window.syncStars=function(){
+    var pb=document.getElementById('pairBase');var base=pb?pb.textContent.trim():'';
+    var w=window.isWatched?window.isWatched(base):false;
+    ['pairStar','identStar'].forEach(function(id){var b=document.getElementById(id);if(b){b.textContent=w?'★':'☆';b.classList.toggle('on',w);}});
+  };
+  ['pairStar','identStar'].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b)b.addEventListener('click',function(){var pb=document.getElementById('pairBase');if(pb&&window.toggleWatch)window.toggleWatch(pb.textContent.trim());});
+  });
   setTimeout(function(){try{renderFavStrip()}catch(e){}},1600);
   setTimeout(function(){try{renderFavStrip()}catch(e){}},5000);
   // load real crypto markets
@@ -3974,6 +4002,7 @@
   function setChart(sym){
     try{updateIdentity(sym)}catch(e){} // identity must never block the chart
     if(window.updateTradeCta)try{updateTradeCta()}catch(e){}
+    if(window.syncStars)try{syncStars()}catch(e){}
     var thp=document.getElementById('thPair');if(thp)thp.textContent=sym;
     if(TV_MAP[sym]){ mountTV(TV_MAP[sym]); document.getElementById('pairVenue').textContent=''; return; }
     // every live token has a known pool — chart it directly, guaranteed
