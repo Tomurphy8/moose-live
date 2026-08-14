@@ -823,10 +823,10 @@
       <section>
         <div class="sec-title" style="align-items:center">
           <div class="pos-toggle" id="posToggle">
-            <button data-p="thesis" class="on">Thesis</button>
-            <button data-p="holders">Holders</button>
             <button data-p="pos">Positions</button>
+            <button data-p="thesis" class="on">Thesis</button>
             <button data-p="hist">History</button>
+            <button data-p="holders">Holders</button>
             <button data-p="duel"><span class="ld"></span>Duel · live</button>
           </div>
         </div>
@@ -857,7 +857,7 @@
           <thead><tr><th>Position</th><th>Size</th><th>Entry</th><th>Liq.</th><th>Health</th><th>PnL</th><th></th></tr></thead>
           <tbody>
             <tr>
-              <td><b>shMON long</b><span class="tagg" style="margin-left:.4rem">3×</span></td>
+              <td><b>shMON long</b><span class="tagg" style="margin-left:.4rem">2×</span></td>
               <td class="num">9,000 shMON</td><td class="num">1.5488</td>
               <td class="num down">1.3120</td>
               <td><div class="health"><div class="bar"><i></i></div><span class="num" style="font-size:.7rem;color:var(--dim)">safe</span></div></td>
@@ -869,6 +869,14 @@
               <td class="num">12,480 MON</td><td class="num">—</td><td class="num">—</td>
               <td><span style="font-size:.7rem;color:var(--faint)">no debt</span></td>
               <td class="num" style="color:var(--dim)">·</td><td></td>
+            </tr>
+            <tr>
+              <td><b>MON/USDC grid</b><span class="tagg" style="margin-left:.4rem">bot · 20 grids</span></td>
+              <td class="num">1,000 USDC</td><td class="num">0.0201–0.0238</td>
+              <td class="num" style="color:var(--faint)">—</td>
+              <td><div class="health"><div class="bar"><i></i></div><span class="num" style="font-size:.7rem;color:var(--dim)">in range</span></div></td>
+              <td class="up num" style="font-weight:600">+38 USDC <span style="color:var(--faint);font-weight:400;font-size:.66rem">· 14 fills today</span></td>
+              <td><button class="pill-btn">Manage</button></td>
             </tr>
           </tbody>
         </table>
@@ -2432,6 +2440,13 @@
       });
     });
   });
+  // state-dependent default: flat accounts land on the thesis feed, active accounts on positions
+  (function(){
+    var hasExposure=document.querySelectorAll('#posPanel tbody tr').length>0;
+    var want=hasExposure?'pos':'thesis';
+    var btn=document.querySelector('#posToggle button[data-p="'+want+'"]');
+    if(btn&&!btn.classList.contains('on'))btn.click();
+  })();
   document.getElementById('tOpenDuel').addEventListener('click',function(){ if(typeof showDuel==='function') showDuel(); });
   // leaderboard fold: Traders | Points
   document.querySelectorAll('#cseg button').forEach(function(b){
@@ -4512,6 +4527,8 @@
       var old=cta.textContent;
       cta.textContent=txt?'✓ Swapped — thesis posted':'✓ Swapped';cta.disabled=true;
       setTimeout(function(){cta.textContent=old;cta.disabled=false},1600);
+      var pflip=document.querySelector('#posToggle button[data-p="pos"]');
+      if(pflip&&!pflip.classList.contains('on'))pflip.click();
       if(!txt)return;
       var panel=document.getElementById('thesisPanel');
       if(panel){
