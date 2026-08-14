@@ -178,6 +178,12 @@
   .rail-pfp{width:63px;height:63px;border-radius:12px;background:color-mix(in srgb,var(--accent) 18%,var(--raised));border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent);cursor:pointer;margin-bottom:.35rem;padding:0}
   .rail-pfp svg{width:36px;height:36px}
   .rail .herd-id{font-size:.55rem;color:var(--faint);font-family:"Spline Sans Mono",monospace;margin-bottom:.8rem}
+  .fav-strip{display:flex;align-items:center;gap:.4rem;padding:.5rem 1.4rem 0;flex-wrap:wrap}
+  .fav-chip{display:inline-flex;align-items:baseline;gap:.35rem;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:.28rem .7rem;font-size:.72rem;color:var(--dim);cursor:pointer;font-family:inherit;transition:border-color .15s}
+  .fav-chip:hover{border-color:var(--accent)}
+  .fav-chip.active{border-color:var(--accent);color:var(--ink)}
+  .fav-chip b{color:var(--ink);font-weight:600}
+  .fav-chip .st{color:var(--accent);font-size:.62rem}
   .pair-strip{display:flex;align-items:baseline;gap:1.4rem;padding:.65rem 1.4rem .5rem}
   .pair h1{font-family:"Fraunces",serif;font-weight:500;font-size:1.45rem;display:inline}
   .pair .sub{color:var(--faint);font-size:.77rem;margin-left:.6rem}
@@ -788,6 +794,7 @@
     <div id="idRelated" style="display:flex;flex-direction:column;gap:.15rem"></div>
   </aside>
   <div class="main">
+    <div class="fav-strip" id="favStrip"></div>
     <div class="pair-strip">
       <button class="fold-chip" id="identUnfold" title="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
       <div class="pair" id="pairPick" style="cursor:pointer"><h1><span id="pairBase">MON</span> / <span id="pairQuote">USD</span> <span style="color:var(--faint);font-size:.95rem">▾</span></h1><span class="sub" id="pairVenue"></span></div>
@@ -972,8 +979,9 @@
     <div class="tmeta">
       <div class="row"><span>Liquidation price</span><span class="v liq" id="liqVal">1.3120 <span style="color:var(--faint)">(−16.7%)</span></span></div>
       <div class="row"><span>Borrow cost</span><span class="v">6.2% APR</span></div>
-      <div class="row"><span>Route</span><span class="v">Kuru · one fill</span></div>
       <div class="row"><span>Fees</span><span class="v">0.08%</span></div>
+      <div class="row"><span>Route</span><span class="v">Kuru · one fill</span></div>
+      <div style="font-size:.62rem;color:var(--faint);margin-top:.3rem;line-height:1.5">Spot margin: borrows USDC against your collateral and buys real MON. You pay borrow APR, not funding. Margin v1 caps the borrow at 1× collateral.</div>
     </div>
     </details>
     <details class="adv">
@@ -1011,10 +1019,12 @@
     </div>
     <div class="swap-meta">
       <div class="row"><span>Rate</span><span class="v" id="rateLine">1 MON = 0.0221 USDC</span></div>
-      <div class="row"><span>Route</span><span class="v">Kuru MON/USDC · best of 4</span></div>
+      <div class="row"><span>USD price</span><span class="v num" id="usdLine">MON $0.0221 · USDC $1.00</span></div>
+      <div class="row"><span>Min received</span><span class="v num" id="minRecv">497.5 MON</span></div>
       <div class="row" style="flex-wrap:wrap;gap:.3rem"><span>Slippage guard</span><span class="v" id="slipSwapVal">auto</span></div>
       <div class="chips" data-slip="swap"><button data-s="auto" class="on">auto</button><button data-s="0.1">0.1%</button><button data-s="0.5">0.5%</button><button data-s="1">1%</button><button data-s="custom">custom</button><input id="slipSwapIn" style="display:none;width:3.6rem;background:var(--raised);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:.72rem;padding:.2rem .35rem" placeholder="2.5%"></div>
       <div class="row"><span>Fee</span><span class="v">0.05%</span></div>
+      <div class="row"><span>Route</span><span class="v">Kuru MON/USDC · best of 4</span></div>
     </div>
     <div class="field" style="margin-top:.2rem">
       <div class="k"><span>Attach a thesis <span style="color:var(--faint);font-weight:400">optional</span></span><span class="bal">posts to the herd with your entry</span></div>
@@ -1048,6 +1058,16 @@
       <div class="ynote" style="margin:.5rem 0 .6rem">Buys every step down, sells every step up. The engine earns the chop; estimates are demo math, not a promise.</div>
       <button class="cta" style="width:100%" id="botDeploy">Deploy Grid Bot</button>
     </div>
+    <details class="adv" id="balancesFold" style="margin-top:.6rem">
+      <summary>Balances — <span class="num">$1,204</span> total</summary>
+      <div class="tmeta">
+        <div class="row"><span>Wallet</span><span class="v num">12,480 MON · 276 USDC</span></div>
+        <div class="row"><span>Collateral · lending markets</span><span class="v num">3,000 MON</span></div>
+        <div class="row"><span>Borrowed</span><span class="v num" style="color:var(--down)">−41 USDC</span></div>
+        <div class="row"><span>Net exposure</span><span class="v num" style="color:var(--up)">long 1.24× equity</span></div>
+      </div>
+      <div style="font-size:.62rem;color:var(--faint);margin-top:.3rem;line-height:1.5">Collateral sits in lending markets, so your wallet alone understates what you hold. This is the full picture.</div>
+    </details>
   </aside>
 </div>
 </div>
@@ -2131,6 +2151,7 @@
       if(lists[L][j][0]===sym){var lq=(typeof LIVE_QUOTES!=='undefined')&&LIVE_QUOTES[lists[L][j][4]];return lq&&lq.px!=null?lq.px:null;}
     return null;
   }
+  window.priceUsdOf=priceUsdOf;
   function fmtSwapAmt(n){
     if(!isFinite(n))return '';
     if(n>=1000)return Math.round(n).toLocaleString();
@@ -2149,9 +2170,19 @@
     if(pa!=null&&pb!=null&&pb>0){
       if(isFinite(amt))recv.value=fmtSwapAmt(amt*pa/pb);
       if(rl)rl.textContent='1 '+a+' = '+fmtSwapAmt(pa/pb)+' '+b;
+      var ul=document.getElementById('usdLine');
+      if(ul)ul.textContent=a+' $'+fmtSwapAmt(pa)+' · '+b+' $'+fmtSwapAmt(pb);
+      var mr=document.getElementById('minRecv');
+      if(mr&&isFinite(amt)){
+        var sv=document.getElementById('slipSwapVal');
+        var sp=sv&&/^[\d.]+/.test(sv.textContent)?parseFloat(sv.textContent):0.5;
+        mr.textContent=fmtSwapAmt(amt*pa/pb*(1-sp/100))+' '+b;
+      }
     }else{
       recv.value='';
       if(rl)rl.textContent='1 '+a+' = … '+b;
+      var ul2=document.getElementById('usdLine');if(ul2)ul2.textContent='—';
+      var mr2=document.getElementById('minRecv');if(mr2)mr2.textContent='—';
     }
   };
   (function(){var p=document.getElementById('payAmt');if(p)p.addEventListener('input',function(){if(window.recalcSwap)recalcSwap()});})();
@@ -2635,7 +2666,7 @@
       sb.addEventListener('click',function(ev){ev.stopPropagation();
         if(WATCH.has(t.sym))WATCH.delete(t.sym);else WATCH.add(t.sym);
         try{localStorage.setItem('moose-watch',JSON.stringify(Array.from(WATCH)))}catch(e){}
-        renderDisc();});
+        renderDisc();if(window.renderFavStrip)try{renderFavStrip()}catch(e){}});
       ts.appendChild(sb);tr.appendChild(ts);
       var t1=document.createElement('td');
       if(t.tradeable){var lg=tokLogo(tokBySym(t.sym)||t.sym,20);lg.style.marginRight='.5rem';t1.appendChild(lg);}
@@ -2679,7 +2710,29 @@
     document.querySelector('#nav a[data-v="trade"]').classList.add('active');
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
     document.getElementById('v-trade').classList.add('on');
+    if(window.renderFavStrip)try{renderFavStrip()}catch(e){}
   }
+  window.goTrade=goTrade;
+  window.renderFavStrip=function(){
+    var el=document.getElementById('favStrip'); if(!el)return;
+    var syms=[];try{syms=JSON.parse(localStorage.getItem('moose-watch')||'[]')}catch(e){}
+    if(!syms.length)syms=['MON','shMON','WETH'];
+    syms=syms.slice(0,8);
+    var cur=(document.getElementById('pairBase')||{}).textContent||'';
+    el.textContent='';
+    syms.forEach(function(s){
+      var c=document.createElement('button');
+      c.className='fav-chip'+(s===cur?' active':'');
+      var st=document.createElement('span');st.className='st';st.textContent='★';c.appendChild(st);
+      var b=document.createElement('b');b.textContent=s;c.appendChild(b);
+      var px=null;try{if(window.priceUsdOf)px=window.priceUsdOf(s)}catch(e){}
+      if(px!=null){var p=document.createElement('span');p.className='num';p.textContent='$'+(px>=100?Math.round(px).toLocaleString():px>=1?px.toFixed(2):px.toFixed(4));c.appendChild(p);}
+      c.addEventListener('click',function(){goTrade(s)});
+      el.appendChild(c);
+    });
+  };
+  setTimeout(function(){try{renderFavStrip()}catch(e){}},1600);
+  setTimeout(function(){try{renderFavStrip()}catch(e){}},5000);
   // load real crypto markets
   function renderMovers(){
     var el=document.getElementById('movers'); if(!el||!LIVE_TOKENS) return;
