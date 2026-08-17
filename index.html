@@ -346,6 +346,8 @@
   .duel .vs{font-family:"Fraunces",serif;font-style:italic;color:var(--faint)}
   .duel .stake{margin-left:auto;font-family:"Spline Sans Mono",monospace;color:var(--accent);font-size:.77rem}
   .feed-item{display:flex;gap:.6rem;padding:.5rem 0;border-top:1px solid var(--line);font-size:.8rem;line-height:1.4}
+  #v-compete .feed-item .who,#v-compete .lb-row .w,#lbTradersPanelWrap td b{cursor:pointer}
+  #v-compete .feed-item .who:hover,#v-compete .lb-row .w:hover{color:var(--accent)}
   .feed-item:first-of-type{border-top:none}
   .feed-item .who{color:var(--accent);font-weight:600;white-space:nowrap}
   .feed-item .t{color:var(--faint);font-size:.69rem;white-space:nowrap;margin-left:auto;font-family:"Spline Sans Mono",monospace}
@@ -1333,6 +1335,7 @@
     <div class="yseg" id="hseg" style="margin-bottom:1.1rem">
       <button data-h="herd" class="on">Herd</button>
       <button data-h="duels">Duels</button>
+      <button data-h="profile">My profile</button>
     </div>
     <div id="h-herd">
     <div class="compete-grid" style="margin-bottom:1.1rem">
@@ -1346,9 +1349,9 @@
             <div id="liveFeed">
             <div class="feed-item"><span class="who">you</span><span class="ev ev-streak">STREAK</span><span>3&times; shMON long running 2d · <b class="up">+412 MON</b></span><span class="t">now</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><button class="follow-btn on">Following</button><span class="ev ev-fill">FILL</span><span>levered 3&times; into <b>shMON</b> · 22,000 MON</span><span class="t">2m</span></div>
-            <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><button class="copy-btn" style="flex:none;font-size:.64rem;padding:.14rem .45rem" data-cl="madrigal.mon" data-cs="CHOG thesis \u00b7 attached position \u00b7 14 copies already">Copy</button><span class="t">4m</span></div>
+            <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><button class="copy-btn" style="flex:none;font-size:.64rem;padding:.14rem .45rem" data-cl="madrigal.mon" data-cs="CHOG thesis \u00b7 attached position \u00b7 14 copies already">Copy</button><button class="pill-btn" style="flex:none;font-size:.62rem;padding:.12rem .4rem" title="cross-post to X">𝕏 ↗</button><span class="t">4m</span></div>
             <div class="feed-item"><span class="who">gman.mon</span><span class="ev ev-win">WIN</span><span>won duel #46 vs biawakz · pot <b>2,000 MON</b></span><span class="t">12m</span></div>
-            <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.78rem"><span class="who" style="color:var(--accent);font-weight:700">andy.mon</span><span class="ev ev-fill">CLOSED</span><span>shMON 3&times; long · <b class="up">+163%</b></span><span class="feng"><button>♥ 132</button><button>💬 12</button><button class="copy-btn" data-cl="andy.mon" data-cs="shMON 3\u00d7 long \u00b7 closed +163% \u00b7 full history">Copy</button><button>↗</button></span></div><svg class="spark2" viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0,26 L20,24 L40,25 L60,20 L80,22 L100,15 L120,17 L140,10 L160,12 L180,6 L200,4" fill="none" stroke="var(--up)" stroke-width="1.6"/></svg></div>
+            <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.78rem"><span class="who" style="color:var(--accent);font-weight:700">andy.mon</span><span class="ev ev-fill">CLOSED</span><span>shMON 3&times; long · <b class="up">+163%</b></span><span class="feng"><button>♥ 132</button><button>💬 12</button><button class="copy-btn" data-cl="andy.mon" data-cs="shMON 3\u00d7 long \u00b7 closed +163% \u00b7 full history">Copy</button><button title="cross-post to X">𝕏 ↗</button></span></div><svg class="spark2" viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0,26 L20,24 L40,25 L60,20 L80,22 L100,15 L120,17 L140,10 L160,12 L180,6 L200,4" fill="none" stroke="var(--up)" stroke-width="1.6"/></svg></div>
             <div class="feed-item"><span class="who">the herd</span><span class="ev ev-whale">SIGNAL</span><span><b>12 herd members</b> bought CHOG in the last 24h · avg entry −6% from here</span><span class="t">26m</span></div>
             <div class="feed-item"><span class="who">whale 0xacb1…</span><button class="follow-btn">Follow</button><span class="ev ev-whale">WHALE</span><span>bought <b>780,000 shMON</b> spot — first move in 41 days</span><span class="t">18m</span></div>
             <div class="feed-item"><span class="who">copier 0x7d1…</span><span class="ev ev-copy">COPY</span><span>deployed your Safe Farmer config · you earn 10%</span><span class="t">31m</span></div>
@@ -1552,6 +1555,56 @@
           <i style="flex:1;height:38%;background:var(--accent);opacity:.35;border-radius:2px"></i><i style="flex:1;height:52%;background:var(--accent);opacity:.35;border-radius:2px"></i><i style="flex:1;height:44%;background:var(--accent);opacity:.4;border-radius:2px"></i><i style="flex:1;height:61%;background:var(--accent);opacity:.4;border-radius:2px"></i><i style="flex:1;height:47%;background:var(--accent);opacity:.45;border-radius:2px"></i><i style="flex:1;height:70%;background:var(--accent);opacity:.45;border-radius:2px"></i><i style="flex:1;height:58%;background:var(--accent);opacity:.5;border-radius:2px"></i><i style="flex:1;height:66%;background:var(--accent);opacity:.55;border-radius:2px"></i><i style="flex:1;height:49%;background:var(--accent);opacity:.6;border-radius:2px"></i><i style="flex:1;height:75%;background:var(--accent);opacity:.65;border-radius:2px"></i><i style="flex:1;height:63%;background:var(--accent);opacity:.75;border-radius:2px"></i><i style="flex:1;height:82%;background:var(--accent);opacity:.8;border-radius:2px"></i><i style="flex:1;height:71%;background:var(--accent);opacity:.9;border-radius:2px"></i><i style="flex:1;height:100%;background:var(--accent);border-radius:2px"></i>
         </div>
         <div class="ynote">A fixed slice of fees buys $FAST on the open market every day — mechanical, visible, boring on purpose. Season points settle from these buybacks, so the reward budget can never exceed revenue. One wallet, verify it on Monadscan.</div>
+      </div>
+    </div>
+    </div>
+    <div id="h-profile" style="display:none">
+    <div class="compete-grid">
+      <div class="card">
+        <div style="display:flex;gap:.8rem;align-items:center">
+          <img src="brand-bars-tile.svg" alt="you" style="width:56px;height:56px;border-radius:14px">
+          <div>
+            <div style="font-family:'Fraunces',serif;font-weight:700;font-size:1.15rem">you.mon <span class="tagg">Herd #4127</span> <span class="tagg" style="color:var(--accent)">Yearling II</span></div>
+            <div style="font-size:.75rem;color:var(--dim);margin-top:.15rem">leveraged carry enjoyer · shMON maxi · joined Jan 2026</div>
+            <div style="font-size:.7rem;color:var(--faint);margin-top:.2rem"><a href="https://x.com" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none">𝕏 @you</a> · 7 followers · 3 following · 4 copiers earning you <b style="color:var(--accent)">+214 MON</b></div>
+          </div>
+        </div>
+        <div class="mh-top" style="margin:.8rem 0 .5rem">
+          <div class="s"><span class="k">30d · risk-adj</span><span class="v up">+1,204 MON</span></div>
+          <div class="s"><span class="k">Max drawdown</span><span class="v">−6.1%</span></div>
+          <div class="s"><span class="k">Expectancy</span><span class="v up">+0.42R · N=127</span></div>
+          <div class="s"><span class="k">Journal streak</span><span class="v" style="color:var(--accent)">6d</span></div>
+        </div>
+        <div class="sec-title" style="font-size:.85rem;margin:.5rem 0 .3rem">Open positions <span class="hint">with your attached theses</span></div>
+        <div class="fcard" style="margin:.25rem 0"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b>shMON</b><span class="tagg">3×</span><span class="up num">+1.4R</span><span style="color:var(--faint);font-size:.66rem;font-style:italic">"positive carry with extra steps"</span></div></div>
+        <div class="fcard" style="margin:.25rem 0"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b>CHOG</b><span class="down num">−0.3R</span><span style="color:var(--faint);font-size:.66rem;font-style:italic">"unlock fear overdone"</span></div></div>
+        <div style="display:flex;gap:.4rem;margin-top:.6rem;flex-wrap:wrap">
+          <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Share profile · 𝕏</button>
+          <button class="pill-btn">Edit bio</button>
+          <button class="pill-btn">View as visitor</button>
+        </div>
+        <div class="hint" style="display:block;margin:.5rem 0 0">this is exactly what the herd sees · R-multiples and percentages are public, dollar balances never are</div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="sec-title" style="font-size:.9rem">Your public tape <span class="hint">full history · abandoned configs included</span></div>
+          <table>
+            <thead><tr><th>Time</th><th>Market</th><th>Side</th><th>R</th></tr></thead>
+            <tbody>
+              <tr><td class="num" style="color:var(--faint)">14:02</td><td><b>shMON</b>/MON</td><td class="up">Buy 3×</td><td class="up num">+1.4R</td></tr>
+              <tr><td class="num" style="color:var(--faint)">11:47</td><td><b>CHOG</b>/MON</td><td class="down">Sell</td><td class="up num">+0.9R</td></tr>
+              <tr><td class="num" style="color:var(--faint)">Mon</td><td><b>JAMES</b>/MON</td><td class="up">Buy</td><td class="down num">−1.0R</td></tr>
+              <tr><td class="num" style="color:var(--faint)">Mon</td><td><b>MON</b>/USD</td><td class="up">Buy 2×</td><td class="up num">+3.2R</td></tr>
+            </tbody>
+          </table>
+          <div class="hint" style="display:block;margin:.4rem 0 0">credibility is automatic · every thesis you post carries these stats</div>
+        </div>
+        <div class="card">
+          <div class="sec-title" style="font-size:.9rem">Copiers <span class="hint">they pay 10% of their bot fees</span></div>
+          <div class="lb-row"><span class="w">copier 0x7d1…</span><span class="pts up num">+41 MON · 30d</span></div>
+          <div class="lb-row"><span class="w">copier 0x2f9…</span><span class="pts up num">+22 MON · 30d</span></div>
+          <div class="hint" style="display:block;margin:.4rem 0 0">copier outcomes are shown on your copy sheet · leaders are scored on copier results, never follower count</div>
+        </div>
       </div>
     </div>
     </div>
@@ -2070,6 +2123,30 @@
       <div class="cs-param"><span>Tools exposed</span><span class="v">quotes · orders · bots · portfolio · research · points</span></div>
       <div class="cs-param"><span>Machine docs</span><span class="v">llms.txt · typed OpenAPI · TS + Python SDK</span></div>
       <div style="font-size:.72rem;color:var(--faint);margin:.6rem 0 0;line-height:1.45">Claude, GPT and open-source agents connect natively over MCP — scoped by the session key above, never your root wallet. Structured errors, deterministic order ids, no CAPTCHAs, no dark patterns. Agents that route flow with your builder code earn you 10% of their fees.</div>
+    </div>
+  </div>
+</div>
+
+<!-- trader profile modal -->
+<div class="modal-bg" id="profModal">
+  <div class="modal" style="width:440px">
+    <div class="mh" id="pfmName">madrigal.mon <span id="pfmClose">✕</span></div>
+    <div style="padding:0 1.1rem .4rem;font-size:.76rem;color:var(--dim)" id="pfmBio">MM bot builder · Yearling I · joined Dec 2025</div>
+    <div style="padding:0 1.1rem .3rem;font-size:.7rem;color:var(--faint)" id="pfmSocial">𝕏 linked · 318 followers · 212 copiers</div>
+    <div style="padding:.3rem 1.1rem 1rem">
+      <div class="mh-top" style="margin:.2rem 0 .55rem">
+        <div class="s"><span class="k">30d · risk-adj</span><span class="v up" id="pfmPnl">+41,208 MON</span></div>
+        <div class="s"><span class="k">Max drawdown</span><span class="v" id="pfmDd">−4.8%</span></div>
+        <div class="s"><span class="k">Expectancy</span><span class="v up" id="pfmExp">+0.31R · N=1,204</span></div>
+        <div class="s"><span class="k">Track</span><span class="v" id="pfmTrack">31d live · full history</span></div>
+      </div>
+      <div class="sec-title" style="font-size:.8rem;margin:.2rem 0 .25rem">Recent tape <span class="hint">R-multiples public · sizes private</span></div>
+      <div id="pfmTape" style="font-size:.74rem;font-family:'Spline Sans Mono',monospace;color:var(--dim);line-height:1.9"></div>
+      <div style="display:flex;gap:.4rem;margin-top:.7rem">
+        <button class="pill-btn copy-btn" id="pfmCopy" data-cl="madrigal.mon" style="flex:1;text-align:center;color:var(--accent);border-color:var(--accent)">Copy setup</button>
+        <button class="pill-btn follow-btn" style="flex:1;text-align:center">Follow</button>
+      </div>
+      <div class="hint" style="display:block;margin:.5rem 0 0">risk stats come before returns on purpose · copy routes through the same review sheet as everywhere else</div>
     </div>
   </div>
 </div>
@@ -2802,13 +2879,13 @@
     });
   }
   wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',bots:'pfBots',board:'pfBoard'});
-  wireSeg('hseg','h',{herd:'h-herd',duels:'h-duels'});
+  wireSeg('hseg','h',{herd:'h-herd',duels:'h-duels',profile:'h-profile'});
   wireSeg('bmSeg','bm',{mine:'b-mine',market:'b-market'});
   window.setHerdSeg=function(key){
     document.querySelectorAll('#hseg button').forEach(function(b){b.classList.toggle('on',b.dataset.h===key)});
-    var hh=document.getElementById('h-herd'),hd=document.getElementById('h-duels');
-    if(hh)hh.style.display=key==='herd'?'':'none';
-    if(hd)hd.style.display=key==='duels'?'':'none';
+    [['h-herd','herd'],['h-duels','duels'],['h-profile','profile']].forEach(function(p){
+      var el=document.getElementById(p[0]); if(el)el.style.display=key===p[1]?'':'none';
+    });
   };
   wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
   wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
@@ -3875,9 +3952,10 @@
   var rp=document.getElementById('railPfp');
   if(rp)rp.addEventListener('click',function(){
     document.querySelectorAll('#nav a').forEach(function(x){x.classList.remove('active')});
-    var pa=document.querySelector('#nav a[data-v="portfolio"]');if(pa)pa.classList.add('active');
+    var pa=document.querySelector('#nav a[data-v="compete"]');if(pa)pa.classList.add('active');
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
-    document.getElementById('v-portfolio').classList.add('on');
+    document.getElementById('v-compete').classList.add('on');
+    if(window.setHerdSeg)setHerdSeg('profile');
   });
 
   // TP/SL + limit chips — functional, limit-aware
@@ -4413,6 +4491,44 @@
     });
   })();
 
+
+  // trader profile: click any handle in the Herd to open it
+  var PROF={
+    'madrigal.mon':{bio:'MM bot builder · Yearling I · joined Dec 2025',soc:'𝕏 linked · 318 followers · 212 copiers',pnl:'+41,208 MON',dd:'−4.8%',exp:'+0.31R · N=1,204',track:'31d live · full history',tape:['14:07 shMON/MON · Buy · +1.1R','13:52 MON/USDC · Maker fill · +0.2R','11:20 CHOG/MON · Sell · +0.8R','Mon WETH/USDC · Buy · −0.6R']},
+    'evil.nad':{bio:'dip science · Yearling I · joined Jan 2026',soc:'𝕏 linked · 166 followers · 96 copiers',pnl:'+19,077 MON',dd:'−6.1%',exp:'+0.28R · N=341',track:'44d live · full history',tape:['12:40 TUNDRA/MON · Buy · +2.1R','09:15 CHOG/MON · Buy · −1.0R','Sun JAMES/MON · Sell · +1.3R']},
+    '0xpaulchoi':{bio:'launch sniper · Yearling II · joined Jan 2026',soc:'𝕏 linked · 204 followers · 71 copiers',pnl:'+28,441 MON',dd:'−9.4%',exp:'+0.24R · N=522',track:'39d live · full history',tape:['15:01 HORNS curve · Snipe · +4.0R','13:33 JAMES/MON · Buy · −1.0R','Sat GLACIER curve · Snipe · −1.0R']},
+    'gman.mon':{bio:'duel king · Yearling I · joined Feb 2026',soc:'𝕏 linked · 84 followers · 58 copiers',pnl:'+8,112 MON',dd:'−5.2%',exp:'+0.35R · N=188',track:'52d live · full history',tape:['LIVE duel #47 vs you · +158 MON','10:12 shMON/MON · Buy 2× · +0.9R','Fri MON/USDC · Sell · +0.4R']}
+  };
+  function openProf(who){
+    who=(who||'').trim();
+    if(!who||who==='you'||who==='you.mon'){if(window.setHerdSeg)setHerdSeg('profile');return;}
+    if(who.indexOf('whale')===0||who.indexOf('copier')===0||who==='the herd')return;
+    var d=PROF[who]||{bio:'Monad trader · joined 2026',soc:'𝕏 linked',pnl:'+· MON',dd:'—',exp:'—',track:'live · full history',tape:['history loads from chain']};
+    var nm=document.getElementById('pfmName');
+    if(nm&&nm.firstChild&&nm.firstChild.nodeType===3)nm.firstChild.textContent=who+' ';
+    document.getElementById('pfmBio').textContent=d.bio;
+    document.getElementById('pfmSocial').textContent=d.soc;
+    document.getElementById('pfmPnl').textContent=d.pnl;
+    document.getElementById('pfmDd').textContent=d.dd;
+    document.getElementById('pfmExp').textContent=d.exp;
+    document.getElementById('pfmTrack').textContent=d.track;
+    var tp=document.getElementById('pfmTape');tp.replaceChildren();
+    d.tape.forEach(function(l){var r=document.createElement('div');r.textContent=l;tp.appendChild(r);});
+    var cb=document.getElementById('pfmCopy');if(cb){cb.dataset.cl=who;cb.dataset.cs=who+"'s setup · full history · risk stats above";}
+    document.getElementById('profModal').classList.add('show');
+  }
+  window.openProf=openProf;
+  (function(){
+    var pm=document.getElementById('profModal'); if(!pm)return;
+    document.getElementById('pfmClose').addEventListener('click',function(){pm.classList.remove('show')});
+    pm.addEventListener('click',function(e){if(e.target===pm)pm.classList.remove('show')});
+    document.addEventListener('click',function(e){
+      var host=e.target.closest('#v-compete'); if(!host)return;
+      if(e.target.closest('button,a,input,textarea,select'))return;
+      var el=e.target.closest('.feed-item .who, .lb-row .w, #lbTradersPanelWrap td b');
+      if(el)openProf(el.textContent);
+    });
+  })();
 
   // copy-setup modal — delegated, so Copy buttons anywhere (feed, boards, Bot League) open one review sheet
   var cm=document.getElementById('copyModal');
