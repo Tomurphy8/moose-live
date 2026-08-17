@@ -310,7 +310,7 @@
   .bot-card .top{display:flex;align-items:center;gap:.6rem}
   .bot-card h3{font-family:"Fraunces",serif;font-weight:600;font-size:1.12rem}
   .bot-card .promise{font-size:.82rem;color:var(--dim);line-height:1.45;min-height:2.9em}
-  .bot-stats{display:flex;gap:1.1rem;border-top:1px solid var(--line);padding-top:.65rem}
+  .bot-stats{display:flex;gap:1.1rem;row-gap:.45rem;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:.65rem}
   .bot-stats .s{display:flex;flex-direction:column;gap:.08rem}
   .bot-stats .k{font-size:.61rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
   .bot-stats .v{font-family:"Spline Sans Mono",monospace;font-size:.84rem}
@@ -1133,12 +1133,12 @@
 <!-- YIELD -->
 <div class="view" id="v-bots">
   <div class="page-pad">
-    <div class="page-head"><h2>Bots</h2>
-      <div class="yseg" id="bseg" style="margin:0 0 0 auto">
-        <button data-b="pnl" class="on">PnL</button>
-        <button data-b="points">Points</button>
-      </div>
+    <div class="page-head"><h2>Bots</h2></div>
+    <div class="yseg" id="bmSeg" style="margin-bottom:1.1rem">
+      <button data-bm="mine" class="on">Your bots</button>
+      <button data-bm="market">Marketplace</button>
     </div>
+    <div id="b-mine">
     <div class="preset-row">
       <button class="preset">Farm <b>Kuru</b> · range</button>
       <button class="preset">Farm <b>Perpl S1</b> · yield</button>
@@ -1253,6 +1253,53 @@
       <div class="bb-foot">
         <div class="bb-proj"><span>est. fills/day <b id="bbFills">31</b></span><span>points/day <b id="bbPts" style="color:var(--accent)">1,250</b></span><span>7d paper run <b id="bbBt" class="up">+2.8%</b> <span style="color:var(--faint);font-size:.62rem">backtests don’t predict live</span></span></div>
         <button class="cta" id="bbDeploy" style="margin-left:auto">Deploy bot</button>
+      </div>
+    </div>
+    </div>
+    <div id="b-market" style="display:none">
+      <div class="card">
+        <div class="sec-title"><span class="live-dot"></span>Bot marketplace <span class="hint">ranked by risk-adjusted return · every listing has 30 days live, minimum · backtests don't count</span></div>
+        <table>
+          <thead><tr><th>#</th><th>Bot</th><th>Creator</th><th>30d · risk-adj</th><th>Max DD</th><th>Fills</th><th>Staked</th><th>Copiers</th><th>Fee</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><b>GridMaster-9000</b></td><td>madrigal.mon</td><td class="up num">+2,114 MON</td><td class="num">−4.8%</td><td class="num">1,204</td><td class="num">4,100 shMON</td><td class="num">212</td><td class="num">5 bps</td><td><button class="pill-btn copy-btn" data-cl="madrigal.mon" data-cs="GridMaster-9000 · marketplace #1 · 30d live, full history">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">2</td><td><b>DipHoover</b></td><td>evil.nad</td><td class="up num">+1,688 MON</td><td class="num">−6.1%</td><td class="num">341</td><td class="num">2,800 shMON</td><td class="num">96</td><td class="num">5 bps</td><td><button class="pill-btn copy-btn" data-cl="evil.nad" data-cs="DipHoover · marketplace #2 · 30d live, full history">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">3</td><td><b>shMON Looper</b></td><td>gman.mon</td><td class="up num">+1,240 MON</td><td class="num">−2.9%</td><td class="num">188</td><td class="num">1,700 shMON</td><td class="num">74</td><td class="num">2 bps</td><td><button class="pill-btn copy-btn" data-cl="gman.mon" data-cs="shMON Looper · marketplace #3 · correlated-pair loops">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">4</td><td><b>chogchopper</b></td><td>0xpaulchoi</td><td class="up num">+981 MON</td><td class="num">−9.4%</td><td class="num">522</td><td class="num">1,950 shMON</td><td class="num">71</td><td class="num">10 bps</td><td><button class="pill-btn copy-btn" data-cl="0xpaulchoi" data-cs="chogchopper · marketplace #4 · memecoin range bot">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">5</td><td><b>RangeRider</b></td><td>saltedkink</td><td class="up num">+714 MON</td><td class="num">−3.6%</td><td class="num">903</td><td class="num">1,150 shMON</td><td class="num">48</td><td class="num">5 bps</td><td><button class="pill-btn copy-btn" data-cl="saltedkink" data-cs="RangeRider · marketplace #5 · MON/USDC grid">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">6</td><td><b>TundraSweep</b></td><td>tundra.nad</td><td class="up num">+466 MON</td><td class="num">−5.5%</td><td class="num">237</td><td class="num">800 shMON</td><td class="num">29</td><td class="num">2 bps</td><td><button class="pill-btn copy-btn" data-cl="tundra.nad" data-cs="TundraSweep · marketplace #6 · launch-curve sweeper">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">7</td><td><b>WeekendDCA</b></td><td>moosewhisperer</td><td class="up num">+312 MON</td><td class="num">−1.8%</td><td class="num">64</td><td class="num">650 shMON</td><td class="num">22</td><td class="num">2 bps</td><td><button class="pill-btn copy-btn" data-cl="moosewhisperer" data-cs="WeekendDCA · marketplace #7 · scheduled accumulation">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">8</td><td><b>MaiLoop</b></td><td>mai.curv</td><td class="up num">+286 MON</td><td class="num">−2.2%</td><td class="num">141</td><td class="num">500 shMON</td><td class="num">18</td><td class="num">5 bps</td><td><button class="pill-btn copy-btn" data-cl="mai.curv" data-cs="MaiLoop · marketplace #8 · lend-loop rotator">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+          </tbody>
+        </table>
+        <div class="hint" style="display:block;margin:.5rem 0 0">creators stake shMON to list · stake burns on underperformance · copy fees pay out only in months copiers finish net profitable · stats are live on-chain with abandoned configs included</div>
+      </div>
+      <div class="compete-grid" style="margin-top:1.1rem">
+        <div class="card">
+          <div class="sec-title">The Stable <span class="hint">bots your crew co-owns through your Herd NFT's wallet</span></div>
+          <div class="fcard" style="margin:.3rem 0">
+            <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">GridMaster-9000</b><span class="tagg">your share 25%</span><span class="up num">+38 USDC · 7d</span><span style="color:var(--faint);font-size:.64rem">with lydicius, biawakz, kamarompon</span></div>
+            <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">Shares are plain on-chain tokens (ERC-6909) in Herd #4127's wallet · sell, gift or split any time · weekly recap posts to your clan Telegram</div>
+          </div>
+          <div class="fcard" style="margin:.3rem 0">
+            <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">shMON Looper</b><span class="tagg">your share 50%</span><span class="up num">+12 MON · 7d</span><span style="color:var(--faint);font-size:.64rem">with gman.mon</span></div>
+            <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">League: Yearling II · next round Saturday · creator fee 5 bps per trade to madrigal.mon</div>
+          </div>
+          <div style="font-size:.66rem;color:var(--faint);margin-top:.45rem;line-height:1.5">Own a piece of a competitor and you watch the whole race differently — fantasy-stable owners consume ~35% more of the surface they compete on.</div>
+        </div>
+        <div class="card">
+          <div class="sec-title">Pool capital with your stable <span class="hint">three taps · shares mint themselves</span></div>
+          <div class="bb-row"><span>Bot</span><select class="sel" style="width:12rem"><option selected>GridMaster-9000 · madrigal.mon</option><option>DipHoover · evil.nad</option><option>your Grid Bot · unlisted</option></select></div>
+          <div class="bb-row"><span>Your stake</span><span class="amt"><input value="500" style="width:5rem"><span class="unit" style="font-size:.7rem">MON</span></span></div>
+          <div class="bb-row"><span>Invite your clan</span><span style="display:flex;gap:.3rem;flex-wrap:wrap"><button class="pill-btn" style="font-size:.66rem">lydicius ✓</button><button class="pill-btn" style="font-size:.66rem">biawakz ✓</button><button class="pill-btn" style="font-size:.66rem;color:var(--faint)">+ add</button></span></div>
+          <div class="ycalc" style="margin-top:.5rem">
+            <div class="row"><span>Your share at current commits</span><span class="v" style="color:var(--accent)">25% · 500 of 2,000 MON</span></div>
+            <div class="row"><span>Shares</span><span class="v">ERC-6909 · minted to Herd #4127's wallet</span></div>
+            <div class="row"><span>Exit</span><span class="v">sell shares any time · or unwind pro-rata, no lockup</span></div>
+          </div>
+          <button class="cta" style="width:100%;margin-top:.7rem;padding:.6rem;font-size:.85rem">Create stable pool</button>
+          <div class="hint" style="display:block;margin:.5rem 0 0">the pool runs one bot with one book · PnL splits by share · every member sees fills live and the weekly recap lands in your clan chat</div>
+        </div>
       </div>
     </div>
   </div>
@@ -2726,6 +2773,7 @@
   }
   wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',bots:'pfBots',board:'pfBoard'});
   wireSeg('hseg','h',{herd:'h-herd',duels:'h-duels'});
+  wireSeg('bmSeg','bm',{mine:'b-mine',market:'b-market'});
   window.setHerdSeg=function(key){
     document.querySelectorAll('#hseg button').forEach(function(b){b.classList.toggle('on',b.dataset.h===key)});
     var hh=document.getElementById('h-herd'),hd=document.getElementById('h-duels');
@@ -3720,13 +3768,22 @@
         });
       });
     }
-    renderBS('pnl');
-    document.querySelectorAll('#bseg button').forEach(function(b){
-      b.addEventListener('click',function(){
-        document.querySelectorAll('#bseg button').forEach(function(x){x.classList.remove('on')});
-        b.classList.add('on');renderBS(b.dataset.b);
+    // one page, all the data: PnL and points stats render together
+    function renderAll(){
+      Object.keys(BS).forEach(function(id){
+        var el=document.getElementById(id); if(!el)return;
+        el.replaceChildren();
+        BS[id].pnl.concat(BS[id].points).forEach(function(st){
+          var s=document.createElement('div');s.className='s';
+          var k=document.createElement('span');k.className='k';k.textContent=st[0];
+          var v=document.createElement('span');v.className='v'+(st[2]==='up'?' up':st[2]==='down'?' down':'');
+          if(st[2]==='acc')v.style.color='var(--accent)';
+          v.textContent=st[1];
+          s.appendChild(k);s.appendChild(v);el.appendChild(s);
+        });
       });
-    });
+    }
+    renderAll();
   })();
 
   // ---- launch Token/Index toggle ----
