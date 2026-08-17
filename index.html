@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moose — Monad's home terminal</title>
 <link rel="icon" href="brand-bars-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://api.geckoterminal.com" crossorigin><link rel="preconnect" href="https://www.geckoterminal.com" crossorigin><link rel="preconnect" href="https://api.dexscreener.com" crossorigin><link rel="preconnect" href="https://s3.tradingview.com" crossorigin><link rel="preconnect" href="https://assets.parqet.com" crossorigin><link rel="preconnect" href="https://coin-images.coingecko.com" crossorigin><link rel="preconnect" href="https://cdn.dexscreener.com" crossorigin><link rel="preconnect" href="https://yields.llama.fi" crossorigin><link rel="preconnect" href="https://api-v2.pendle.finance" crossorigin>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Schibsted+Grotesk:wght@400;500;600;700&family=Spline+Sans+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -288,6 +289,17 @@
   .preset{border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);color:var(--accent);background:color-mix(in srgb, var(--accent) 6%, transparent);border-radius:99px;padding:.42rem .95rem;font-size:.81rem;cursor:pointer;font-family:"Schibsted Grotesk",sans-serif}
   .preset:hover{background:color-mix(in srgb, var(--accent) 12%, transparent)}
   .preset b{font-family:"Spline Sans Mono",monospace;font-weight:600}
+  .sel{width:100%;background:var(--raised);border:1px solid var(--line);border-radius:9px;color:var(--ink);padding:.5rem .6rem;font-size:.8rem;font-family:inherit;outline:none;appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--faint) 50%),linear-gradient(135deg,var(--faint) 50%,transparent 50%);background-position:calc(100% - 16px) 50%,calc(100% - 11px) 50%;background-size:5px 5px;background-repeat:no-repeat;cursor:pointer}
+  .bb-grid{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:1.1rem;margin-top:.5rem}
+  @media(max-width:980px){.bb-grid{grid-template-columns:1fr}}
+  .bb-row{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:.76rem;color:var(--dim);padding:.34rem 0;border-bottom:1px solid var(--line)}
+  .bb-row:last-child{border-bottom:none}
+  .bb-row .amt{margin:0;flex:0 0 8.2rem}
+  .bb-row input[type=text]{width:100%}
+  .bb-foot{display:flex;align-items:center;gap:1.2rem;margin-top:.8rem;padding-top:.7rem;border-top:1px solid var(--line);flex-wrap:wrap}
+  .bb-proj{display:flex;gap:1.4rem;font-size:.74rem;color:var(--dim)}
+  .bb-proj b{color:var(--ink);font-family:'Spline Sans Mono',monospace}
+  .bb-group{display:none}.bb-group.on{display:block}
   .bots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
   @media(max-width:900px){.bots-grid{grid-template-columns:1fr}}
   .bot-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:1.1rem 1.1rem 1rem;display:flex;flex-direction:column;gap:.68rem}
@@ -1136,6 +1148,89 @@
         <button class="cta ghost">Edit ladder</button>
       </div>
     </div>
+
+    <div class="card" id="botBuilder" style="margin-top:1.1rem">
+      <div class="sec-title">Build your own <span class="hint">every engine, every control — deploy in one signature</span><span class="tagg" style="margin-left:auto">publishable to the marketplace</span></div>
+      <div class="bb-grid">
+        <div>
+          <div class="k">Engine</div>
+          <select class="sel" id="bbEngine">
+            <option value="grid">Grid</option>
+            <option value="levgrid">Leveraged grid</option>
+            <option value="revgrid">Reverse grid</option>
+            <option value="infgrid">Infinity grid</option>
+            <option value="dca">DCA · Martingale</option>
+            <option value="twap">TWAP</option>
+            <option value="rebal">Rebalance · 2 assets</option>
+            <option value="mm">Market maker</option>
+            <option value="sniper">Sniper</option>
+            <option value="trigger">Trigger</option>
+          </select>
+          <div class="k" style="margin-top:.7rem">Market</div>
+          <select class="sel" id="bbPair">
+            <option>MON/USDC</option><option>shMON/MON</option><option>WETH/USDC</option>
+            <option>CHOG/MON</option><option>JAMES/MON</option><option>WBTC/USDC</option>
+          </select>
+          <div class="k" style="margin-top:.7rem">Investment <span class="bal" style="float:right">balance 276 USDC</span></div>
+          <div class="amt"><input id="bbAmt" value="1,000"><span class="unit">USDC</span></div>
+          <div class="chips" id="bbPct"><button data-p="25">25%</button><button data-p="50">50%</button><button data-p="100">Max</button></div>
+        </div>
+        <div id="bbParams">
+          <div class="k">Engine settings</div>
+          <div class="bb-group on" data-bg="grid levgrid revgrid infgrid">
+            <div class="bb-row"><span>Range · lower / upper</span><span style="display:flex;gap:.4rem"><span class="amt"><input value="0.0201"></span><span class="amt"><input value="0.0238"></span></span></div>
+            <div class="bb-row"><span>Auto range</span><select class="sel" style="width:8.2rem"><option>7d hi/lo</option><option>30d hi/lo</option><option>manual</option></select></div>
+            <div class="bb-row"><span>Grids</span><select class="sel" style="width:8.2rem"><option>10</option><option selected>20</option><option>50</option><option>100</option><option>150</option></select></div>
+            <div class="bb-row"><span>Spacing</span><select class="sel" style="width:8.2rem"><option selected>Arithmetic</option><option>Geometric</option></select></div>
+            <div class="bb-row bb-lev" style="display:none"><span>Borrow · leverage</span><select class="sel" style="width:8.2rem"><option>1.25×</option><option selected>1.5×</option><option>2×</option></select></div>
+          </div>
+          <div class="bb-group" data-bg="dca">
+            <div class="bb-row"><span>Order size</span><span class="amt"><input value="50"></span></div>
+            <div class="bb-row"><span>Frequency</span><select class="sel" style="width:8.2rem"><option>Hourly</option><option selected>Daily</option><option>Weekly</option><option>On dip</option></select></div>
+            <div class="bb-row"><span>Dip trigger</span><select class="sel" style="width:8.2rem"><option>−2%</option><option selected>−5%</option><option>−10%</option></select></div>
+            <div class="bb-row"><span>Martingale multiplier</span><select class="sel" style="width:8.2rem"><option selected>Off</option><option>1.5×</option><option>2×</option></select></div>
+          </div>
+          <div class="bb-group" data-bg="twap">
+            <div class="bb-row"><span>Slices</span><select class="sel" style="width:8.2rem"><option>10</option><option selected>20</option><option>50</option></select></div>
+            <div class="bb-row"><span>Duration</span><select class="sel" style="width:8.2rem"><option>30m</option><option selected>2h</option><option>12h</option><option>24h</option></select></div>
+            <div class="bb-row"><span>Randomize timing</span><div class="mini-toggle on"></div></div>
+          </div>
+          <div class="bb-group" data-bg="rebal">
+            <div class="bb-row"><span>Target ratio</span><select class="sel" style="width:8.2rem"><option selected>50 / 50</option><option>70 / 30</option><option>80 / 20</option></select></div>
+            <div class="bb-row"><span>Rebalance band</span><select class="sel" style="width:8.2rem"><option>±1%</option><option selected>±3%</option><option>±5%</option></select></div>
+          </div>
+          <div class="bb-group" data-bg="mm">
+            <div class="bb-row"><span>Spread</span><select class="sel" style="width:8.2rem"><option>4 bps</option><option selected>8 bps</option><option>15 bps</option><option>30 bps</option></select></div>
+            <div class="bb-row"><span>Requote</span><select class="sel" style="width:8.2rem"><option selected>every block</option><option>400ms</option><option>2s</option></select></div>
+            <div class="bb-row"><span>Inventory skew guard</span><div class="mini-toggle on"></div></div>
+            <div class="bb-row"><span>Post-only · maker rebate</span><div class="mini-toggle on"></div></div>
+          </div>
+          <div class="bb-group" data-bg="sniper trigger">
+            <div class="bb-row"><span>When</span><select class="sel" style="width:11rem" id="bbWhen"><option>price drops</option><option>price crosses</option><option selected>new nad.fun launch</option><option>wallet buys</option><option>ticker contains</option></select></div>
+            <div class="bb-row"><span>Condition</span><span class="amt"><input value="MOON, MONAD" id="bbCond"></span></div>
+            <div class="bb-row"><span>Then</span><select class="sel" style="width:11rem"><option selected>buy 50 USDC</option><option>buy 200 USDC</option><option>sell position</option><option>deploy grid</option></select></div>
+            <div class="bb-row"><span>Max snipes / day</span><select class="sel" style="width:8.2rem"><option>1</option><option selected>3</option><option>10</option></select></div>
+          </div>
+        </div>
+        <div>
+          <div class="k">Risk</div>
+          <div class="bb-row"><span>Stop loss</span><span class="amt"><input placeholder="—" value="-12%"></span></div>
+          <div class="bb-row"><span>Take profit</span><span class="amt"><input placeholder="—" value="+30%"></span></div>
+          <div class="bb-row"><span>Trailing up</span><div class="mini-toggle on"></div></div>
+          <div class="bb-row"><span>Trailing down</span><div class="mini-toggle"></div></div>
+          <div class="bb-row"><span>On stop</span><select class="sel" style="width:8.2rem"><option selected>sell to USDC</option><option>hold position</option></select></div>
+          <div class="k" style="margin-top:.7rem">Extras</div>
+          <div class="bb-row"><span>Park idle in shMON <span class="live-shmon-apy" style="color:var(--up)">12.1%</span></span><div class="mini-toggle on"></div></div>
+          <div class="bb-row"><span>Slippage guard</span><select class="sel" style="width:8.2rem"><option selected>auto</option><option>0.1%</option><option>0.5%</option><option>1%</option></select></div>
+          <div class="bb-row"><span>Publish to marketplace</span><div class="mini-toggle" id="bbPub"></div></div>
+          <div class="bb-row" id="bbFeeRow" style="opacity:.4"><span>Your copy fee</span><select class="sel" style="width:8.2rem" disabled id="bbFee"><option>2 bps / trade</option><option selected>5 bps / trade</option><option>10 bps / trade</option></select></div>
+        </div>
+      </div>
+      <div class="bb-foot">
+        <div class="bb-proj"><span>est. fills/day <b id="bbFills">31</b></span><span>points/day <b id="bbPts" style="color:var(--accent)">1,250</b></span><span>7d backtest <b id="bbBt" class="up">+2.8%</b></span></div>
+        <button class="cta" id="bbDeploy" style="margin-left:auto">Deploy bot</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1445,7 +1540,7 @@
       <div class="stake-hero">
         <div class="card ycard-hero">
           <div class="sec-title" style="margin-bottom:.3rem">Native staking</div>
-          <div class="apy-big">12.1% APY · auto-compounds</div>
+          <div class="apy-big" id="stakeApyBig">12.1% APY · auto-compounds</div>
           <div class="ynote">Stake MON, receive shMON. Yield from staking rewards plus MEV revenue accrues into the exchange rate every ~5.5 hours. No claiming, no lockup for traditional unstake.</div>
           <div class="ycalc">
             <div class="row"><span>Exchange rate</span><span class="v">1 shMON = 1.5742 MON</span></div>
@@ -1474,12 +1569,12 @@
         <table>
           <thead><tr><th>Market</th><th>Curator</th><th>Supply APY</th><th>Points</th><th>TVL</th><th></th></tr></thead>
           <tbody>
-            <tr><td><b>USDC</b> <span style="color:var(--faint);font-size:.72rem">funds levered longs</span></td><td>Moose · Morpho</td><td class="num up">8.4%</td><td class="num" style="color:var(--accent)">2×</td><td class="num">$2.1M</td><td><button class="pill-btn" data-msup="USDC">Supply</button></td></tr>
-            <tr><td><b>MON</b> <span style="color:var(--faint);font-size:.72rem">funds shorts</span></td><td>Moose · Morpho</td><td class="num up">5.2%</td><td class="num" style="color:var(--accent)">2×</td><td class="num">$1.4M</td><td><button class="pill-btn" data-msup="MON">Supply</button></td></tr>
-            <tr><td><b>shMON</b> <span style="color:var(--faint);font-size:.72rem">collateral · 80% LTV</span></td><td>Moose · Morpho</td><td class="num up">12.1% <span style="color:var(--faint);font-size:.68rem">while posted</span></td><td class="num" style="color:var(--accent)">2×</td><td class="num">$3.6M</td><td><button class="pill-btn" data-msup="shMON">Post collateral</button></td></tr>
+            <tr><td><b>USDC</b> <span style="color:var(--faint);font-size:.72rem">funds levered longs</span></td><td>Moose · Morpho</td><td class="num up" id="mgUsdc">8.4%</td><td class="num" style="color:var(--accent)">2×</td><td class="num" style="color:var(--faint)">—</td><td><button class="pill-btn" data-msup="USDC">Supply</button></td></tr>
+            <tr><td><b>MON</b> <span style="color:var(--faint);font-size:.72rem">funds shorts</span></td><td>Moose · Morpho</td><td class="num up" id="mgMon">5.2%</td><td class="num" style="color:var(--accent)">2×</td><td class="num" style="color:var(--faint)">—</td><td><button class="pill-btn" data-msup="MON">Supply</button></td></tr>
+            <tr><td><b>shMON</b> <span style="color:var(--faint);font-size:.72rem">collateral · 80% LTV</span></td><td>Moose · Morpho</td><td class="num up"><span id="mgShmon">12.1%</span> <span style="color:var(--faint);font-size:.68rem">while posted</span></td><td class="num" style="color:var(--accent)">2×</td><td class="num" style="color:var(--faint)">—</td><td><button class="pill-btn" data-msup="shMON">Post collateral</button></td></tr>
           </tbody>
         </table>
-        <div class="ynote" style="margin-top:.5rem">Your deposit supplies the Moose margin book on Moose-curated Morpho markets: traders pay borrow APR, suppliers earn it. Isolated markets, on-chain positions, built for continuous third-party verification.</div>
+        <div class="ynote" style="margin-top:.5rem">Your deposit supplies the Moose margin book on Moose-curated Morpho markets: traders pay borrow APR, suppliers earn it. Rates mirror live Monad lending markets (DefiLlama) until Moose markets deploy. Isolated markets, on-chain positions, built for continuous third-party verification.</div>
       </div>
       <div class="card">
         <div class="sec-title">Money markets <span class="hint">shMON, USDC and WMON venues — live</span><div class="sortpills" id="mmSort"><button data-s="apy" class="on">Order by yield</button><button data-s="tvl">Order by TVL</button></div></div>
@@ -1487,7 +1582,7 @@
           <thead><tr><th>Market</th><th>Venue</th><th>APY</th><th>TVL</th><th>Points</th><th></th></tr></thead>
           <tbody id="mmRows"></tbody>
         </table>
-        <div class="ynote">shMON rows include the 12.1% underlying staking yield. Deploy routes to the venue in one transaction, withdrawal stays yours.</div>
+        <div class="ynote">shMON rows include the <span class="live-shmon-apy">12.1%</span> underlying staking yield. Deploy routes to the venue in one transaction, withdrawal stays yours.</div>
       </div>
     </div>
 
@@ -1500,7 +1595,7 @@
               <thead><tr><th>Pool</th><th>Venue</th><th>TVL</th><th>24h vol</th><th>Est. APR</th><th>Boost</th><th></th></tr></thead>
               <tbody id="lqRows"><tr><td colspan="6" style="color:var(--faint);padding:.8rem 0">loading live pools…</td></tr></tbody>
             </table>
-            <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its 12.1% staking yield while it LPs.</div>
+            <div class="ynote" style="margin-top:.5rem">Pools stream live from on-chain venues. Boosts mirror the <a href="https://shmonad.xyz" target="_blank" rel="noopener" style="color:var(--accent)">Points tab on shmonad.xyz</a> — verify live multipliers there. The shMON side keeps earning its <span class="live-shmon-apy">12.1%</span> staking yield while it LPs.</div>
           </div>
         </div>
         <div>
@@ -1513,7 +1608,7 @@
             <div class="ycalc" style="margin-top:.7rem">
               <div class="row"><span>Points / day</span><span class="v num" id="lqPts" style="color:var(--accent);font-size:1.35rem;font-weight:700">—</span></div>
               <div class="row"><span>Boost applied</span><span class="v num" id="lqBoost">—</span></div>
-              <div class="row"><span>Plus underlying yield</span><span class="v up">12.1% APY on the shMON side</span></div>
+              <div class="row"><span>Plus underlying yield</span><span class="v up"><span class="live-shmon-apy">12.1%</span> APY on the shMON side</span></div>
             </div>
             <div style="margin-top:.85rem">
               <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.3rem"><span id="lqTierLbl">next boost tier at $5,000</span><span class="num" id="lqTierPct">20%</span></div>
@@ -1531,7 +1626,7 @@
           <div class="top"><span class="dot"></span><h3>Safe Farmer</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
           <div class="promise">Delta-neutral, farms points and yield across three programs. Market up or down, you don't care.</div>
           <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">17.4%</span></div>
+            <div class="s"><span class="k">target APY</span><span class="v up">17.4%</span></div>
             <div class="s"><span class="k">TVL</span><span class="v">$6.1M</span></div>
             <div class="s"><span class="k">points</span><span class="v">2,900/day</span></div>
           </div>
@@ -1541,7 +1636,7 @@
           <div class="top"><span class="dot"></span><h3>Li Gomez</h3><span class="tagg" style="margin-left:auto">curator</span></div>
           <div class="promise">Curated Monad-native vault: shMON looping, isolated lending and LP rotations, risk-managed by the curator.</div>
           <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">14.8%</span></div>
+            <div class="s"><span class="k">target APY</span><span class="v up">14.8%</span></div>
             <div class="s"><span class="k">TVL</span><span class="v">$3.4M</span></div>
             <div class="s"><span class="k">asset</span><span class="v">shMON</span></div>
           </div>
@@ -1551,7 +1646,7 @@
           <div class="top"><span class="dot"></span><h3>NAV Pool LP</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
           <div class="promise">Provide liquidity to Moose's NAV-centered pools (indexes, graduated launches). The curve re-centers on fair value every block — LFJ Liquidity-Book style — so your capital quotes tight and earns fees, not impermanent regret.</div>
           <div class="bot-stats">
-            <div class="s"><span class="k">live APY</span><span class="v up">21.3%</span></div>
+            <div class="s"><span class="k">target APY</span><span class="v up">21.3%</span></div>
             <div class="s"><span class="k">TVL</span><span class="v">$1.9M</span></div>
             <div class="s"><span class="k">points</span><span class="v">1.5× LP</span></div>
           </div>
@@ -1567,12 +1662,12 @@
         <table>
           <thead><tr><th>Market</th><th>Maturity</th><th>Fixed APY</th><th>What you get</th><th></th></tr></thead>
           <tbody>
-            <tr><td><b>PT-shMON</b></td><td class="num">26 Dec 2026</td><td class="up num" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><button class="pill-btn">Lock</button></td></tr>
-            <tr><td><b>YT-shMON</b></td><td class="num">26 Dec 2026</td><td class="num" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><button class="pill-btn">Buy</button></td></tr>
-            <tr><td><b>LP shMON</b></td><td class="num">26 Dec 2026</td><td class="up num">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><button class="pill-btn">Provide</button></td></tr>
+            <tr><td><b>PT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="ptApy" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><button class="pill-btn">Lock</button></td></tr>
+            <tr><td><b>YT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="num" id="ytApy" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><button class="pill-btn">Buy</button></td></tr>
+            <tr><td><b>LP shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="lpApy">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><button class="pill-btn">Provide</button></td></tr>
           </tbody>
         </table>
-        <div class="ynote">PT locks a fixed rate to maturity. YT is the stripped variable yield and points. LP earns both sides with no impermanent loss to maturity.</div>
+        <div class="ynote">PT locks a fixed rate to maturity. YT is the stripped variable yield and points. LP earns both sides with no impermanent loss to maturity. <span id="pendleLiq" class="num" style="color:var(--accent)"></span></div>
       </div>
     </div>
 
@@ -2294,7 +2389,7 @@
     ['you','grid filled 4 levels on shMON/MON · +9.2 MON']
   ];
   var feedIdx=0;
-  setInterval(function(){
+  setInterval(function(){ if(document.hidden)return;
     var lf=document.getElementById('liveFeed'); if(!lf) return;
     var e=FEED_POOL[feedIdx++ % FEED_POOL.length];
     var d=document.createElement('div'); d.className='feed-item';
@@ -2319,7 +2414,7 @@
   document.getElementById('ovToggle').addEventListener('click',function(){document.body.classList.toggle('overlay')});
   // countdown
   var dSecs=7*3600+12*60+4;
-  setInterval(function(){
+  setInterval(function(){ if(document.hidden)return;
     dSecs=Math.max(0,dSecs-1);
     var h=Math.floor(dSecs/3600),m=Math.floor(dSecs%3600/60),x=dSecs%60;
     var el=document.getElementById('dClock');
@@ -2336,7 +2431,7 @@
     ['gman.mon','closed JAMES, +44 MON','B']
   ];
   var dIdx=0;
-  setInterval(function(){
+  setInterval(function(){ if(document.hidden)return;
     if(!document.getElementById('v-duel').classList.contains('on')) return;
     pA=Math.max(-3,pA+(Math.random()-0.47)*0.28);
     pB=Math.max(-3,pB+(Math.random()-0.47)*0.28);
@@ -2511,7 +2606,7 @@
     DUELS.forEach(function(d){el.appendChild(row(d))});
     // gentle live rotation: cycle the top LIVE rows so the feed breathes
     if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-      setInterval(function(){
+      setInterval(function(){ if(document.hidden)return;
         var live=DUELS.filter(function(d){return d[0]==='LIVE'});
         live.push(live.shift());
         var rest=DUELS.filter(function(d){return d[0]!=='LIVE'});
@@ -2520,7 +2615,7 @@
       },8000);
   })();
   // mirror the duel sim into the trade-tab mini panel
-  setInterval(function(){
+  setInterval(function(){ if(document.hidden)return;
     var a=document.getElementById('tPnlA'),b=document.getElementById('tPnlB');
     var pa=document.getElementById('pnlA'),pb=document.getElementById('pnlB');
     if(a&&pa){ a.textContent=pa.textContent; a.className='pnl num '+(pa.className.indexOf('down')>=0?'down':'up');
@@ -3197,7 +3292,7 @@
     });
   });
 
-  var MM=[
+  var MM_FALLBACK=[
     ["shMON loop","Moose native","19.6%","$4.1M","Moose 2×",19.6,4.1],
     ["shMON collateral","Curvance","14.6%","$8.2M","Kuru",14.6,8.2],
     ["shMON supply","Euler","13.4%","$2.9M","—",13.4,2.9],
@@ -3206,6 +3301,67 @@
     ["WMON","Aave v3","6.4%","$11.2M","—",6.4,11.2],
     ["WMON","Euler","5.9%","$4.8M","—",5.9,4.8]
   ];
+  var MM=MM_FALLBACK.slice();
+  window.LIVE_YIELDS={shmonApy:null};
+  function _fapy(x){return (x>=10?x.toFixed(1):x.toFixed(2))+'%'}
+  function applyShmonApy(){
+    var a=window.LIVE_YIELDS.shmonApy; if(a==null)return;
+    document.querySelectorAll('.live-shmon-apy').forEach(function(el){el.textContent=_fapy(a)});
+    var big=document.getElementById('stakeApyBig'); if(big)big.textContent=_fapy(a)+' APY · auto-compounds';
+    var mg=document.getElementById('mgShmon'); if(mg)mg.textContent=_fapy(a);
+  }
+  function loadPendleLive(){
+    fetch('https://api-v2.pendle.finance/core/v1/143/markets/0x176d9a5c25d3dfc9432eab81b38ddfb4ee0ace84',{headers:{accept:'application/json'}})
+      .then(function(r){return r.json()}).then(function(d){
+        if(!d||d.impliedApy==null)return;
+        window.LIVE_YIELDS.shmonApy=d.underlyingApy*100;
+        applyShmonApy();
+        var el;
+        if(el=document.getElementById('ptApy'))el.textContent=_fapy(d.impliedApy*100);
+        if(el=document.getElementById('lpApy'))el.textContent=_fapy(d.aggregatedApy*100);
+        if(el=document.getElementById('ytApy'))el.textContent='implied '+_fapy(d.impliedApy*100);
+        if(d.expiry){var dt=new Date(d.expiry);var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][dt.getUTCMonth()];
+          var ms=dt.getUTCDate()+' '+m+' '+dt.getUTCFullYear();
+          document.querySelectorAll('.pendle-mat').forEach(function(x){x.textContent=ms});}
+        if(el=document.getElementById('pendleLiq'))el.textContent='· live pool · $'+Math.round((d.liquidity&&d.liquidity.usd||0)/1000).toLocaleString()+'K liquidity';
+      }).catch(function(){});
+  }
+  var _llamaDone=0;
+  function loadLlamaYields(){
+    if(_llamaDone)return;
+    try{var c=JSON.parse(localStorage.getItem('moose-yields')||'null');
+      if(c&&Date.now()-c.t<20*60*1000){_llamaDone=1;_applyLlama(c.d);return;}}catch(e){}
+    _llamaDone=1;
+    fetch('https://yields.llama.fi/pools',{headers:{accept:'application/json'}})
+      .then(function(r){return r.json()}).then(function(j){
+        var VEN={'aave-v3':'Aave v3','euler-v2':'Euler','morpho-blue':'Morpho','curvance':'Curvance','accountable':'Accountable','townsquare-lending':'Townsquare'};
+        var OK={USDC:1,WMON:1,SHMON:1,MON:1,AUSD:1,USDT0:1};
+        var rows=(j.data||[]).filter(function(p){return p.chain==='Monad'&&VEN[p.project]&&OK[String(p.symbol).toUpperCase()]&&(p.apy||0)>0.01})
+          .sort(function(a,b){return (b.tvlUsd||0)-(a.tvlUsd||0)}).slice(0,9)
+          .map(function(p){var sym=String(p.symbol).toUpperCase();var apy=p.apy||0;var tvl=p.tvlUsd||0;
+            return [sym==='SHMON'?'shMON supply':sym+' supply',VEN[p.project],_fapy(apy),'$'+(tvl>=1e6?(tvl/1e6).toFixed(1)+'M':Math.round(tvl/1e3)+'K'),sym==='SHMON'?'Moose 2×':'—',apy,tvl/1e6]});
+        try{localStorage.setItem('moose-yields',JSON.stringify({t:Date.now(),d:rows}))}catch(e){}
+        _applyLlama(rows);
+      }).catch(function(){_llamaDone=0});
+  }
+  function _applyLlama(rows){
+    if(!rows||!rows.length)return;
+    var loop=null;
+    if(window.LIVE_YIELDS.shmonApy!=null)
+      loop=['shMON loop','Moose native · target',_fapy(window.LIVE_YIELDS.shmonApy*1.6)+' ',' loop 1.6×','Moose 2×',window.LIVE_YIELDS.shmonApy*1.6,0];
+    MM=(loop?[loop]:[]).concat(rows);
+    renderMM();
+    var best={};
+    rows.forEach(function(r){var k=r[0].split(' ')[0];if(!best[k]||r[5]>best[k])best[k]=r[5]});
+    var el;
+    if(best['USDC']&&(el=document.getElementById('mgUsdc')))el.textContent=_fapy(best['USDC']);
+    if((best['WMON']||best['MON'])&&(el=document.getElementById('mgMon')))el.textContent=_fapy(best['WMON']||best['MON']);
+  }
+  setTimeout(loadPendleLive,4500);
+  document.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('#aseg button,[data-y]');
+    if(b)setTimeout(loadLlamaYields,50);
+  },true);
   var mmSortKey='apy';
   function renderMM(){
     var mmRows=document.getElementById('mmRows');
@@ -3369,7 +3525,7 @@
     }
     pushEvent();pushEvent();pushEvent();
     if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)
-      setInterval(pushEvent,7000);
+      setInterval(function(){if(document.hidden)return;var f=document.getElementById('liveFeed');if(!f||!f.offsetParent)return;pushEvent()},7000);
     // CTA tracks the ticker input (Norman: consequence stays truthful)
     var tin=document.getElementById('lpTicker'),cta=document.getElementById('lpCta');
     if(tin&&cta)tin.addEventListener('input',function(){
@@ -3456,7 +3612,7 @@
     });
   }
   decorateFeeds();
-  setInterval(decorateFeeds,3000); // keeps ticking feeds decorated
+  setInterval(function(){if(document.hidden)return;decorateFeeds()},3000); // keeps ticking feeds decorated
   var rp=document.getElementById('railPfp');
   if(rp)rp.addEventListener('click',function(){
     document.querySelectorAll('#nav a').forEach(function(x){x.classList.remove('active')});
@@ -3533,7 +3689,7 @@
       var y=amt*0.121*months/12;
       var part=Math.round(34*Math.sqrt(months/6)); // longer term -> more premium bought
       var el=function(id){return document.getElementById(id)};
-      if(el('ppnYield'))el('ppnYield').textContent='≈ '+Math.round(y).toLocaleString()+' MON over '+months+'m (12.1%)';
+      if(el('ppnYield'))el('ppnYield').textContent='≈ '+Math.round(y).toLocaleString()+' MON over '+months+'m ('+((window.LIVE_YIELDS&&LIVE_YIELDS.shmonApy)?LIVE_YIELDS.shmonApy.toFixed(1):'12.1')+'%)';
       if(el('ppnPart'))el('ppnPart').textContent='≈ '+part+'% of the upside';
     }
     document.querySelectorAll('#ppnTerm button').forEach(function(b){
@@ -4061,7 +4217,7 @@
     if(el('fCa'))el('fCa').textContent='—';
     if(t.pair)deepFund(sym,t.pair,t.priceUsd);
     if(el('fNote'))el('fNote').textContent=sym==='shMON'
-      ?'Fundamentals are live from the deepest on-chain venue. shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY 12.1%.'
+      ?'Fundamentals are live from the deepest on-chain venue. shMON: exchange rate 1 shMON = 1.5742 MON, 9,690 holders (census Aug 2026), underlying APY '+((window.LIVE_YIELDS&&LIVE_YIELDS.shmonApy)?LIVE_YIELDS.shmonApy.toFixed(1):'12.1')+'%.'
       :'Fundamentals are live from the deepest on-chain venue on Monad.';
     // related markets: same category, top by volume, one-tap switch
     var rel=el('idRelated');
@@ -4341,9 +4497,9 @@
       }
     }
     if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      setInterval(race,5000);
-      setInterval(function(){pushFeed()},11000);
-      setInterval(function(){var e=EVT[Math.floor(Math.random()*EVT.length)];toast(e[0],e[1],e[2])},34000);
+      setInterval(function(){if(document.hidden)return;var v=document.getElementById('v-compete');if(!v||!v.classList.contains('on'))return;race()},5000);
+      setInterval(function(){if(document.hidden)return;var v=document.getElementById('v-compete');if(!v||!v.classList.contains('on'))return;pushFeed()},11000);
+      setInterval(function(){ if(document.hidden)return;var e=EVT[Math.floor(Math.random()*EVT.length)];toast(e[0],e[1],e[2])},34000);
     }
   })();
 
@@ -4874,7 +5030,7 @@
     });
     window.refreshPulse=function(){if(mode==='pulse')render()};
     setMode(mode,false);
-    var n=0,iv=setInterval(function(){
+    var n=0,iv=setInterval(function(){ if(document.hidden)return;
       n++;
       if(LIVE_TOKENS&&LIVE_TOKENS.length){if(mode==='pulse')render();clearInterval(iv);}
       if(n>40)clearInterval(iv);
@@ -4946,12 +5102,51 @@
       if(e.key==='f'||e.key==='F'){var tw2=document.querySelector('#v-trade .wrap');if(tw2)setIdentPanel(tw2.classList.contains('ifold'));}
     });
   })();
-  setInterval(function(){tick(herdList,HERD,HERD_SYS)},5200);
-  setInterval(function(){tick(duelList,DUEL,DUEL_SYS)},6100);
+  setInterval(function(){ if(document.hidden)return;tick(herdList,HERD,HERD_SYS)},5200);
+  setInterval(function(){ if(document.hidden)return;tick(duelList,DUEL,DUEL_SYS)},6100);
 })();
 </script>
 <script>
 (function(){
+  var eng=document.getElementById('bbEngine');
+  if(eng){
+    function swap(){
+      var v=eng.value;
+      document.querySelectorAll('#bbParams .bb-group').forEach(function(g){
+        g.classList.toggle('on',g.dataset.bg.split(' ').indexOf(v)>=0);
+      });
+      document.querySelectorAll('.bb-lev').forEach(function(r){r.style.display=v==='levgrid'?'flex':'none'});
+      var f=document.getElementById('bbFills'),p=document.getElementById('bbPts'),bt=document.getElementById('bbBt');
+      var base={grid:31,levgrid:44,revgrid:29,infgrid:26,dca:2,twap:20,rebal:4,mm:120,sniper:3,trigger:5}[v]||10;
+      if(f)f.textContent=base;
+      if(p)p.textContent=(base*40).toLocaleString();
+      if(bt){var pct={grid:'+2.8%',levgrid:'+4.1%',revgrid:'+1.9%',infgrid:'+2.2%',dca:'+1.1%',twap:'—',rebal:'+0.9%',mm:'+3.6%',sniper:'+11.4%',trigger:'+3.0%'}[v]||'—';
+        bt.textContent=pct;bt.className=pct.charAt(0)==='+'?'up':''}
+    }
+    eng.addEventListener('change',swap);swap();
+    document.querySelectorAll('#bbPct button').forEach(function(b){
+      b.addEventListener('click',function(){
+        var amt=document.getElementById('bbAmt');
+        amt.value=Math.round(276*parseInt(b.dataset.p,10)/100).toLocaleString();
+        document.querySelectorAll('#bbPct button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');
+      });
+    });
+    var pub=document.getElementById('bbPub');
+    if(pub)pub.addEventListener('click',function(){
+      setTimeout(function(){
+        var on=pub.classList.contains('on');
+        document.getElementById('bbFeeRow').style.opacity=on?'1':'.4';
+        document.getElementById('bbFee').disabled=!on;
+      },0);
+    });
+    var dep=document.getElementById('bbDeploy');
+    if(dep)dep.addEventListener('click',function(){
+      var old=dep.textContent;
+      var pubOn=pub&&pub.classList.contains('on');
+      dep.textContent=pubOn?'✓ Deployed + listed on marketplace':'✓ Deployed — running';
+      dep.disabled=true;setTimeout(function(){dep.textContent=old;dep.disabled=false},2200);
+    });
+  }
   document.querySelectorAll('button[data-msup]').forEach(function(b){
     b.addEventListener('click',function(){
       var old=b.textContent;
