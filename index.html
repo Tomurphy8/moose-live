@@ -2804,7 +2804,19 @@
       else{tv2.textContent='—';tv2.style.color='var(--faint)';}
       tr.appendChild(tv2);
       var t5=document.createElement('td'); var tg=document.createElement('span'); tg.className='tagg'; tg.textContent=t.cat; t5.appendChild(tg); tr.appendChild(t5);
-      var t6=document.createElement('td'); var btn=document.createElement('button'); btn.className='pill-btn'; btn.textContent=t.tradeable?'Trade':'Notify'; t6.appendChild(btn); tr.appendChild(t6);
+      var t6=document.createElement('td'); var btn=document.createElement('button'); btn.className='pill-btn'; btn.textContent=t.tradeable?'Trade':'Request';
+      if(!t.tradeable){
+        var REQ=JSON.parse(localStorage.getItem('moose-requests')||'{}');
+        if(REQ[t.sym])btn.textContent='✓ Requested';
+        btn.addEventListener('click',function(ev){ev.stopPropagation();
+          var R=JSON.parse(localStorage.getItem('moose-requests')||'{}');
+          R[t.sym]=(R[t.sym]||0)+1;
+          try{localStorage.setItem('moose-requests',JSON.stringify(R))}catch(e){}
+          btn.textContent='✓ Requested';btn.disabled=true;
+          setTimeout(function(){btn.disabled=false},1200);
+        });
+      }
+      t6.appendChild(btn); tr.appendChild(t6);
       if(t.tradeable) tr.addEventListener('click',function(){goTrade(t.sym)});
       tb.appendChild(tr);
     });
