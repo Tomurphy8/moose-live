@@ -79,13 +79,13 @@
   .tagg{font-family:"Spline Sans Mono",monospace;font-size:.67rem;color:var(--accent);border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);border-radius:5px;padding:.07rem .34rem}
 
   /* TRADE */
-  .wrap{display:grid;grid-template-columns:264px minmax(0,1fr) 340px;gap:12px;background:transparent;padding:12px 14px 0}
+  .wrap{display:grid;grid-template-columns:264px minmax(0,1fr) 340px;gap:12px;background:transparent;padding:12px 14px 12px}
   .main,.side,.ident{background:var(--panel);border-radius:16px;box-shadow:0 10px 28px rgba(0,0,0,.22)}
   .main{overflow:hidden;display:flex;flex-direction:column}
   @media(max-width:1180px){.wrap{grid-template-columns:minmax(0,1fr) 340px}.ident{display:none}}
   /* asset identity panel (Arcus-style) */
-  .ident{padding:1.1rem 1.1rem 1.25rem;overflow-y:auto;min-height:0;align-self:start;max-height:100%}
-  .side{align-self:start;max-height:100%;overflow-y:auto}
+  .ident{padding:1.1rem 1.1rem 1.25rem;overflow-y:auto;min-height:0;align-self:stretch;max-height:100%}
+  .side{align-self:stretch;max-height:100%;overflow-y:auto}
   /* fold-away research panel: animate the grid track; clip content (no reflow) + fade */
   .wrap{transition:grid-template-columns .24s cubic-bezier(.4,0,.2,1)}
   .wrap.ifold{grid-template-columns:0px minmax(0,1fr) 340px}
