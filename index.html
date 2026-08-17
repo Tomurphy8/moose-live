@@ -997,7 +997,7 @@
     </div>
     <div class="field">
       <div class="k"><span>Leverage</span><span class="bal num" id="levRead" style="color:var(--accent);font-weight:700;font-size:.95rem">1.5×</span></div>
-      <input type="range" id="levSlide" min="1" max="2" step="0.25" value="1.5" aria-label="Leverage" style="width:100%;accent-color:var(--accent);margin:.3rem 0 .1rem">
+      <input type="range" id="levSlide" min="1" max="2" step="0.25" value="1" aria-label="Leverage" style="width:100%;accent-color:var(--accent);margin:.3rem 0 .1rem">
       <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);font-family:'Spline Sans Mono',monospace"><span>1×</span><span>1.25×</span><span>1.5×</span><span>1.75×</span><span>2×</span></div>
       <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">borrows up to 1× your collateral — 2× max on longs, 1× on shorts</div>
     </div>
@@ -1015,7 +1015,7 @@
         <div class="amt"><input placeholder="—" value="1.4200" id="slIn"><span class="unit">MON</span></div>
         <div class="chips" data-t="sl"><button>-5%</button><button>-10%</button><button>-15%</button></div>
       </div>
-      <div style="grid-column:1/-1;font-size:.62rem;color:var(--faint)" id="tpslAnchor">% chips anchor to mid (1.5742)</div>
+      <div style="grid-column:1/-1;font-size:.62rem;color:var(--faint)" id="tpslAnchor">% chips anchor to mid (1.5742) · SL pre-fills on levered entries, TP stays yours</div>
     </div>
     </details>
     <button class="info-row" id="orderInfoBtn" aria-expanded="false" aria-controls="orderSentence"><span class="info-i">i</span><span>what this order does</span><span class="chev">▾</span></button>
@@ -1032,7 +1032,7 @@
     </details>
     <details class="adv">
       <summary>advanced</summary>
-      <div class="row" style="flex-wrap:wrap;gap:.3rem"><span>Slippage</span><span class="v" id="slipProVal">auto</span></div>
+      <div class="row" style="flex-wrap:wrap;gap:.3rem"><span>Slippage</span><span class="v" id="slipProVal">auto · max loss 4.1 MON</span></div>
       <div class="chips" data-slip="pro"><button data-s="auto" class="on">auto</button><button data-s="0.1">0.1%</button><button data-s="0.5">0.5%</button><button data-s="1">1%</button><button data-s="custom">custom</button><input id="slipProIn" style="display:none;width:3.6rem;background:var(--raised);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:.72rem;padding:.2rem .35rem" placeholder="2.5%"></div>
       <div class="row"><span>TWAP · split into 10 fills over 30m</span><div class="mini-toggle"></div></div>
       <div class="row"><span>Post-only (maker rebate)</span><div class="mini-toggle"></div></div>
@@ -1051,7 +1051,7 @@
     <button class="cta">Buy shMON</button>
     </div>
     <div id="simpleTicket" style="display:none">
-      <div class="swap-head" style="font-size:1.15rem;margin-bottom:.6rem">Swap <i>anything</i></div>
+      <div class="swap-head" style="font-size:1.15rem;margin-bottom:.6rem">Swap</div>
     <div class="swap-card">
       <div class="field">
         <div class="k"><span>Pay</span><span class="bal">balance 276 USDC</span></div>
@@ -1067,7 +1067,7 @@
       <div class="row"><span>Rate</span><span class="v" id="rateLine">1 MON = 0.0221 USDC</span></div>
       <div class="row"><span>USD price</span><span class="v num" id="usdLine">MON $0.0221 · USDC $1.00</span></div>
       <div class="row"><span>Min received</span><span class="v num" id="minRecv">497.5 MON</span></div>
-      <div class="row" style="flex-wrap:wrap;gap:.3rem"><span>Slippage guard</span><span class="v" id="slipSwapVal">auto</span></div>
+      <div class="row" style="flex-wrap:wrap;gap:.3rem"><span>Slippage guard</span><span class="v" id="slipSwapVal">auto · max loss 4.1 MON</span></div>
       <div class="chips" data-slip="swap"><button data-s="auto" class="on">auto</button><button data-s="0.1">0.1%</button><button data-s="0.5">0.5%</button><button data-s="1">1%</button><button data-s="custom">custom</button><input id="slipSwapIn" style="display:none;width:3.6rem;background:var(--raised);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-family:inherit;font-size:.72rem;padding:.2rem .35rem" placeholder="2.5%"></div>
       <div class="row"><span>Fee</span><span class="v">0.05%</span></div>
       <div class="row"><span>Route</span><span class="v">Kuru MON/USDC · best of 4</span></div>
@@ -1236,15 +1236,18 @@
           <div class="bb-row"><span>Trailing up</span><div class="mini-toggle on"></div></div>
           <div class="bb-row"><span>Trailing down</span><div class="mini-toggle"></div></div>
           <div class="bb-row"><span>On stop</span><select class="sel" style="width:8.2rem"><option selected>sell to USDC</option><option>hold position</option></select></div>
+          <div class="bb-row"><span>Auto-pause at drawdown</span><select class="sel" style="width:8.2rem"><option selected>−10% (floor)</option><option>−5%</option><option>−15%</option></select></div>
+          <div class="bb-row"><span>Kill switch</span><span style="font-size:.7rem;color:var(--up)">one tap · pauses bot + flattens · fires on session-key expiry too</span></div>
           <div class="k" style="margin-top:.7rem">Extras</div>
           <div class="bb-row"><span>Park idle in shMON <span class="live-shmon-apy" style="color:var(--up)">12.1%</span></span><div class="mini-toggle on"></div></div>
           <div class="bb-row"><span>Slippage guard</span><select class="sel" style="width:8.2rem"><option selected>auto</option><option>0.1%</option><option>0.5%</option><option>1%</option></select></div>
           <div class="bb-row"><span>Publish to marketplace</span><div class="mini-toggle" id="bbPub"></div></div>
           <div class="bb-row" id="bbFeeRow" style="opacity:.4"><span>Your copy fee</span><select class="sel" style="width:8.2rem" disabled id="bbFee"><option>2 bps / trade</option><option selected>5 bps / trade</option><option>10 bps / trade</option></select></div>
+          <div class="bb-row" style="font-size:.66rem;color:var(--faint)"><span>Fees pay out only in months your copiers finish net profitable · listing needs a 30d live record, backtests don’t count</span></div>
         </div>
       </div>
       <div class="bb-foot">
-        <div class="bb-proj"><span>est. fills/day <b id="bbFills">31</b></span><span>points/day <b id="bbPts" style="color:var(--accent)">1,250</b></span><span>7d backtest <b id="bbBt" class="up">+2.8%</b></span></div>
+        <div class="bb-proj"><span>est. fills/day <b id="bbFills">31</b></span><span>points/day <b id="bbPts" style="color:var(--accent)">1,250</b></span><span>7d paper run <b id="bbBt" class="up">+2.8%</b> <span style="color:var(--faint);font-size:.62rem">backtests don’t predict live</span></span></div>
         <button class="cta" id="bbDeploy" style="margin-left:auto">Deploy bot</button>
       </div>
     </div>
@@ -3791,9 +3794,9 @@
     function refreshAnchorNote(){
       var n=document.getElementById('tpslAnchor'); if(!n)return;
       var lim=document.querySelector('#otype button.on');
-      n.textContent=(lim&&lim.dataset.o==='limit')
+      n.textContent=((lim&&lim.dataset.o==='limit')
         ?('% chips anchor to your limit price ('+anchorPx().toFixed(4)+')')
-        :('% chips anchor to mid ('+MID.toFixed(4)+')');
+        :('% chips anchor to mid ('+MID.toFixed(4)+')'))+' · SL pre-fills on levered entries, TP stays yours';
     }
     function syncSentence(){
       var tp=document.getElementById('tpIn'),sl=document.getElementById('slIn');
@@ -4126,7 +4129,7 @@
         group.querySelectorAll('button').forEach(function(x){x.classList.remove('on')});
         b.classList.add('on');
         if(b.dataset.s==='custom'){inp.style.display='';inp.focus();setVal(inp.value||'…');}
-        else{inp.style.display='none';setVal(b.dataset.s==='auto'?'auto':b.dataset.s+'% max');}
+        else{inp.style.display='none';setVal(b.dataset.s==='auto'?'auto · max loss 4.1 MON':b.dataset.s+'% max');}
       });
     });
     if(inp)inp.addEventListener('input',function(){
