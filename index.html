@@ -1195,6 +1195,12 @@
           <div class="k" style="margin-top:.7rem">Investment <span class="bal" style="float:right">balance 276 USDC</span></div>
           <div class="amt"><input id="bbAmt" value="1,000"><span class="unit">USDC</span></div>
           <div class="chips" id="bbPct"><button data-p="25">25%</button><button data-p="50">50%</button><button data-p="100">Max</button></div>
+          <div class="k" style="margin-top:.7rem">Extras</div>
+          <div class="bb-row"><span>Park idle in shMON <span class="live-shmon-apy" style="color:var(--up)">12.1%</span></span><div class="mini-toggle on"></div></div>
+          <div class="bb-row"><span>Slippage guard</span><select class="sel" style="width:8.2rem"><option selected>auto</option><option>0.1%</option><option>0.5%</option><option>1%</option></select></div>
+          <div class="bb-row"><span>Publish to marketplace</span><div class="mini-toggle" id="bbPub"></div></div>
+          <div class="bb-row" id="bbFeeRow" style="opacity:.4"><span>Your copy fee</span><select class="sel" style="width:8.2rem" disabled id="bbFee"><option>2 bps / trade</option><option selected>5 bps / trade</option><option>10 bps / trade</option></select></div>
+          <div class="bb-row" style="font-size:.66rem;color:var(--faint)"><span>Fees pay out only in months your copiers finish net profitable · listing needs a 30d live record, backtests don’t count</span></div>
         </div>
         <div id="bbParams">
           <div class="k">Engine settings</div>
@@ -1242,12 +1248,6 @@
           <div class="bb-row"><span>On stop</span><select class="sel" style="width:8.2rem"><option selected>sell to USDC</option><option>hold position</option></select></div>
           <div class="bb-row"><span>Auto-pause at drawdown</span><select class="sel" style="width:8.2rem"><option selected>−10% (floor)</option><option>−5%</option><option>−15%</option></select></div>
           <div class="bb-row"><span>Kill switch</span><span style="font-size:.7rem;color:var(--up)">one tap · pauses bot + flattens · fires on session-key expiry too</span></div>
-          <div class="k" style="margin-top:.7rem">Extras</div>
-          <div class="bb-row"><span>Park idle in shMON <span class="live-shmon-apy" style="color:var(--up)">12.1%</span></span><div class="mini-toggle on"></div></div>
-          <div class="bb-row"><span>Slippage guard</span><select class="sel" style="width:8.2rem"><option selected>auto</option><option>0.1%</option><option>0.5%</option><option>1%</option></select></div>
-          <div class="bb-row"><span>Publish to marketplace</span><div class="mini-toggle" id="bbPub"></div></div>
-          <div class="bb-row" id="bbFeeRow" style="opacity:.4"><span>Your copy fee</span><select class="sel" style="width:8.2rem" disabled id="bbFee"><option>2 bps / trade</option><option selected>5 bps / trade</option><option>10 bps / trade</option></select></div>
-          <div class="bb-row" style="font-size:.66rem;color:var(--faint)"><span>Fees pay out only in months your copiers finish net profitable · listing needs a 30d live record, backtests don’t count</span></div>
         </div>
       </div>
       <div class="bb-foot">
