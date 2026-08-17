@@ -419,9 +419,6 @@
   .pcard .buy-quick:hover{background:var(--accent);color:#1b1409;border-color:var(--accent)}
   .pcard .qb{background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent);border-radius:99px;font-size:.66rem;padding:.26rem .42rem;cursor:pointer;flex-shrink:0;line-height:1}
   .pcard .qb:hover{background:var(--accent);color:#1b1409;border-color:var(--accent)}
-  .pbadges{display:flex;gap:.25rem;margin-top:.18rem;flex-wrap:wrap}
-  .pbadge{font-size:.58rem;color:var(--faint);border:1px solid var(--line);border-radius:99px;padding:.02rem .32rem;font-family:"Spline Sans Mono",monospace;line-height:1.5;white-space:nowrap}
-  .pbadge.ok{color:var(--up);border-color:color-mix(in srgb,var(--up) 35%,transparent)}
   /* pinned positions strip (rec #6) */
   #posStrip{position:sticky;bottom:10px;z-index:30;display:flex;gap:1.1rem;align-items:center;background:var(--raised);border-radius:12px;margin:10px 14px;padding:.5rem 1.1rem;font-size:.72rem;color:var(--dim);cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.35)}
   #posStrip b{color:var(--ink)}
@@ -2200,7 +2197,6 @@
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptMo">Momentum · 24h</span></div><div id="pcolMo"></div></div>
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptBlue">Majors &amp; LSTs</span></div><div id="pcolBlue"></div></div>
       </div>
-      <div style="font-size:.62rem;color:var(--faint);margin-top:.5rem" id="pulseHint">checks are computed live from on-chain data · liquidity, float, pool provenance · never a paid score</div>
     </div>
     <div class="disc-layout">
       <div class="card">
@@ -5434,14 +5430,6 @@
       var nm=document.createElement('div');nm.className='pnm';nm.textContent=t.s;
       var sub=document.createElement('div');sub.className='psub';sub.textContent=(t.n||t.s);
       mid.appendChild(nm);mid.appendChild(sub);
-      if(isNew){ // honest binary checks — only from data we actually have; never a "SAFE" score
-        var bd=document.createElement('div');bd.className='pbadges';
-        function chip(txt,ok){var s=document.createElement('span');s.className='pbadge'+(ok?' ok':'');s.textContent=txt;bd.appendChild(s);}
-        if(t.liq!=null&&t.liq>=50000)chip('liq ✓',true);
-        if(t.mc&&t.fdv){var fr=t.mc/t.fdv;if(fr>=0.97)chip('float ✓',true);else chip(Math.round((1-fr)*100)+'% locked',false);}
-        if(t.live)chip('pool ✓',true);
-        if(bd.children.length)mid.appendChild(bd);
-      }
       c.appendChild(mid);
       var px=document.createElement('div');px.className='ppx';
       var p1=document.createElement('div');p1.textContent=t.priceUsd!=null?('$'+fmtPx(t.priceUsd)):fmtPx(t.price);
