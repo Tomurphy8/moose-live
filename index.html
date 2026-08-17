@@ -1441,16 +1441,17 @@
       <div class="eq-card" style="margin-bottom:0">
         <div class="eq-head">
           <div class="sec-title" style="margin-bottom:0;font-size:.95rem">Equity</div>
-          <div class="tf-mini" id="eqTf"><button data-t="7d">7d</button><button data-t="30d" class="on">30d</button><button data-t="90d">90d</button><button data-t="all">All</button></div>
+          <div class="tf-mini" id="eqTf"><button data-t="7d">7d</button><button data-t="30d">30d</button><button data-t="90d">90d</button><button data-t="all" class="on">All</button></div>
         </div>
         <svg class="eq-svg-sm" viewBox="0 0 400 110" preserveAspectRatio="none" aria-label="equity over time">
           <defs><linearGradient id="eqfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--accent)" stop-opacity="0.20"/><stop offset="1" style="stop-color:var(--accent)" stop-opacity="0"/></linearGradient></defs>
           <path id="eqArea" d="" fill="url(#eqfill)"/>
+          <path id="eqBench" d="" fill="none" style="stroke:var(--faint)" stroke-width="1.2" stroke-dasharray="4 4" opacity=".75"/>
           <path id="eqLine" d="" fill="none" style="stroke:var(--accent)" stroke-width="2"/>
           <circle id="eqDot" r="3" style="fill:var(--accent)"/>
         </svg>
         <div style="display:flex;justify-content:space-between;font-size:.72rem;margin-top:.4rem">
-          <span class="up num">+2,470 MON</span><span style="color:var(--faint)" class="num" id="eqRange">30d</span>
+          <span class="up num">+11,930 MON</span><span style="color:var(--faint)" class="num"><span style="border-bottom:1px dashed var(--faint)">vs just holding</span> <span class="up">+4.2% ahead</span> · <span id="eqRange">all</span></span>
         </div>
       </div>
       <div class="eq-card" style="margin-bottom:0">
@@ -1463,17 +1464,18 @@
           <div class="pos-toggle" id="perfSeg" style="margin-left:auto"><button data-pf="pnl" class="on">PnL</button><button data-pf="edge">Edge</button></div>
         </div>
         <div class="ycalc" id="perfPnl">
-          <div class="row"><span>30d PnL</span><span class="v up">+2,470 MON · +8.4%</span></div>
-          <div class="row"><span>Best day</span><span class="v up">+618 MON</span></div>
-          <div class="row"><span>Worst day</span><span class="v down">-241 MON</span></div>
+          <div class="row"><span>30d PnL · your dollars</span><span class="v up">+2,470 MON · +8.4%</span></div>
+          <div class="row"><span>Time-weighted</span><span class="v">+7.9% <span style="color:var(--faint)">· vs holding +6.5%</span></span></div>
+          <div class="row"><span>Where it came from</span><span class="v">trading +1,610 · yield +720 · bots +241 · fees −101</span></div>
           <div class="row"><span>Realized / unrealized</span><span class="v">+1,910 / +560</span></div>
           <div class="row"><span>Points earned</span><span class="v" style="color:var(--accent)">220,693</span></div>
         </div>
         <div class="ycalc" id="perfEdge" style="display:none">
           <div class="row"><span>Win rate · 30d</span><span class="v up">64%</span></div>
-          <div class="row"><span>Avg R</span><span class="v">+0.8R</span></div>
-          <div class="row"><span>Best / worst</span><span class="v">+3.2R / −1.0R</span></div>
           <div class="row"><span>Expectancy</span><span class="v up">+0.42R / trade</span></div>
+          <div class="row"><span>Avg MAE / MFE</span><span class="v">−0.4R / +1.6R <span style="color:var(--faint)">auto from ticks</span></span></div>
+          <div class="row"><span>Tilt guard</span><span class="v up">steady · no post-loss size-up</span></div>
+          <div class="row"><span>Daily loss limit</span><span class="v">500 MON · set calm, edits apply tomorrow</span></div>
           <div class="row"><span>Journal</span><span class="v" style="color:var(--accent);cursor:pointer" id="perfJournalLink">auto · full journal →</span></div>
         </div>
       </div>
@@ -1483,7 +1485,7 @@
       <div>
     <div class="card">
       <div class="sec-title" style="align-items:center">Account
-        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="bots">Bots</button><button data-pf2="board">PnL board</button></div>
+        <div class="pos-toggle" id="pfSeg"><button data-pf2="holdings" class="on">Holdings</button><button data-pf2="margin">Margin</button><button data-pf2="bots">Bots</button></div>
       </div>
       <div id="pfHoldings">
           <table>
@@ -1495,6 +1497,7 @@
               <tr><td><b>Safe Farmer</b> <span style="color:var(--faint);font-size:.72rem">deployed</span></td><td class="num">6,000</td><td class="num">6,142 MON</td><td class="up num">17.4% APY</td><td><button class="pill-btn">Manage</button></td></tr>
             </tbody>
           </table>
+          <div class="hint" style="display:block;margin:.4rem 0 0">sorted by value, never by PnL · cost basis shows at order entry and in the journal, not here · both on purpose</div>
           <div class="thesis">"shMON at 3× while underlying APY is 12% and borrow is 6.2% is just positive carry with extra steps. Unwinding after unlocks."<div class="by">your note · attached to shMON long · visible to followers</div></div>
       </div>
       <div id="pfMargin" style="display:none">
@@ -1504,9 +1507,11 @@
         <div class="s"><span class="k">Borrowed</span><span class="v">6,000 MON</span></div>
         <div class="s"><span class="k">Account health</span><span class="v up">1.74</span></div>
         <div class="s"><span class="k">Liquidation at</span><span class="v">MON −41%</span></div>
+        <div class="s"><span class="k">In a −20% day</span><span class="v">−4,130 MON · health 1.31</span></div>
+        <div class="s"><span class="k">Top position</span><span class="v">shMON · 45% of equity</span></div>
       </div>
       <div class="health-wide"><i style="width:71%"></i></div>
-      <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.9rem"><span>29% of borrowing power used · safe</span><span>maintenance margin 5%</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:.68rem;color:var(--faint);margin-bottom:.9rem"><span>29% of borrowing power used · safe · alerts on health, liquidation distance and fills · price-move pushes stay off unless you turn them on</span><span>maintenance margin 5%</span></div>
       <table>
         <thead><tr><th>Tier</th><th>Collateral</th><th>Max LTV</th><th>Borrow APR</th><th>Status</th></tr></thead>
         <tbody>
@@ -1527,14 +1532,13 @@
           <div class="s"><span class="k">Points from bots</span><span class="v">87,300</span></div>
           <div class="s"><span class="k">Uptime · 30d</span><span class="v up">99.2%</span></div>
         </div>
-        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · farming Kuru + Perpl S1</div></div><span class="num up" style="font-size:.78rem">+302 MON</span><span class="earn">+2,900 pts/day</span></div>
-        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · buy at −20%</div></div><span class="num up" style="font-size:.78rem">+38 MON</span><span class="earn">2 fills</span></div>
-        <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">last run: 412 fills · deploy from the ticket</div></div><span class="num up" style="font-size:.78rem">+209 MON</span><span class="earn" style="color:var(--faint)">start</span></div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · 68% win · +0.31R exp · N=214 · max DD −2.1%</div></div><span class="num up" style="font-size:.78rem">+302 MON</span><span class="earn">risk ▾ · pause</span></div>
+        <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · 2 fills · N too small for stats yet</div></div><span class="num up" style="font-size:.78rem">+38 MON</span><span class="earn">risk ▾ · pause</span></div>
+        <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">last run · 412 fills · 58% win · +0.18R exp · max DD −4.9%</div></div><span class="num up" style="font-size:.78rem">+209 MON</span><span class="earn" style="color:var(--faint)">start</span></div>
+        <div class="hint" style="display:block;margin:.5rem 0 0">track records, not tickers · 30d rolling stats with sample size, every bot has a risk dial and a pause · 12 of 40 grid bots are down this week, drawdowns are normal</div>
       </div>
-      <div id="pfBoard" style="display:none">
-        <div class="hint" style="display:block;margin:.1rem 0 .5rem">30d · realized + unrealized · min 1,000 MON equity</div>
-        <div id="lbPnlPort"></div>
-      </div>
+      <!-- PnL leaderboard deliberately lives in Compete, not Portfolio: peer comparison next to your own book raises risk-taking (Andraszewicz RCT) -->
+      <div id="pfBoard" style="display:none"></div>
     </div>
       </div>
       <div>
@@ -1546,10 +1550,10 @@
             <div class="s"><span class="k">Antler Drip · this month</span><span class="v up">+3.1 shMON</span></div>
             <div class="s"><span class="k">Activation tier</span><span class="v">2 of 5 · 1.8× weight</span></div>
           </div>
-          <div class="ynote">Mint cost was staked, not spent — 100 MON became shMON locked in this NFT's own wallet (ERC-6551), compounding forever. Burn any time to redeem the full backing. <b>Antler Drip</b>: 10% of Moose revenue drips to activated wallets — in shMON or <b>tokenized stocks of your choice</b> as they land on Monad. Activated Herd also gets: permanent +0.25× points, zero platform fee on covered calls, launchpad curation + 10% of the protocol's launch-fee share, a free duel ticket monthly, and the Herd-only Cup bracket.</div>
+          <div class="ynote">Mint cost was staked, not spent — 100 MON became shMON locked in this NFT's own wallet (ERC-6551), compounding forever. Burn any time to redeem the full backing. <b>Antler Drip</b> streams the NFT's own shMON yield to you every epoch. Protocol fees fund the rest: a <b>weekly no-loss prize epoch</b> for activated Herd (pooled yield is the ticket, principal never touched) and the visible $FAST buyback. Tokenized-stock payouts land as a KYC'd claim once licensed issuers list on Monad. Activated Herd also gets: permanent +0.25× points, zero platform fee on covered calls, launchpad curation with launch fees routed into the prize pool, a free duel ticket monthly, and the Herd-only Cup bracket.</div>
           <div style="display:flex;gap:.4rem;margin-top:.5rem;flex-wrap:wrap">
-            <button class="pill-btn">Drip: shMON</button>
-            <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">Drip: wNVDA basket</button>
+            <button class="pill-btn">Drip: shMON yield</button>
+            <button class="pill-btn" style="color:var(--accent);border-color:var(--accent)">This week's prize: 1,240 shMON</button>
             <button class="pill-btn">Activate tier 3</button>
           </div>
         </div>
@@ -1722,8 +1726,10 @@
               <textarea placeholder="Write a thesis… attach it to a position so it posts with your entry, size and live PnL."></textarea>
               <div class="row">
                 <select><option>attach: shMON long 3&times;</option><option>attach: CHOG</option><option>attach: this week</option><option>no position</option></select>
+                <select><option>confidence: 3/5</option><option>confidence: 1/5</option><option>confidence: 2/5</option><option>confidence: 4/5</option><option>confidence: 5/5</option></select>
                 <button class="cta" style="flex:1;padding:.5rem;font-size:.8rem;box-shadow:none">Post to the herd</button>
               </div>
+              <div class="hint" style="display:block;margin:.35rem 0 0">thesis and confidence lock at entry · you grade the call later against what you actually said, not what you remember saying</div>
             </div>
           </div>
           <div class="card">
@@ -1756,12 +1762,20 @@
             <div class="ynote" style="margin-top:.5rem">Your edge is concentrated in shMON and MON. CHOG has cost you −5.6R this month — the journal says it before the balance does.</div>
           </div>
           <div class="card">
+            <div class="sec-title">Session close <span class="hint">2 minutes, prompted once a day</span></div>
+            <div class="ycalc">
+              <div class="row"><span>What worked today?</span><span class="v" style="color:var(--faint)">tap to answer</span></div>
+              <div class="row"><span>What would you not repeat?</span><span class="v" style="color:var(--faint)">tap to answer</span></div>
+            </div>
+            <div class="ynote" style="margin-top:.5rem">A 15-minute end-of-day reflection improved measured performance +22.8% in a field experiment. Two taps here keeps the streak alive · streak counts reflections, never trades.</div>
+          </div>
+          <div class="card">
             <div class="sec-title">Export</div>
             <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.2rem">
-              <button class="pill-btn">CSV — every fill</button>
-              <button class="pill-btn">Tax report</button>
+              <button class="pill-btn">CSV · Koinly / CoinTracker ready</button>
+              <button class="pill-btn">Per-lot tax report</button>
             </div>
-            <div class="ynote" style="margin-top:.6rem">Auto-synced journaling ships free, forever. Elsewhere this is a $35–99/mo subscription. Your data exports cleanly — no lock-in, that's the point.</div>
+            <div class="ynote" style="margin-top:.6rem">Every fill with UTC timestamp, fee and tx hash · lots tracked per wallet with acquisition time and basis, so specific-identification actually holds up. Pick the lot you're selling at trade time. Auto-synced journaling ships free, forever — elsewhere it's a $35–99/mo subscription.</div>
           </div>
         </div>
       </div>
@@ -3282,12 +3296,20 @@
     document.getElementById('eqArea').setAttribute('d',area);
     document.getElementById('eqDot').setAttribute('cx',lastX.toFixed(1));
     document.getElementById('eqDot').setAttribute('cy',lastY.toFixed(1));
+    // benchmark: what the same deposits would be worth just held (damped path of the equity curve)
+    var bench='';
+    pts.forEach(function(v,i){
+      var bv=pts[0]+(v-pts[0])*0.55;
+      var x=i*step, y=H-pad-((bv-mn)/rng)*(H-2*pad);
+      bench+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)+' ';
+    });
+    document.getElementById('eqBench').setAttribute('d',bench);
     document.getElementById('eqRange').textContent=key;
   }
   document.querySelectorAll('#eqTf button').forEach(function(b){
     b.addEventListener('click',function(){document.querySelectorAll('#eqTf button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');drawEq(b.dataset.t)});
   });
-  drawEq('30d');
+  drawEq('all');
   // allocation donut: proportional assets
   var ALLOC=[['shMON',14168,'#C9A567'],['MON',12480,'#8FA88A'],['Safe Farmer',6142,'#A48B5E'],['CHOG',499,'#BC8471']];
   (function(){
