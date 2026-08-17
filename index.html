@@ -779,6 +779,7 @@
         
       </div>
       <div class="sep"></div>
+      <a id="menuApi">API &amp; agents</a>
       <a>Session keys</a>
       <a>Disconnect</a>
     </div>
@@ -800,15 +801,23 @@
     <h4>About</h4>
     <div class="id-about" id="idAbout">The native asset of Monad — a parallel-execution EVM L1 with 300ms blocks and single-slot finality.</div>
     <div class="id-links">
+      <a id="idSite" href="https://monad.xyz" target="_blank" rel="noopener">Website</a>
       <a id="idScan" href="https://monadscan.com" target="_blank" rel="noopener">Monadscan</a>
       <a id="idX" href="https://x.com/search?q=%24shMON" target="_blank" rel="noopener">𝕏</a>
     </div>
     <h4>Details</h4>
     <div class="id-det">
+      <div class="row"><span>Market cap</span><span class="v num" id="idMcap">—</span></div>
+      <div class="row"><span>FDV</span><span class="v num" id="idFdv">—</span></div>
+      <div class="row"><span>Unlocks</span><span class="v" id="idUnlock"><i id="idUnlockDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--faint);margin-right:.3rem;vertical-align:middle"></i><span id="idUnlockTxt">—</span></span></div>
       <div class="row"><span>Deepest pool</span><span class="v" id="idPool">Kuru</span></div>
       <div class="row"><span>Liquidity</span><span class="v" id="idLiq">—</span></div>
       <div class="row"><span>24h DEX vol</span><span class="v" id="idVol">—</span></div>
       <div class="row"><span>Contract</span><span class="v" id="idContract">0x1B68…19c</span></div>
+    </div>
+    <div id="idSupBar" style="display:none;margin:.35rem 0 0">
+      <div style="display:flex;gap:2px"><i id="idSupCirc" style="height:5px;border-radius:3px;background:var(--accent);width:50%"></i><i id="idSupLock" style="height:5px;border-radius:3px;background:var(--line);width:50%"></i></div>
+      <div style="display:flex;justify-content:space-between;font-size:.62rem;color:var(--faint);margin-top:.2rem"><span id="idSupLbl">— circulating</span><span id="idSupLockLbl">— locked</span></div>
     </div>
     <h4>Pressure · 24h</h4>
     <div id="idPress" style="font-size:.66rem;font-family:'Spline Sans Mono',monospace;color:var(--dim)">
@@ -1962,6 +1971,31 @@
   </div>
 </div>
 
+<!-- API & agents modal -->
+<div class="modal-bg" id="apiModal">
+  <div class="modal" style="width:440px">
+    <div class="mh">API &amp; agents <span id="apClose">✕</span></div>
+    <div style="padding:0 1.1rem .4rem;font-size:.78rem;color:var(--dim)">Everything a human can click, an agent can call. Same books, same fees, same points.</div>
+    <div style="padding:.3rem 1.1rem 1rem">
+      <div class="sec-title" style="font-size:.85rem;margin:.3rem 0 .35rem">API keys</div>
+      <div class="cs-param"><span class="num" style="font-size:.74rem">moose_sk_7f2c…e91a</span><span class="v"><span class="tagg">read</span> <span class="tagg">trade</span> <span class="tagg">bots</span> <span style="color:var(--faint);font-size:.68rem">withdrawals never</span></span></div>
+      <div class="cs-param"><span>Rate limit</span><span class="v">600 req/min · burst 1,200 · WebSocket unlimited subs</span></div>
+      <div style="display:flex;gap:.4rem;margin:.45rem 0 .8rem"><button class="pill-btn">+ New key</button><button class="pill-btn" style="color:var(--down)">Revoke</button><button class="pill-btn">Copy</button></div>
+
+      <div class="sec-title" style="font-size:.85rem;margin:.3rem 0 .35rem">Agent session keys <span class="hint">EIP-7702 · your wallet stays yours</span></div>
+      <div class="cs-param"><span>trading-agent.eth</span><span class="v">cap 500 MON/day · shMON+MON+CHOG only · expires 7d</span></div>
+      <div class="cs-param"><span>Kill switch</span><span class="v" style="color:var(--up)">one tap · revokes on-chain instantly</span></div>
+      <div style="display:flex;gap:.4rem;margin:.45rem 0 .8rem"><button class="pill-btn">+ Grant session</button><button class="pill-btn" style="color:var(--down)">Revoke all</button></div>
+
+      <div class="sec-title" style="font-size:.85rem;margin:.3rem 0 .35rem">Plug an AI agent in</div>
+      <div class="cs-param"><span>MCP server</span><span class="v num" style="font-size:.72rem">mcp.moose.trade <button class="pill-btn" style="font-size:.62rem;padding:.1rem .4rem">copy</button></span></div>
+      <div class="cs-param"><span>Tools exposed</span><span class="v">quotes · orders · bots · portfolio · research · points</span></div>
+      <div class="cs-param"><span>Machine docs</span><span class="v">llms.txt · typed OpenAPI · TS + Python SDK</span></div>
+      <div style="font-size:.72rem;color:var(--faint);margin:.6rem 0 0;line-height:1.45">Claude, GPT and open-source agents connect natively over MCP — scoped by the session key above, never your root wallet. Structured errors, deterministic order ids, no CAPTCHAs, no dark patterns. Agents that route flow with your builder code earn you 10% of their fees.</div>
+    </div>
+  </div>
+</div>
+
 
 <!-- DUEL -->
 <div class="view" id="v-duel">
@@ -2569,6 +2603,14 @@
   // settings menu
   var am=document.getElementById('acctMenu');
   document.getElementById('acctBtn').addEventListener('click',function(e){e.stopPropagation();am.classList.toggle('show')});
+  // API & agents modal
+  (function(){
+    var m=document.getElementById('apiModal'),mi=document.getElementById('menuApi');
+    if(!m||!mi)return;
+    mi.addEventListener('click',function(){am.classList.remove('show');m.classList.add('show')});
+    document.getElementById('apClose').addEventListener('click',function(){m.classList.remove('show')});
+    m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('show')});
+  })();
   document.addEventListener('click',function(){am.classList.remove('show')});
   var mt=document.getElementById('menuTheme');
   if(mt)mt.addEventListener('click',function(e){e.stopPropagation()}); // try palettes without the menu closing
@@ -4382,6 +4424,30 @@
     el('idAbout').textContent=ABOUTS[sym]||('Trading on Monad · '+(t.cat||'long tail')+' · price and liquidity live from the deepest on-chain venue.');
     el('idScan').href=t.pair?('https://monadscan.com/address/'+t.pair):'https://monadscan.com';
     el('idX').href='https://x.com/search?q=%24'+encodeURIComponent(sym);
+    // website: known map first, else hidden until GeckoTerminal token info returns one
+    var SITES={MON:'https://monad.xyz',WMON:'https://monad.xyz',shMON:'https://shmonad.xyz',CHOG:'https://chog.xyz'};
+    var site=el('idSite');
+    if(site){var s0=SITES[sym];site.style.display=s0?'':'none';if(s0)site.href=s0;}
+    // mcap / FDV reset (deepFund fills them live)
+    if(el('idMcap'))el('idMcap').textContent='—';
+    if(el('idFdv'))el('idFdv').textContent='—';
+    // unlock indicator: curated for majors, derived from float for the rest
+    var UNLOCKS={
+      MON:{txt:'cliff Nov 24 · est 16% of supply · 99d',sev:'down'},
+      WMON:{txt:'follows MON · cliff Nov 24 · 99d',sev:'down'},
+      shMON:{txt:'none · exchange-rate asset',sev:'up'},
+      aprMON:{txt:'none · exchange-rate asset',sev:'up'},
+      gMON:{txt:'none · exchange-rate asset',sev:'up'},
+      sMON:{txt:'none · exchange-rate asset',sev:'up'}
+    };
+    window.ID_UNLOCKS=UNLOCKS;
+    var ud=el('idUnlockDot'),ut=el('idUnlockTxt');
+    if(ud&&ut){
+      var un=UNLOCKS[sym];
+      if(un){ut.textContent=un.txt;ud.style.background='var(--'+(un.sev==='up'?'up':un.sev==='down'?'down':'accent')+')';}
+      else{ut.textContent='—';ud.style.background='var(--faint)';}
+    }
+    var sb=el('idSupBar'); if(sb)sb.style.display='none';
     el('idPool').textContent=t.dex?String(t.dex).replace('monad_','').replace(/-/g,' '):'—';
     el('idLiq').textContent=t.liq!=null?fmtVol(t.liq):'—';
     el('idVol').textContent=t.vol24!=null?fmtVol(t.vol24):'—';
@@ -4717,6 +4783,30 @@
     function set(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
     if(d.holders!=null){set('fHold',Number(d.holders).toLocaleString());set('hpCount',Number(d.holders).toLocaleString());}
     if(d.desc){var ab=document.getElementById('idAbout');if(ab)ab.textContent=d.desc.split('\n')[0].slice(0,220);}
+    // research panel: mcap / FDV, website, unlock indicator derived from float
+    set('idMcap',d.mc!=null?fmtUsdBig(d.mc):'—');
+    set('idFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
+    if(d.site){var st=document.getElementById('idSite');if(st){st.href=d.site;st.style.display='';}}
+    if(!(window.ID_UNLOCKS&&ID_UNLOCKS[sym])&&d.mc!=null&&d.fdv>0){
+      var fl=Math.min(1,d.mc/d.fdv), lockPct=Math.max(0,Math.round((1-fl)*100));
+      var ud2=document.getElementById('idUnlockDot'),ut2=document.getElementById('idUnlockTxt');
+      if(ud2&&ut2){
+        if(fl>=0.97){ut2.textContent='fully circulating · nothing left to unlock';ud2.style.background='var(--up)';}
+        else if(fl>=0.8){ut2.textContent=lockPct+'% locked · light overhang';ud2.style.background='var(--up)';}
+        else if(fl>=0.5){ut2.textContent=lockPct+'% still locked · check the schedule';ud2.style.background='var(--accent)';}
+        else{ut2.textContent=lockPct+'% still locked · heavy overhang';ud2.style.background='var(--down)';}
+      }
+      var sb2=document.getElementById('idSupBar');
+      if(sb2&&fl<0.97){
+        sb2.style.display='';
+        var ci=document.getElementById('idSupCirc'),li=document.getElementById('idSupLock');
+        if(ci)ci.style.width=Math.round(fl*100)+'%';
+        if(li)li.style.width=(100-Math.round(fl*100))+'%';
+        var cl=document.getElementById('idSupLbl'),ll=document.getElementById('idSupLockLbl');
+        if(cl)cl.textContent=Math.round(fl*100)+'% circulating';
+        if(ll)ll.textContent=lockPct+'% locked';
+      }
+    }
     set('fMc',d.mc!=null?fmtUsdBig(d.mc):'—');
     set('fFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
     set('fCirc',(d.mc!=null&&d.px>0)?fmtSup(d.mc/d.px):'—');
@@ -4774,6 +4864,7 @@
                 var ia=(inf.data||{}).attributes||{};
                 if(ia.holders&&ia.holders.count!=null)d.holders=ia.holders.count;
                 if(ia.description)d.desc=ia.description;
+                if(ia.websites&&ia.websites.length)d.site=ia.websites[0];
                 FUND_CACHE[sym]=d;applyDeepFund(sym,d);
               }).catch(function(){});
           })
