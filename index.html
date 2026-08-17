@@ -314,6 +314,17 @@
 
   .compete-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:1.15rem}
   @media(max-width:900px){.compete-grid{grid-template-columns:1fr}}
+  /* herd feed card: height follows the right column (Engage + Stable), feed scrolls inside */
+  #h-herd .compete-grid>div:first-child{position:relative;min-height:420px}
+  #h-herd .compete-grid>div:first-child>.card{position:absolute;inset:0;display:flex;flex-direction:column;min-height:0}
+  #lbFeedPanel{display:flex;flex-direction:column;flex:1;min-height:0}
+  #liveFeed{flex:1;min-height:0;overflow-y:auto}
+  #lbTradersPanelWrap,#lbPointsPanel,#lbCopyPanel,#lbDuelPanel,#lbPnlPanel{overflow-y:auto;min-height:0}
+  @media(max-width:900px){
+    #h-herd .compete-grid>div:first-child{min-height:0}
+    #h-herd .compete-grid>div:first-child>.card{position:static}
+    #liveFeed{max-height:420px}
+  }
   .card{background:var(--panel);border-radius:16px;padding:1.05rem;margin-bottom:1rem;box-shadow:0 10px 28px rgba(0,0,0,.18)}
   .pool-card{border-color:color-mix(in srgb, var(--accent) 35%, transparent);background:linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, transparent), var(--panel))}
   .pool-card .amt-lg{font-family:"Fraunces",serif;font-size:2rem;font-weight:600;color:var(--accent)}
@@ -2479,7 +2490,7 @@
     var m=document.createElement('span'); m.textContent=e[1]; d.appendChild(m);
     var t=document.createElement('span'); t.className='t'; t.textContent='now'; d.appendChild(t);
     lf.insertBefore(d, lf.firstChild);
-    while(lf.children.length>7) lf.removeChild(lf.lastChild);
+    while(lf.children.length>16) lf.removeChild(lf.lastChild);
   }, 6500);
 
 
@@ -4556,7 +4567,7 @@
       if(!feed)return;
       if(!kind){var ev=EVT[ei++%EVT.length];kind=ev[0];who=ev[1];txt=ev[2];}
       feed.insertBefore(feedItem(kind,who,txt),feed.firstChild);
-      while(feed.children.length>12)feed.removeChild(feed.lastChild);
+      while(feed.children.length>16)feed.removeChild(feed.lastChild);
     }
     var tc=document.createElement('div');tc.id='toasts';document.body.appendChild(tc);
     function toast(kind,who,txt){
