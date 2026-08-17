@@ -319,7 +319,7 @@
   #h-herd .compete-grid>div:first-child>.card{position:absolute;inset:0;display:flex;flex-direction:column;min-height:0}
   #lbFeedPanel{display:flex;flex-direction:column;flex:1;min-height:0}
   #liveFeed{flex:1;min-height:0;overflow-y:auto}
-  #lbTradersPanelWrap,#lbPointsPanel,#lbCopyPanel,#lbDuelPanel,#lbPnlPanel{overflow-y:auto;min-height:0}
+  #lbTradersPanelWrap,#lbPointsPanel,#lbCopyPanel,#lbDuelPanel,#lbPnlPanel{flex:1 1 auto;overflow-y:auto;min-height:0}
   @media(max-width:900px){
     #h-herd .compete-grid>div:first-child{min-height:0}
     #h-herd .compete-grid>div:first-child>.card{position:static}
@@ -1273,9 +1273,9 @@
             <div id="liveFeed">
             <div class="feed-item"><span class="who">you</span><span class="ev ev-streak">STREAK</span><span>3&times; shMON long running 2d · <b class="up">+412 MON</b></span><span class="t">now</span></div>
             <div class="feed-item"><span class="who">madrigal.mon</span><button class="follow-btn on">Following</button><span class="ev ev-fill">FILL</span><span>levered 3&times; into <b>shMON</b> · 22,000 MON</span><span class="t">2m</span></div>
-            <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><span class="t">4m</span></div>
+            <div class="feed-item"><span class="who">madrigal.mon</span><span class="ev ev-thesis">THESIS</span><span>posted on <b>CHOG</b> · "unlock fear is the entry" · 14 copies</span><button class="copy-btn" style="flex:none;font-size:.64rem;padding:.14rem .45rem" data-cl="madrigal.mon" data-cs="CHOG thesis \u00b7 attached position \u00b7 14 copies already">Copy</button><span class="t">4m</span></div>
             <div class="feed-item"><span class="who">gman.mon</span><span class="ev ev-win">WIN</span><span>won duel #46 vs biawakz · pot <b>2,000 MON</b></span><span class="t">12m</span></div>
-            <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.78rem"><span class="who" style="color:var(--accent);font-weight:700">andy.mon</span><span class="ev ev-fill">CLOSED</span><span>shMON 3&times; long · <b class="up">+163%</b></span><span class="feng"><button>♥ 132</button><button>💬 12</button><button>↗</button></span></div><svg class="spark2" viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0,26 L20,24 L40,25 L60,20 L80,22 L100,15 L120,17 L140,10 L160,12 L180,6 L200,4" fill="none" stroke="var(--up)" stroke-width="1.6"/></svg></div>
+            <div class="fcard"><div style="display:flex;gap:.5rem;align-items:baseline;font-size:.78rem"><span class="who" style="color:var(--accent);font-weight:700">andy.mon</span><span class="ev ev-fill">CLOSED</span><span>shMON 3&times; long · <b class="up">+163%</b></span><span class="feng"><button>♥ 132</button><button>💬 12</button><button class="copy-btn" data-cl="andy.mon" data-cs="shMON 3\u00d7 long \u00b7 closed +163% \u00b7 full history">Copy</button><button>↗</button></span></div><svg class="spark2" viewBox="0 0 200 30" preserveAspectRatio="none"><path d="M0,26 L20,24 L40,25 L60,20 L80,22 L100,15 L120,17 L140,10 L160,12 L180,6 L200,4" fill="none" stroke="var(--up)" stroke-width="1.6"/></svg></div>
             <div class="feed-item"><span class="who">the herd</span><span class="ev ev-whale">SIGNAL</span><span><b>12 herd members</b> bought CHOG in the last 24h · avg entry −6% from here</span><span class="t">26m</span></div>
             <div class="feed-item"><span class="who">whale 0xacb1…</span><button class="follow-btn">Follow</button><span class="ev ev-whale">WHALE</span><span>bought <b>780,000 shMON</b> spot — first move in 41 days</span><span class="t">18m</span></div>
             <div class="feed-item"><span class="who">copier 0x7d1…</span><span class="ev ev-copy">COPY</span><span>deployed your Safe Farmer config · you earn 10%</span><span class="t">31m</span></div>
@@ -1289,15 +1289,23 @@
           <table>
             <thead><tr><th>#</th><th>Trader</th><th>30d · risk-adj</th><th>Max DD</th><th>Followers</th><th></th></tr></thead>
             <tbody>
-              <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">2</td><td><b>0xpaulchoi</b> <span class="tagg">sniper</span></td><td class="up num">+28,441 MON</td><td class="num">64%</td><td class="num">204</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">3</td><td><b>evil.nad</b></td><td class="up num">+19,077 MON</td><td class="num">58%</td><td class="num">166</td><td><button class="copy-btn">Copy setup</button></td></tr>
-              <tr><td class="num">4</td><td><b>kamarompon</b> <span class="tagg">farmer</span></td><td class="up num">+12,932 MON</td><td class="num">81%</td><td class="num">98</td><td><button class="copy-btn">Copy setup</button></td></tr>
+              <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn" data-cl="madrigal.mon" data-cs="MM bot \u00b7 Traders board #1 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">2</td><td><b>0xpaulchoi</b> <span class="tagg">sniper</span></td><td class="up num">+28,441 MON</td><td class="num">64%</td><td class="num">204</td><td><button class="copy-btn" data-cl="0xpaulchoi" data-cs="Sniper \u00b7 Traders board #2 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">3</td><td><b>evil.nad</b></td><td class="up num">+19,077 MON</td><td class="num">58%</td><td class="num">166</td><td><button class="copy-btn" data-cl="evil.nad" data-cs="Traders board #3 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">4</td><td><b>kamarompon</b> <span class="tagg">farmer</span></td><td class="up num">+12,932 MON</td><td class="num">81%</td><td class="num">98</td><td><button class="copy-btn" data-cl="kamarompon" data-cs="Farmer \u00b7 Traders board #4 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">5</td><td><b>thogard.mon</b> <span class="tagg">Colossus</span></td><td class="up num">+9,804 MON</td><td class="num">74%</td><td class="num">92</td><td><button class="copy-btn" data-cl="thogard.mon" data-cs="Traders board #5 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">6</td><td><b>gman.mon</b></td><td class="up num">+8,112 MON</td><td class="num">69%</td><td class="num">84</td><td><button class="copy-btn" data-cl="gman.mon" data-cs="Traders board #6 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">7</td><td><b>saltedkink</b> <span class="tagg">grid</span></td><td class="up num">+6,930 MON</td><td class="num">77%</td><td class="num">55</td><td><button class="copy-btn" data-cl="saltedkink" data-cs="Grid \u00b7 Traders board #7 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">8</td><td><b>lydicius</b></td><td class="up num">+5,204 MON</td><td class="num">62%</td><td class="num">49</td><td><button class="copy-btn" data-cl="lydicius" data-cs="Traders board #8 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">9</td><td><b>biawakz</b></td><td class="up num">+4,411 MON</td><td class="num">59%</td><td class="num">42</td><td><button class="copy-btn" data-cl="biawakz" data-cs="Traders board #9 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">10</td><td><b>mai.curv</b> <span class="tagg">looper</span></td><td class="up num">+3,870 MON</td><td class="num">83%</td><td class="num">38</td><td><button class="copy-btn" data-cl="mai.curv" data-cs="Looper \u00b7 Traders board #10 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">11</td><td><b>moosewhisperer</b></td><td class="up num">+3,122 MON</td><td class="num">66%</td><td class="num">31</td><td><button class="copy-btn" data-cl="moosewhisperer" data-cs="Traders board #11 \u00b7 risk-adjusted">Copy setup</button></td></tr>
+              <tr><td class="num">12</td><td><b>tundra.nad</b></td><td class="up num">+2,914 MON</td><td class="num">71%</td><td class="num">26</td><td><button class="copy-btn" data-cl="tundra.nad" data-cs="Traders board #12 \u00b7 risk-adjusted">Copy setup</button></td></tr>
               <tr class="lb-row-you"><td class="num">47</td><td><b>you</b></td><td class="up num">+1,204 MON</td><td class="num">61%</td><td class="num">7</td><td><span style="font-size:.7rem;color:var(--faint)">53 to top 100 →</span></td></tr>
             </tbody>
           </table></div>
           <div id="lbPointsPanel" style="display:none"><div id="lbCompete"></div></div>
-          <div id="lbCopyPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">who the herd pays to follow · you earn 10% of copier fees</div><div id="lbCopy"></div></div>
+          <div id="lbCopyPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">who the herd pays to follow · you earn 10% of copier fees · median copier +41 MON / 30d after fees</div><div id="lbCopy"></div></div>
           <div id="lbDuelPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">season one · W–L · biggest pots</div><div id="lbDuel"></div></div>
           <div id="lbPnlPanel" style="display:none"><div class="hint" style="margin:.2rem 0 .4rem;display:block">30d · realized + unrealized · min 1,000 MON equity</div><div id="lbPnl"></div></div>
         </div>
@@ -1420,9 +1428,9 @@
         <table>
           <thead><tr><th>#</th><th>Bot</th><th>Creator</th><th>Sortino</th><th>Record</th><th>Staked</th><th></th></tr></thead>
           <tbody>
-            <tr><td class="num">1</td><td><b>GridMaster-9000</b></td><td>madrigal.mon</td><td class="num up">2.4</td><td class="num">11–3</td><td class="num">4,100 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
-            <tr><td class="num">2</td><td><b>DipHoover</b></td><td>evil.nad</td><td class="num up">1.9</td><td class="num">10–4</td><td class="num">2,800 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
-            <tr><td class="num">3</td><td><b>chogchopper</b></td><td>0xpaulchoi</td><td class="num up">1.6</td><td class="num">9–5</td><td class="num">1,950 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">1</td><td><b>GridMaster-9000</b></td><td>madrigal.mon</td><td class="num up">2.4</td><td class="num">11–3</td><td class="num">4,100 shMON</td><td><button class="pill-btn copy-btn" data-cl="madrigal.mon" data-cs="GridMaster-9000 · Bot League #1 · Sortino 2.4 · 4,100 shMON staked">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">2</td><td><b>DipHoover</b></td><td>evil.nad</td><td class="num up">1.9</td><td class="num">10–4</td><td class="num">2,800 shMON</td><td><button class="pill-btn copy-btn" data-cl="evil.nad" data-cs="DipHoover · Bot League #2 · Sortino 1.9 · 2,800 shMON staked">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">3</td><td><b>chogchopper</b></td><td>0xpaulchoi</td><td class="num up">1.6</td><td class="num">9–5</td><td class="num">1,950 shMON</td><td><button class="pill-btn copy-btn" data-cl="0xpaulchoi" data-cs="chogchopper · Bot League #3 · Sortino 1.6 · 1,950 shMON staked">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
           </tbody>
         </table>
         <div style="font-size:.66rem;color:var(--faint);margin-top:.4rem;line-height:1.5">Live on-chain PnL only, vol-normalized. Creators stake shMON — stake burns on underperformance. Featured slots are auctioned: creators bid fee-share to sit in front of order flow, and lockers who vote on the slots collect the bids. Superfinal: top two bots head-to-head for two weeks, creators corner-manning live. <b style="color:var(--accent)">Starts in 24 days.</b></div>
@@ -1578,7 +1586,7 @@
         <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Safe Farmer</div><div style="font-size:.7rem;color:var(--faint)">delta-neutral · 68% win · +0.31R exp · N=214 · max DD −2.1%</div></div><span class="num up" style="font-size:.78rem">+302 MON</span><span class="earn">risk ▾ · pause</span></div>
         <div class="bot-row"><span class="dot"></span><div><div style="font-weight:600;font-size:.85rem">Dip Sniper</div><div style="font-size:.7rem;color:var(--faint)">armed on JAMES · 2 fills · N too small for stats yet</div></div><span class="num up" style="font-size:.78rem">+38 MON</span><span class="earn">risk ▾ · pause</span></div>
         <div class="bot-row"><span class="dot idle"></span><div><div style="font-weight:600;font-size:.85rem">Grid Bot</div><div style="font-size:.7rem;color:var(--faint)">last run · 412 fills · 58% win · +0.18R exp · max DD −4.9%</div></div><span class="num up" style="font-size:.78rem">+209 MON</span><span class="earn" style="color:var(--faint)">start</span></div>
-        <div class="hint" style="display:block;margin:.5rem 0 0">track records, not tickers · 30d rolling stats with sample size, every bot has a risk dial and a pause · 12 of 40 grid bots are down this week, drawdowns are normal</div>
+        <div class="hint" style="display:block;margin:.5rem 0 0">track records, not tickers · 30d rolling stats with sample size, every bot has a risk dial and a pause · 12 of 40 grid bots are down this week, drawdowns are normal · copy new ones from the Bot League</div>
       </div>
       <!-- PnL leaderboard deliberately lives in Compete, not Portfolio: peer comparison next to your own book raises risk-taking (Andraszewicz RCT) -->
       <div id="pfBoard" style="display:none"></div>
@@ -1938,17 +1946,18 @@
 <!-- copy-setup modal -->
 <div class="modal-bg" id="copyModal">
   <div class="modal" style="width:390px">
-    <div class="mh">Copy madrigal.mon's setup <span id="cmClose">✕</span></div>
-    <div style="padding:0 1.1rem .4rem;font-size:.78rem;color:var(--dim)">Volume Bot · KURU shMON/MON · running 31 days</div>
+    <div class="mh" id="cmTitle">Copy madrigal.mon's setup <span id="cmClose">✕</span></div>
+    <div style="padding:0 1.1rem .4rem;font-size:.78rem;color:var(--dim)" id="cmSub">Volume Bot · KURU shMON/MON · running 31 days</div>
     <div style="padding:.3rem 1.1rem .9rem">
-      <div class="cs-param"><span>Spread</span><span class="v">0.22%</span></div>
-      <div class="cs-param"><span>Depth per side</span><span class="v">1,500 MON</span></div>
-      <div class="cs-param"><span>Refresh</span><span class="v">every 4 blocks</span></div>
-      <div class="cs-param"><span>History</span><span class="v">full · includes 2 abandoned configs</span></div>
+      <div class="cs-param"><span>Max drawdown · 30d</span><span class="v">−4.8%</span></div>
+      <div class="cs-param"><span>Leverage used</span><span class="v">none</span></div>
+      <div class="cs-param"><span>Track record</span><span class="v">31d · N=1,204 fills · includes 2 abandoned configs</span></div>
       <div class="cs-param"><span>30d result</span><span class="v" style="color:var(--up)">+2,114 MON · 38,900 pts</span></div>
+      <div class="cs-param"><span>Median copier · 30d</span><span class="v">+41 MON after fees</span></div>
       <div class="cs-param"><span>Author's cut</span><span class="v" style="color:var(--accent)">10% of your bot fees</span></div>
-      <div style="font-size:.72rem;color:var(--faint);margin:.6rem 0 .7rem;line-height:1.4">You fund it with your own balance and can stop any time. Copying the config, not sharing custody.</div>
-      <button class="cta" style="width:100%;padding:.7rem;font-size:.88rem">Deploy with 2,000 MON</button>
+      <div class="cs-param"><span>Your risk dial</span><span class="v">half size to start · change any time</span></div>
+      <div style="font-size:.72rem;color:var(--faint);margin:.6rem 0 .7rem;line-height:1.4">You fund it with your own balance and can stop any time. Copying the config, not sharing custody. It lands in <b>Your bots</b> — armed from the trade ticket, managed in Portfolio → Bots.</div>
+      <button class="cta" id="cmDeploy" style="width:100%;padding:.7rem;font-size:.88rem">Deploy with 2,000 MON</button>
     </div>
   </div>
 </div>
@@ -4143,6 +4152,14 @@
       {r:3,w:'0xpaulchoi',p:'988,204',d:'+12,105'},
       {r:4,w:'biawakz',p:'816,930',d:'+9,671'},
       {r:5,w:'gman.mon',p:'714,286',d:'+11,930'},
+      {r:6,w:'lydicius',p:'688,904',d:'+8,830'},
+      {r:7,w:'thogard.mon',p:'641,220',d:'+7,912'},
+      {r:8,w:'kamarompon',p:'590,146',d:'+9,204'},
+      {r:9,w:'saltedkink',p:'512,733',d:'+6,481'},
+      {r:10,w:'mai.curv',p:'474,902',d:'+5,930'},
+      {r:11,w:'tundra.nad',p:'431,270',d:'+6,204'},
+      {r:12,w:'moosewhisperer',p:'405,118',d:'+5,412'},
+      {r:13,w:'andy.mon',p:'389,444',d:'+4,988'},
     ];
     var YOU={r:83,w:'you',p:'220,693',d:'+4,120'};
     function row(e,you){
@@ -4174,7 +4191,15 @@
       {r:2,w:'whale 0xacb1…',p:'+41.8%',d:'+402k MON'},
       {r:3,w:'madrigal.mon',p:'+38.1%',d:'+22,040 MON'},
       {r:4,w:'evil.nad',p:'+29.7%',d:'+11,380 MON'},
-      {r:5,w:'biawakz',p:'+21.2%',d:'+6,910 MON'}];
+      {r:5,w:'biawakz',p:'+21.2%',d:'+6,910 MON'},
+      {r:6,w:'gman.mon',p:'+19.4%',d:'+5,880 MON'},
+      {r:7,w:'thogard.mon',p:'+17.2%',d:'+5,140 MON'},
+      {r:8,w:'saltedkink',p:'+14.8%',d:'+3,904 MON'},
+      {r:9,w:'lydicius',p:'+12.1%',d:'+3,377 MON'},
+      {r:10,w:'mai.curv',p:'+10.9%',d:'+2,996 MON'},
+      {r:11,w:'kamarompon',p:'+10.2%',d:'+2,871 MON'},
+      {r:12,w:'tundra.nad',p:'+9.7%',d:'+2,650 MON'},
+      {r:13,w:'moosewhisperer',p:'+9.1%',d:'+2,433 MON'}];
     var PNL_YOU={r:61,w:'you',p:'+8.4%',d:'+2,470 MON'};
     board('lbPnl',PNL_TOP,PNL_YOU);
     board('lbPnlPort',PNL_TOP,PNL_YOU);
@@ -4182,18 +4207,68 @@
       {r:1,w:'madrigal.mon',p:'4,110 MON',d:'212 copiers'},
       {r:2,w:'evil.nad',p:'1,882 MON',d:'96 copiers'},
       {r:3,w:'0xpaulchoi',p:'1,204 MON',d:'71 copiers'},
+      {r:4,w:'gman.mon',p:'966 MON',d:'58 copiers'},
+      {r:5,w:'andy.mon',p:'811 MON',d:'44 copiers'},
+      {r:6,w:'thogard.mon',p:'703 MON',d:'39 copiers'},
+      {r:7,w:'saltedkink',p:'617 MON',d:'33 copiers'},
+      {r:8,w:'kamarompon',p:'540 MON',d:'29 copiers'},
+      {r:9,w:'lydicius',p:'466 MON',d:'24 copiers'},
+      {r:10,w:'mai.curv',p:'391 MON',d:'21 copiers'},
+      {r:11,w:'tundra.nad',p:'322 MON',d:'17 copiers'},
+      {r:12,w:'moosewhisperer',p:'258 MON',d:'13 copiers'},
     ],{r:19,w:'you',p:'214 MON',d:'4 copiers'});
     board('lbDuel',[
       {r:1,w:'gman.mon',p:'31W – 6L',d:'top pot 12k'},
       {r:2,w:'biawakz',p:'24W – 9L',d:'top pot 8k'},
       {r:3,w:'lydicius',p:'19W – 11L',d:'top pot 5k'},
-    ],{r:12,w:'you',p:'8W – 3L',d:'top pot 1k'});
+      {r:4,w:'evil.nad',p:'17W – 8L',d:'top pot 4k'},
+      {r:5,w:'0xpaulchoi',p:'15W – 9L',d:'top pot 4k'},
+      {r:6,w:'madrigal.mon',p:'14W – 6L',d:'top pot 3k'},
+      {r:7,w:'kamarompon',p:'12W – 10L',d:'top pot 2.5k'},
+      {r:8,w:'saltedkink',p:'11W – 7L',d:'top pot 2k'},
+      {r:9,w:'tundra.nad',p:'10W – 9L',d:'top pot 2k'},
+      {r:10,w:'andy.mon',p:'9W – 8L',d:'top pot 1.5k'},
+      {r:11,w:'moosewhisperer',p:'9W – 11L',d:'top pot 1.5k'},
+      {r:12,w:'mai.curv',p:'8W – 6L',d:'top pot 1.2k'},
+    ],{r:13,w:'you',p:'8W – 3L',d:'top pot 1k'});
+    // copy chips on the copy-leaders board — every row opens the same review sheet
+    document.querySelectorAll('#lbCopy .lb-row').forEach(function(r){
+      var w=r.querySelector('.w'); if(!w||w.textContent==='you')return;
+      var b=document.createElement('button');b.className='copy-btn';
+      b.style.cssText='font-size:.64rem;padding:.14rem .45rem;margin-left:.35rem;flex:none';
+      b.dataset.cl=w.textContent.trim();
+      b.dataset.cs='Most-copied setup \u00b7 full history \u00b7 risk stats below';
+      b.textContent='Copy';r.appendChild(b);
+    });
   })();
 
 
-  // copy-setup modal
+  // copy-setup modal — delegated, so Copy buttons anywhere (feed, boards, Bot League) open one review sheet
   var cm=document.getElementById('copyModal');
-  document.querySelectorAll('.copy-btn').forEach(function(b){b.addEventListener('click',function(){cm.classList.add('show')})});
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.copy-btn'); if(!b)return;
+    var who=b.dataset.cl||'madrigal.mon';
+    var what=b.dataset.cs||'Volume Bot · KURU shMON/MON · running 31 days';
+    var t=document.getElementById('cmTitle');
+    if(t&&t.firstChild&&t.firstChild.nodeType===3)t.firstChild.textContent="Copy "+who+"'s setup ";
+    var s=document.getElementById('cmSub'); if(s)s.textContent=what;
+    cm.classList.add('show');
+  });
+  var cmd=document.getElementById('cmDeploy');
+  if(cmd)cmd.addEventListener('click',function(){
+    var t=document.getElementById('cmTitle');
+    var m=(t&&t.firstChild&&t.firstChild.textContent||'').match(/Copy (.+?)'s/);
+    var who=m?m[1]:'madrigal.mon';
+    try{
+      var mine=JSON.parse(localStorage.getItem('moose-mybots')||'[]');
+      mine.unshift({n:'Copy · '+who,e:'mm',t:Date.now()});
+      localStorage.setItem('moose-mybots',JSON.stringify(mine.slice(0,6)));
+    }catch(err){}
+    if(window.renderMyBots)renderMyBots();
+    var old=cmd.textContent;
+    cmd.textContent='✓ Copied — running in Your bots';
+    setTimeout(function(){cm.classList.remove('show');cmd.textContent=old},1400);
+  });
   document.getElementById('cmClose').addEventListener('click',function(){cm.classList.remove('show')});
   cm.addEventListener('click',function(e){if(e.target===cm)cm.classList.remove('show')});
   // follow toggle
