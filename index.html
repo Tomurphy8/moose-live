@@ -1065,6 +1065,8 @@
     </div>
     <div id="botTicket" style="display:none">
       <div class="swap-head" style="font-size:1.05rem;margin-bottom:.6rem">Deploy a bot on <b id="botPair">MON/USDC</b></div>
+      <div class="k" style="margin-bottom:.25rem">Your bots <span class="bal">built in the Bots tab</span></div>
+      <div class="chips" id="myBots" style="margin-bottom:.55rem"></div>
       <div class="chips" id="botType" style="margin-bottom:.6rem"><button class="on" data-bt="grid">Grid</button><button data-bt="lev">Leveraged grid</button><button data-bt="dca">DCA</button><button data-bt="range">Range</button><button data-bt="yield">Yield</button><button data-bt="trigger">Trigger</button></div>
       <div class="field">
         <div class="k"><span>Range · lower / upper</span><span class="bal" style="color:var(--accent);cursor:pointer" id="botAuto">use 7d range</span></div>
@@ -1277,9 +1279,9 @@
           </div>
           </div>
           <div id="lbTradersPanelWrap" style="display:none">
-          <div class="yourank"><b>Your rank #61</b><span class="up num" id="yrPnl">+2,470 MON · 30d</span><div class="pos-toggle" id="lbWin" style="margin-left:auto"><button data-w="24h">24h</button><button data-w="7d">7d</button><button data-w="30d" class="on">30d</button></div></div>
+          <div class="yourank"><b>Yearling League II · 4th of 28</b><span class="up num" id="yrPnl">+2,470 MON · 30d</span><span class="tagg" style="margin-left:.5rem">promotion in 2d</span><div class="pos-toggle" id="lbWin" style="margin-left:auto"><button data-w="24h">24h</button><button data-w="7d">7d</button><button data-w="30d" class="on">30d</button></div></div>
           <table>
-            <thead><tr><th>#</th><th>Trader</th><th>30d PnL</th><th>Win rate</th><th>Followers</th><th></th></tr></thead>
+            <thead><tr><th>#</th><th>Trader</th><th>30d · risk-adj</th><th>Max DD</th><th>Followers</th><th></th></tr></thead>
             <tbody>
               <tr><td class="num">1</td><td><b>madrigal.mon</b> <span class="tagg">MM bot</span></td><td class="up num">+41,208 MON</td><td class="num">71%</td><td class="num">318</td><td><button class="copy-btn">Copy setup</button></td></tr>
               <tr><td class="num">2</td><td><b>0xpaulchoi</b> <span class="tagg">sniper</span></td><td class="up num">+28,441 MON</td><td class="num">64%</td><td class="num">204</td><td><button class="copy-btn">Copy setup</button></td></tr>
@@ -1299,6 +1301,8 @@
           <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
             <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
           </div>
+          <div class="chips" style="margin:.15rem 0 .35rem"><button class="on">Bullet · 15m · Bo3</button><button>Blitz · 1h</button><button>Rapid · 24h</button><button>Classical · 7d</button></div>
+          <div style="font-size:.66rem;color:var(--faint);margin-bottom:.4rem;line-height:1.5">table stakes · rake 3% capped, no action no rake · vol <span style="color:var(--up);font-weight:600">HIGH ●</span> — featured window 13:30–16:00 UTC · vs gman.mon you lead the series <span class="num" style="color:var(--ink)">4–2</span></div>
           <div id="dlYour">
             <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
           <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
@@ -1384,6 +1388,33 @@
           <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
           <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
         </div>
+      </div>
+    </div>
+    <div class="compete-grid" style="margin-top:1.1rem">
+      <div class="card">
+        <div class="sec-title"><span class="live-dot"></span>Bot League <span class="hint">weekly rounds · monthly season · quarterly Superfinal</span><span class="tagg" style="margin-left:auto">Season 1 · week 3</span></div>
+        <table>
+          <thead><tr><th>#</th><th>Bot</th><th>Creator</th><th>Sortino</th><th>Record</th><th>Staked</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="num">1</td><td><b>GridMaster-9000</b></td><td>madrigal.mon</td><td class="num up">2.4</td><td class="num">11–3</td><td class="num">4,100 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">2</td><td><b>DipHoover</b></td><td>evil.nad</td><td class="num up">1.9</td><td class="num">10–4</td><td class="num">2,800 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+            <tr><td class="num">3</td><td><b>chogchopper</b></td><td>0xpaulchoi</td><td class="num up">1.6</td><td class="num">9–5</td><td class="num">1,950 shMON</td><td><button class="pill-btn">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:.66rem;color:var(--faint);margin-top:.4rem;line-height:1.5">Live on-chain PnL only, vol-normalized. Creators stake shMON — stake burns on underperformance. Superfinal: top two bots head-to-head for two weeks, creators corner-manning live. <b style="color:var(--accent)">Starts in 24 days.</b></div>
+      </div>
+      <div class="card">
+        <div class="sec-title">The Stable <span class="hint">co-owned through your Herd NFT's token-bound account</span></div>
+        <div class="fcard" style="margin:.3rem 0">
+          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">GridMaster-9000</b><span class="tagg">your share 25%</span><span class="up num">+38 USDC · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with lydicius, biawakz, kamarompon</span></div>
+          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">Held in Herd #4127's token-bound account · weekly stable recap posts to your clan Telegram every Sunday</div>
+        </div>
+        <div class="fcard" style="margin:.3rem 0">
+          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">shMON Looper</b><span class="tagg">your share 50%</span><span class="up num">+12 MON · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with gman.mon</span></div>
+          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">League: Yearling II · next round Saturday · creator fee 5 bps per trade to madrigal.mon</div>
+        </div>
+        <button class="pill-btn" style="margin-top:.3rem">+ Pool a bot with your clan</button>
+        <div style="font-size:.66rem;color:var(--faint);margin-top:.45rem;line-height:1.5">Own a piece of a competitor and you watch the whole race differently — fantasy-stable owners consume ~35% more of the surface they compete on.</div>
       </div>
     </div>
   </div>
@@ -1539,7 +1570,7 @@
     <div class="ysec on" id="y-staking">
       <div class="stake-hero">
         <div class="card ycard-hero">
-          <div class="sec-title" style="margin-bottom:.3rem">Native staking</div>
+          <div class="sec-title" style="margin-bottom:.3rem">Liquid staking</div>
           <div class="apy-big" id="stakeApyBig">12.1% APY · auto-compounds</div>
           <div class="ynote">Stake MON, receive shMON. Yield from staking rewards plus MEV revenue accrues into the exchange rate every ~5.5 hours. No claiming, no lockup for traditional unstake.</div>
           <div class="ycalc">
@@ -1662,9 +1693,9 @@
         <table>
           <thead><tr><th>Market</th><th>Maturity</th><th>Fixed APY</th><th>What you get</th><th></th></tr></thead>
           <tbody>
-            <tr><td><b>PT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="ptApy" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><button class="pill-btn">Lock</button></td></tr>
-            <tr><td><b>YT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="num" id="ytApy" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><button class="pill-btn">Buy</button></td></tr>
-            <tr><td><b>LP shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="lpApy">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><button class="pill-btn">Provide</button></td></tr>
+            <tr><td><b>PT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="ptApy" style="font-weight:600">14.2%</td><td style="font-size:.76rem;color:var(--dim)">fixed yield to maturity, no variance</td><td><a class="pill-btn" href="https://app.pendle.finance/trade/pools/0x176d9a5c25d3dfc9432eab81b38ddfb4ee0ace84/zap/in?chain=monad" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Lock</a></td></tr>
+            <tr><td><b>YT-shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="num" id="ytApy" style="color:var(--accent)">leveraged</td><td style="font-size:.76rem;color:var(--dim)">all the yield + all the points, none of the principal</td><td><a class="pill-btn" href="https://app.pendle.finance/trade/pools/0x176d9a5c25d3dfc9432eab81b38ddfb4ee0ace84/zap/in?chain=monad" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Buy</a></td></tr>
+            <tr><td><b>LP shMON</b></td><td class="num pendle-mat">26 Dec 2026</td><td class="up num" id="lpApy">11.8%</td><td style="font-size:.76rem;color:var(--dim)">both sides + swap fees, no IL to maturity</td><td><a class="pill-btn" href="https://app.pendle.finance/trade/pools/0x176d9a5c25d3dfc9432eab81b38ddfb4ee0ace84/zap/in?chain=monad" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Provide</a></td></tr>
           </tbody>
         </table>
         <div class="ynote">PT locks a fixed rate to maturity. YT is the stripped variable yield and points. LP earns both sides with no impermanent loss to maturity. <span id="pendleLiq" class="num" style="color:var(--accent)"></span></div>
@@ -1681,6 +1712,7 @@
         <div class="s"><span class="k">Avg R</span><span class="v">+0.8R</span></div>
         <div class="s"><span class="k">Expectancy</span><span class="v up">+0.42R / trade</span></div>
         <div class="s"><span class="k">Logged fills · 30d</span><span class="v">127 <span style="color:var(--accent);font-size:.72rem">auto</span></span></div>
+        <div class="s"><span class="k">Journal streak</span><span class="v" style="color:var(--accent)">6d <span style="color:var(--faint);font-size:.68rem">repairable · pauses weekends</span></span></div>
       </div>
       <div class="pf-grid">
         <div>
@@ -4461,6 +4493,7 @@
     }
     var tc=document.createElement('div');tc.id='toasts';document.body.appendChild(tc);
     function toast(kind,who,txt){
+      if(kind==='fill')return; // no execution celebration — process and social events only
       var d=document.createElement('div');d.className='toast';
       var e=document.createElement('span');e.className='ev ev-'+kind;e.textContent=TAG[kind]||kind.toUpperCase();
       var tx=document.createElement('span');tx.textContent=who+' '+txt;
@@ -5143,9 +5176,39 @@
     if(dep)dep.addEventListener('click',function(){
       var old=dep.textContent;
       var pubOn=pub&&pub.classList.contains('on');
+      var nm=eng.options[eng.selectedIndex].text.split(' ·')[0]+' · '+document.getElementById('bbPair').value;
+      try{
+        var mine=JSON.parse(localStorage.getItem('moose-mybots')||'[]');
+        mine.unshift({n:nm,e:eng.value,t:Date.now()});
+        localStorage.setItem('moose-mybots',JSON.stringify(mine.slice(0,6)));
+      }catch(e){}
+      if(window.renderMyBots)renderMyBots();
       dep.textContent=pubOn?'✓ Deployed + listed on marketplace':'✓ Deployed — running';
       dep.disabled=true;setTimeout(function(){dep.textContent=old;dep.disabled=false},2200);
     });
+    window.renderMyBots=function(){
+      var el=document.getElementById('myBots'); if(!el)return;
+      var mine=[];try{mine=JSON.parse(localStorage.getItem('moose-mybots')||'[]')}catch(e){}
+      el.textContent='';
+      if(!mine.length){
+        var h=document.createElement('button');h.style.cssText='color:var(--faint);border-style:dashed';
+        h.textContent='none yet — build one in the Bots tab';
+        h.addEventListener('click',function(){var l=document.querySelector('#nav a[data-v="bots"]');if(l)l.click()});
+        el.appendChild(h);return;
+      }
+      var MAP={grid:'grid',levgrid:'lev',revgrid:'grid',infgrid:'grid',dca:'dca',twap:'dca',rebal:'yield',mm:'range',sniper:'trigger',trigger:'trigger'};
+      mine.forEach(function(b){
+        var c=document.createElement('button');c.textContent=b.n;
+        c.addEventListener('click',function(){
+          var tgt=document.querySelector('#botType button[data-bt="'+(MAP[b.e]||'grid')+'"]');
+          if(tgt)tgt.click();
+          var o=c.textContent;c.textContent='✓ armed';c.classList.add('on');
+          setTimeout(function(){c.textContent=o;c.classList.remove('on')},1400);
+        });
+        el.appendChild(c);
+      });
+    };
+    renderMyBots();
   }
   document.querySelectorAll('button[data-msup]').forEach(function(b){
     b.addEventListener('click',function(){
