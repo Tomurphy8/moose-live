@@ -842,6 +842,7 @@
       <div class="price-lg num" id="pairPrice">$0.0221</div>
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
+      <div class="stat"><span class="k">head block</span><span class="v num" id="blockChip" title="Monad · 400ms blocks">—</span></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
       <button class="fold-chip" id="theatreBtn" data-tip="Theatre mode — full-height chart" aria-label="Theatre mode" aria-pressed="false" style="align-self:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5H3.5V8"/><path d="M16 3.5h4.5V8"/><path d="M8 20.5H3.5V16"/><path d="M16 20.5h4.5V16"/></svg></button>
     </div>
@@ -4507,6 +4508,7 @@
       else{ut.textContent='—';ud.style.background='var(--faint)';}
     }
     var sb=el('idSupBar'); if(sb)sb.style.display='none';
+    if(window.cgFund)cgFund(sym);
     el('idPool').textContent=t.dex?String(t.dex).replace('monad_','').replace(/-/g,' '):'—';
     el('idLiq').textContent=t.liq!=null?fmtVol(t.liq):'—';
     el('idVol').textContent=t.vol24!=null?fmtVol(t.vol24):'—';
@@ -4843,8 +4845,9 @@
     if(d.holders!=null){set('fHold',Number(d.holders).toLocaleString());set('hpCount',Number(d.holders).toLocaleString());}
     if(d.desc){var ab=document.getElementById('idAbout');if(ab)ab.textContent=d.desc.split('\n')[0].slice(0,220);}
     // research panel: mcap / FDV, website, unlock indicator derived from float
-    set('idMcap',d.mc!=null?fmtUsdBig(d.mc):'—');
-    set('idFdv',d.fdv!=null?fmtUsdBig(d.fdv):'—');
+    // (never blank a field CoinGecko may already have filled — GT returns null mcap for majors)
+    if(d.mc!=null)set('idMcap',fmtUsdBig(d.mc));
+    if(d.fdv!=null)set('idFdv',fmtUsdBig(d.fdv));
     if(d.site){var st=document.getElementById('idSite');if(st){st.href=d.site;st.style.display='';}}
     if(!(window.ID_UNLOCKS&&ID_UNLOCKS[sym])&&d.mc!=null&&d.fdv>0){
       var fl=Math.min(1,d.mc/d.fdv), lockPct=Math.max(0,Math.round((1-fl)*100));
@@ -4932,6 +4935,67 @@
       .catch(function(){});
   }
   window.deepFund=deepFund;
+
+  // ---- CoinGecko fundamentals for majors (GeckoTerminal lacks circulating supply for MON etc.) ----
+  var CG_IDS={MON:'monad',WMON:'monad',WETH:'ethereum',weETH:'ethereum',wstETH:'ethereum',WBTC:'bitcoin',cbBTC:'bitcoin','BTC.b':'bitcoin',SOL:'solana'};
+  var CG_CACHE=null;
+  function cgFetch(cb){
+    if(CG_CACHE){cb(CG_CACHE);return;}
+    try{
+      var stored=JSON.parse(localStorage.getItem('moose-cg')||'null');
+      if(stored&&Date.now()-stored.t<600000){CG_CACHE=stored.d;cb(CG_CACHE);return;}
+    }catch(e){}
+    fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=monad,ethereum,bitcoin,solana')
+      .then(function(r){return r.json()})
+      .then(function(rows){
+        var d={};(rows||[]).forEach(function(x){d[x.id]=x});
+        CG_CACHE=d;try{localStorage.setItem('moose-cg',JSON.stringify({t:Date.now(),d:d}))}catch(e){}
+        cb(d);
+      }).catch(function(){});
+  }
+  window.cgFund=function(sym){
+    var id=CG_IDS[sym]; if(!id)return;
+    cgFetch(function(d){
+      var x=d[id]; if(!x)return;
+      var pb=document.getElementById('pairBase');
+      if(!pb||pb.textContent!==sym)return; // user moved on
+      function set(el,v){var e=document.getElementById(el);if(e)e.textContent=v}
+      if(x.market_cap)set('idMcap',fmtUsdBig(x.market_cap));
+      if(x.fully_diluted_valuation)set('idFdv',fmtUsdBig(x.fully_diluted_valuation));
+      var fm=document.getElementById('fMc');if(fm&&fm.textContent==='\u2014'&&x.market_cap)fm.textContent=fmtUsdBig(x.market_cap);
+      var ff=document.getElementById('fFdv');if(ff&&ff.textContent==='\u2014'&&x.fully_diluted_valuation)ff.textContent=fmtUsdBig(x.fully_diluted_valuation);
+      var fc=document.getElementById('fCirc');if(fc&&fc.textContent==='\u2014'&&x.circulating_supply)fc.textContent=fmtSup(x.circulating_supply);
+      var ft=document.getElementById('fTsup');if(ft&&ft.textContent==='\u2014'&&x.total_supply)ft.textContent=fmtSup(x.total_supply);
+      // supply bar with the real float, even where unlock text is curated
+      if(x.market_cap&&x.fully_diluted_valuation&&x.fully_diluted_valuation>x.market_cap*1.03){
+        var fl=Math.min(1,x.market_cap/x.fully_diluted_valuation);
+        var sb=document.getElementById('idSupBar');
+        if(sb){sb.style.display='';
+          var ci=document.getElementById('idSupCirc'),li=document.getElementById('idSupLock');
+          if(ci)ci.style.width=Math.round(fl*100)+'%';
+          if(li)li.style.width=(100-Math.round(fl*100))+'%';
+          var cl=document.getElementById('idSupLbl'),ll=document.getElementById('idSupLockLbl');
+          if(cl)cl.textContent=Math.round(fl*100)+'% circulating';
+          if(ll)ll.textContent=(100-Math.round(fl*100))+'% locked';
+        }
+      }
+    });
+  };
+
+  // ---- live Monad head block (rpc.monad.xyz, 400ms blocks) ----
+  (function(){
+    var chip=document.getElementById('blockChip'); if(!chip)return;
+    function poll(){
+      if(document.hidden)return;
+      var v=document.getElementById('v-trade'); if(v&&!v.classList.contains('on'))return;
+      fetch('https://rpc.monad.xyz',{method:'POST',headers:{'content-type':'application/json'},
+        body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_blockNumber',params:[]})})
+        .then(function(r){return r.json()})
+        .then(function(j){ if(j&&j.result) chip.textContent='#'+parseInt(j.result,16).toLocaleString(); })
+        .catch(function(){});
+    }
+    poll(); setInterval(poll,5000);
+  })();
 
   // ---- performance panel PnL|Edge toggle ----
   (function(){
