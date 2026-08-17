@@ -1246,16 +1246,11 @@
       <div class="s"><span class="k">Duel record</span><span class="v">8W – 3L <span style="color:var(--up);font-size:.72rem">3 streak</span></span></div>
       <div class="s"><span class="k">Season rank</span><span class="v">#61 <span class="up" style="font-size:.72rem">▲2 today</span></span></div>
     </div>
-    <div class="compete-grid" style="margin-bottom:1.1rem;align-items:stretch">
-        <div class="card pool-card" style="display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap">
-          <div>
-            <div class="sec-title" style="margin-bottom:.15rem">Season One pool</div>
-            <div class="amt-lg num" style="font-size:1.7rem">250,000 MON</div>
-          </div>
-          <div style="font-size:.77rem;color:var(--dim);margin-left:auto;text-align:right">top 100 split it<br>19 days left · sponsored by the ecosystem</div>
-        </div>
-      <div><div class="season" style="cursor:pointer"><div class="t">Duel Cup · September</div>64-bracket single elimination · 100,000 MON prize pool · every match is a live Crash market · winners stream the final. Qualify by winning 3 open duels.</div></div>
+    <div class="yseg" id="hseg" style="margin-bottom:1.1rem">
+      <button data-h="herd" class="on">Herd</button>
+      <button data-h="duels">Duels</button>
     </div>
+    <div id="h-herd">
     <div class="compete-grid" style="margin-bottom:1.1rem">
       <div>
         <div class="card">
@@ -1298,6 +1293,67 @@
       </div>
       <div>
         <div class="card">
+          <div class="sec-title" style="align-items:center">Engage
+            <div class="pos-toggle" id="egSeg"><button data-eg="post" class="on">Post</button><button data-eg="badges">Badges</button><button data-eg="crsh">On CRSH</button></div>
+          </div>
+          <div id="egPost">
+            <div class="composer">
+            <textarea placeholder="Post a thesis… attach it to a position so it carries your entry, size and PnL. The herd can copy it in one tap."></textarea>
+            <div class="row">
+              <select><option>attach: shMON long 3&times;</option><option>attach: CHOG</option><option>attach: duel #47</option><option>no position</option></select>
+              <button class="cta" style="flex:1;padding:.5rem;font-size:.8rem;box-shadow:none">Post to 7 followers</button>
+            </div>
+          </div>
+          <div class="ynote" style="margin-top:.5rem">Every thesis carries your live journal stats — <b class="up">64% win rate</b> · <b>+0.8R avg</b> — pulled straight from your fills. Credibility is automatic, not claimed. Copiers pay you <b style="color:var(--accent)">10% of their bot fees</b> — forever, as long as it runs. Leader PnL is full-history: abandoned configs included, no survivorship trims.</div>
+          </div>
+          <div id="egBadges" style="display:none">
+            <div class="lp-wedge" style="margin:.2rem 0 0">
+            <span><b>sh-poster</b> · thesis hit 10 copies</span>
+            <span><b>First Blood</b> · won your first duel</span>
+            <span><b>Iron Hooves</b> · 30d bot uptime</span>
+            <span style="color:var(--faint)">Diamond Antlers · 22d / 30d</span>
+            <span style="color:var(--faint)">Graduation Day · launch a token</span>
+          </div>
+          </div>
+          <div id="egCrsh" style="display:none">
+            <div class="ycalc">
+            <div class="row"><span>Duel #47 · you win?</span><span class="v num" style="color:var(--accent)">1.62× · $4.1k vol</span></div>
+            <div class="row"><span>HORNS graduates in 48h?</span><span class="v num up">YES 68%</span></div>
+            <div class="row"><span>MON above $0.025 by Fri?</span><span class="v num down">NO 71%</span></div>
+          </div>
+          <div class="ynote" style="margin-top:.5rem">Crash markets spun up from live Moose data — duels, graduations, price milestones. Back outcomes with points (free-play) or MON.</div>
+          </div>
+        </div>
+      <div class="card">
+        <div class="sec-title">The Stable <span class="hint">co-owned through your Herd NFT's token-bound account</span></div>
+        <div class="fcard" style="margin:.3rem 0">
+          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">GridMaster-9000</b><span class="tagg">your share 25%</span><span class="up num">+38 USDC · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with lydicius, biawakz, kamarompon</span></div>
+          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">Held in Herd #4127's token-bound account · weekly stable recap posts to your clan Telegram every Sunday</div>
+        </div>
+        <div class="fcard" style="margin:.3rem 0">
+          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">shMON Looper</b><span class="tagg">your share 50%</span><span class="up num">+12 MON · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with gman.mon</span></div>
+          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">League: Yearling II · next round Saturday · creator fee 5 bps per trade to madrigal.mon</div>
+        </div>
+        <button class="pill-btn" style="margin-top:.3rem">+ Pool a bot with your clan</button>
+        <div style="font-size:.66rem;color:var(--faint);margin-top:.45rem;line-height:1.5">Own a piece of a competitor and you watch the whole race differently — fantasy-stable owners consume ~35% more of the surface they compete on. Shares are plain on-chain tokens (ERC-6909) held by your NFT's wallet: sell, gift, or split them any time.</div>
+      </div>
+      </div>
+    </div>
+    </div>
+    <div id="h-duels" style="display:none">
+    <div class="compete-grid" style="margin-bottom:1.1rem;align-items:stretch">
+        <div class="card pool-card" style="display:flex;align-items:center;gap:1.1rem;flex-wrap:wrap">
+          <div>
+            <div class="sec-title" style="margin-bottom:.15rem">Season One pool</div>
+            <div class="amt-lg num" style="font-size:1.7rem">250,000 MON</div>
+          </div>
+          <div style="font-size:.77rem;color:var(--dim);margin-left:auto;text-align:right">top 100 split it<br>19 days left · sponsored by the ecosystem</div>
+        </div>
+      <div><div class="season" style="cursor:pointer"><div class="t">Duel Cup · September</div>64-bracket single elimination · 100,000 MON prize pool · every match is a live Crash market · winners stream the final. Qualify by winning 3 open duels.</div></div>
+    </div>
+    <div class="compete-grid" style="margin-bottom:1.1rem">
+      <div>
+        <div class="card">
           <div class="sec-title" style="align-items:center"><span class="live-dot"></span>Duels
             <div class="pos-toggle" id="dlSeg"><button data-dl="your" class="on">Your duels</button><button data-dl="open">Open</button><button data-dl="all">All live</button></div>
           </div>
@@ -1335,8 +1391,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="compete-grid">
       <div>
         <div class="card duelchat-card">
           <div class="sec-title"><span class="live-dot"></span>Duel chat <span class="hint">ringside view — the clan loop lives on Telegram</span></div>
@@ -1346,47 +1400,6 @@
             <input class="chatin" id="duelIn" type="text" placeholder="Call someone out…" maxlength="200">
             <button class="pill-btn chatsend" id="duelSend">Send</button>
           </div>
-        </div>
-      </div>
-      <div>
-        <div class="card">
-          <div class="sec-title" style="align-items:center">Engage
-            <div class="pos-toggle" id="egSeg"><button data-eg="post" class="on">Post</button><button data-eg="badges">Badges</button><button data-eg="crsh">On CRSH</button></div>
-          </div>
-          <div id="egPost">
-            <div class="composer">
-            <textarea placeholder="Post a thesis… attach it to a position so it carries your entry, size and PnL. The herd can copy it in one tap."></textarea>
-            <div class="row">
-              <select><option>attach: shMON long 3&times;</option><option>attach: CHOG</option><option>attach: duel #47</option><option>no position</option></select>
-              <button class="cta" style="flex:1;padding:.5rem;font-size:.8rem;box-shadow:none">Post to 7 followers</button>
-            </div>
-          </div>
-          <div class="ynote" style="margin-top:.5rem">Every thesis carries your live journal stats — <b class="up">64% win rate</b> · <b>+0.8R avg</b> — pulled straight from your fills. Credibility is automatic, not claimed. Copiers pay you <b style="color:var(--accent)">10% of their bot fees</b> — forever, as long as it runs. Leader PnL is full-history: abandoned configs included, no survivorship trims.</div>
-          </div>
-          <div id="egBadges" style="display:none">
-            <div class="lp-wedge" style="margin:.2rem 0 0">
-            <span><b>sh-poster</b> · thesis hit 10 copies</span>
-            <span><b>First Blood</b> · won your first duel</span>
-            <span><b>Iron Hooves</b> · 30d bot uptime</span>
-            <span style="color:var(--faint)">Diamond Antlers · 22d / 30d</span>
-            <span style="color:var(--faint)">Graduation Day · launch a token</span>
-          </div>
-          </div>
-          <div id="egCrsh" style="display:none">
-            <div class="ycalc">
-            <div class="row"><span>Duel #47 · you win?</span><span class="v num" style="color:var(--accent)">1.62× · $4.1k vol</span></div>
-            <div class="row"><span>HORNS graduates in 48h?</span><span class="v num up">YES 68%</span></div>
-            <div class="row"><span>MON above $0.025 by Fri?</span><span class="v num down">NO 71%</span></div>
-          </div>
-          <div class="ynote" style="margin-top:.5rem">Crash markets spun up from live Moose data — duels, graduations, price milestones. Back outcomes with points (free-play) or MON.</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="sec-title">Top clans <span class="hint">combined PnL · 24h</span></div>
-          <div class="lb-row"><span class="rk">#1</span><span class="w">The Antler Office <span style="color:var(--faint);font-size:.66rem">· 11 members</span></span><span class="pts up num">+41,624 MON</span></div>
-          <div class="lb-row"><span class="rk">#2</span><span class="w">Gm Basement <span style="color:var(--faint);font-size:.66rem">· 9 members</span></span><span class="pts up num">+25,092 MON</span></div>
-          <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
-          <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
         </div>
       </div>
     </div>
@@ -1403,19 +1416,13 @@
         </table>
         <div style="font-size:.66rem;color:var(--faint);margin-top:.4rem;line-height:1.5">Live on-chain PnL only, vol-normalized. Creators stake shMON — stake burns on underperformance. Featured slots are auctioned: creators bid fee-share to sit in front of order flow, and lockers who vote on the slots collect the bids. Superfinal: top two bots head-to-head for two weeks, creators corner-manning live. <b style="color:var(--accent)">Starts in 24 days.</b></div>
       </div>
-      <div class="card">
-        <div class="sec-title">The Stable <span class="hint">co-owned through your Herd NFT's token-bound account</span></div>
-        <div class="fcard" style="margin:.3rem 0">
-          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">GridMaster-9000</b><span class="tagg">your share 25%</span><span class="up num">+38 USDC · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with lydicius, biawakz, kamarompon</span></div>
-          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">Held in Herd #4127's token-bound account · weekly stable recap posts to your clan Telegram every Sunday</div>
+        <div class="card">
+          <div class="sec-title">Top clans <span class="hint">combined PnL · 24h</span></div>
+          <div class="lb-row"><span class="rk">#1</span><span class="w">The Antler Office <span style="color:var(--faint);font-size:.66rem">· 11 members</span></span><span class="pts up num">+41,624 MON</span></div>
+          <div class="lb-row"><span class="rk">#2</span><span class="w">Gm Basement <span style="color:var(--faint);font-size:.66rem">· 9 members</span></span><span class="pts up num">+25,092 MON</span></div>
+          <div class="lb-row"><span class="rk">#3</span><span class="w">CookHouse <span style="color:var(--faint);font-size:.66rem">· 18 members</span></span><span class="pts up num">+18,891 MON</span></div>
+          <div class="ynote" style="margin-top:.5rem">Clans share positions and rank by combined PnL. Clan wars land with Compete S1 — form yours early.</div>
         </div>
-        <div class="fcard" style="margin:.3rem 0">
-          <div style="display:flex;gap:.5rem;align-items:baseline;font-size:.76rem;flex-wrap:wrap"><b style="color:var(--accent)">shMON Looper</b><span class="tagg">your share 50%</span><span class="up num">+12 MON · 7d</span><span style="color:var(--faint);font-size:.64rem">co-owned with gman.mon</span></div>
-          <div style="font-size:.7rem;color:var(--dim);margin-top:.25rem">League: Yearling II · next round Saturday · creator fee 5 bps per trade to madrigal.mon</div>
-        </div>
-        <button class="pill-btn" style="margin-top:.3rem">+ Pool a bot with your clan</button>
-        <div style="font-size:.66rem;color:var(--faint);margin-top:.45rem;line-height:1.5">Own a piece of a competitor and you watch the whole race differently — fantasy-stable owners consume ~35% more of the surface they compete on. Shares are plain on-chain tokens (ERC-6909) held by your NFT's wallet: sell, gift, or split them any time.</div>
-      </div>
     </div>
     <div class="compete-grid" style="margin-top:1.1rem">
       <div class="card" style="border-color:color-mix(in srgb,var(--accent) 45%,transparent)">
@@ -1440,6 +1447,7 @@
         </div>
         <div class="ynote">A fixed slice of fees buys $FAST on the open market every day — mechanical, visible, boring on purpose. Season points settle from these buybacks, so the reward budget can never exceed revenue. One wallet, verify it on Monadscan.</div>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -2484,6 +2492,7 @@
   document.getElementById('duelBack').addEventListener('click',function(){
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
     document.getElementById('v-compete').classList.add('on');
+    if(window.setHerdSeg)setHerdSeg('duels');
   });
   document.getElementById('ovToggle').addEventListener('click',function(){document.body.classList.toggle('overlay')});
   // countdown
@@ -2565,6 +2574,7 @@
     document.querySelector('#nav a[data-v="compete"]').classList.add('active');
     document.querySelectorAll('.view').forEach(function(v){v.classList.remove('on')});
     document.getElementById('v-compete').classList.add('on');
+    if(window.setHerdSeg)setHerdSeg('duels');
   });
   // post a duel modal
   var ndm=document.getElementById('newDuelModal');
@@ -2651,6 +2661,13 @@
     });
   }
   wireSeg('pfSeg','pf2',{holdings:'pfHoldings',margin:'pfMargin',bots:'pfBots',board:'pfBoard'});
+  wireSeg('hseg','h',{herd:'h-herd',duels:'h-duels'});
+  window.setHerdSeg=function(key){
+    document.querySelectorAll('#hseg button').forEach(function(b){b.classList.toggle('on',b.dataset.h===key)});
+    var hh=document.getElementById('h-herd'),hd=document.getElementById('h-duels');
+    if(hh)hh.style.display=key==='herd'?'':'none';
+    if(hd)hd.style.display=key==='duels'?'':'none';
+  };
   wireSeg('ptSeg','pt',{src:'ptSrc',mult:'ptMult',model:'ptModel'});
   wireSeg('psSeg','ps',{board:'psBoard',rank:'psRank',ref:'psRef',streams:'psStreams'});
   wireSeg('dlSeg','dl',{your:'dlYour',open:'dlOpen',all:'dlAll'});
