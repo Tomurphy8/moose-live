@@ -826,11 +826,6 @@
       <div style="display:flex;justify-content:space-between"><span id="ipByers" class="up">— buyers</span><span id="ipSlrs" class="down">— sellers</span></div>
       <div style="display:flex;gap:2px;margin:.25rem 0 0"><i id="ipBarB2" style="height:5px;border-radius:3px;background:var(--up);width:50%"></i><i id="ipBarS2" style="height:5px;border-radius:3px;background:var(--down);width:50%"></i></div>
     </div>
-    <h4>Theses <span style="color:var(--faint);font-weight:400" id="idThesisCount">· 214</span></h4>
-    <div id="idTheses">
-      <div class="fcard" style="margin:.3rem 0"><div style="display:flex;gap:.4rem;align-items:baseline;font-size:.7rem"><b style="color:var(--accent)">madrigal.mon</b><span class="up num">+41%</span><span class="feng"><button>♥ 174</button></span></div><div style="font-size:.72rem;color:var(--dim);margin-top:.15rem;font-style:italic;font-family:'Fraunces',serif">"unlock fear is the entry, not the exit"</div></div>
-      <div class="fcard" style="margin:.3rem 0"><div style="display:flex;gap:.4rem;align-items:baseline;font-size:.7rem"><b style="color:var(--accent)">evil.nad</b><span class="down num">−8%</span><span class="feng"><button>♥ 56</button></span></div><div style="font-size:.72rem;color:var(--dim);margin-top:.15rem;font-style:italic;font-family:'Fraunces',serif">"holding through the chop, grid does the work"</div></div>
-    </div>
     <h4>News</h4>
     <div class="id-news" id="idNews"><span style="font-size:.72rem;color:var(--faint)">loading…</span></div>
   </aside>
@@ -5043,8 +5038,8 @@
     });
   })();
 
-  // thesis hearts in the research panel + below-chart thesis panel
-  document.querySelectorAll('#idTheses .feng button, #thesisPanel .feng button').forEach(function(b){
+  // thesis hearts in the below-chart thesis panel (research-panel copy removed — theses live in one place)
+  document.querySelectorAll('#thesisPanel .feng button').forEach(function(b){
     b.addEventListener('click',function(){b.textContent='♥ '+(parseInt(b.textContent.slice(2),10)+1);b.style.color='var(--accent)';});
   });
 
