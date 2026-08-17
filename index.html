@@ -157,10 +157,16 @@
   .chatin:focus{outline:none;border-color:var(--accent)}
   .chatsend{flex-shrink:0}
   .duelchat-card .chatlist{max-height:252px;max-height:260px}
-  /* duels row: both cards share one bottom edge; the chat list absorbs the difference */
-  .duelrow>div{display:flex;min-height:0}
-  .duelrow>div>.card{flex:1;display:flex;flex-direction:column;min-height:0;margin-bottom:0}
+  /* duels row: the Duels card sets the height (content-sized), the chat card matches it and scrolls inside */
+  .duelrow>div:first-child>.card{margin-bottom:0}
+  .duelrow>div:last-child{position:relative;min-height:0}
+  .duelrow>div:last-child>.card{position:absolute;inset:0;display:flex;flex-direction:column;min-height:0;margin-bottom:0}
   .duelrow .duelchat-card .chatlist{max-height:none;flex:1}
+  #duelList{max-height:23.5rem;overflow-y:auto;padding-right:.25rem}
+  @media(max-width:900px){
+    .duelrow>div:last-child>.card{position:static}
+    .duelrow .duelchat-card .chatlist{max-height:260px}
+  }
   .fund-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem 1.1rem;max-width:920px}
   @media(max-width:1100px){.fund-grid{grid-template-columns:repeat(3,1fr)}}
   @media(max-width:800px){.fund-grid{grid-template-columns:1fr 1fr}}
@@ -411,6 +417,11 @@
   .pcard .ppx{margin-left:auto;text-align:right;font-family:"Spline Sans Mono",monospace;font-size:.72rem;line-height:1.35}
   .pcard .buy-quick{background:var(--raised);border:1px solid var(--line);color:var(--accent);border-radius:8px;font-size:.68rem;font-weight:700;padding:.3rem .6rem;cursor:pointer;flex-shrink:0}
   .pcard .buy-quick:hover{background:var(--accent);color:#1b1409;border-color:var(--accent)}
+  .pcard .qb{background:color-mix(in srgb,var(--accent) 12%,transparent);border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent);border-radius:99px;font-size:.66rem;padding:.26rem .42rem;cursor:pointer;flex-shrink:0;line-height:1}
+  .pcard .qb:hover{background:var(--accent);color:#1b1409;border-color:var(--accent)}
+  .pbadges{display:flex;gap:.25rem;margin-top:.18rem;flex-wrap:wrap}
+  .pbadge{font-size:.58rem;color:var(--faint);border:1px solid var(--line);border-radius:99px;padding:.02rem .32rem;font-family:"Spline Sans Mono",monospace;line-height:1.5;white-space:nowrap}
+  .pbadge.ok{color:var(--up);border-color:color-mix(in srgb,var(--up) 35%,transparent)}
   /* pinned positions strip (rec #6) */
   #posStrip{position:sticky;bottom:10px;z-index:30;display:flex;gap:1.1rem;align-items:center;background:var(--raised);border-radius:12px;margin:10px 14px;padding:.5rem 1.1rem;font-size:.72rem;color:var(--dim);cursor:pointer;box-shadow:0 10px 28px rgba(0,0,0,.35)}
   #posStrip b{color:var(--ink)}
@@ -1021,6 +1032,11 @@
         <div class="chips" data-t="sl"><button>-5%</button><button>-10%</button><button>-15%</button></div>
       </div>
       <div style="grid-column:1/-1;font-size:.62rem;color:var(--faint)" id="tpslAnchor">% chips anchor to mid (1.5742) · SL pre-fills on levered entries, TP stays yours</div>
+      <div style="grid-column:1/-1;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap" id="riskSizer">
+        <span style="font-size:.66rem;color:var(--dim)">Size by risk</span>
+        <div class="chips" id="riskPctChips" style="display:inline-flex"><button data-rp="0.5">0.5%</button><button data-rp="1">1%</button><button data-rp="2">2%</button></div>
+        <span style="font-size:.62rem;color:var(--faint)" id="riskSizeNote"></span>
+      </div>
     </div>
     </details>
     <button class="info-row" id="orderInfoBtn" aria-expanded="false" aria-controls="orderSentence"><span class="info-i">i</span><span>what this order does</span><span class="chev">▾</span></button>
@@ -1053,7 +1069,8 @@
     <div class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
     <div class="protect"><div class="toggle" id="beToggle"></div><span><b style="color:var(--ink)">Break-even</b> — stop jumps to entry + fees once +5% in profit</span></div>
     </details>
-    <button class="cta">Buy shMON</button>
+    <button class="cta" id="proCta">Buy shMON</button>
+    <div id="fillReceipt" style="font-size:.62rem;color:var(--faint);margin-top:.35rem;font-family:'Spline Sans Mono',monospace">last fill · 1.5744 · 0.03% better than quote · impact 0.05% · fee 0.9 bps</div>
     </div>
     <div id="simpleTicket" style="display:none">
       <div class="swap-head" style="font-size:1.15rem;margin-bottom:.6rem">Swap</div>
@@ -1438,14 +1455,28 @@
           <div class="chips" style="margin:.15rem 0 .35rem"><button class="on">Bullet · 15m · Bo3</button><button>Blitz · 1h</button><button>Rapid · 24h</button><button>Classical · 7d</button></div>
           <div style="font-size:.66rem;color:var(--faint);margin-bottom:.4rem;line-height:1.5">table stakes · rake 3% capped, no action no rake · vol <span style="color:var(--up);font-weight:600">HIGH ●</span> — featured window 13:30–16:00 UTC · vs gman.mon you lead the series <span class="num" style="color:var(--ink)">4–2</span></div>
           <div id="dlYour">
+            <div id="duelList">
             <div class="duel-live" id="liveDuelCard" style="cursor:pointer">
-          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b></span><b>7h 12m left</b></div>
+          <div class="hdr"><span>LIVE · you vs <b>gman.mon</b> · Bullet Bo3</span><b>7h 12m left</b></div>
           <div class="race">
             <div class="r"><span class="nm">you</span><div class="track"><i style="width:64%;background:var(--accent)"></i></div><span class="pnl up">+212 MON</span></div>
             <div class="r"><span class="nm">gman.mon</span><div class="track"><i style="width:48%;background:var(--faint)"></i></div><span class="pnl up">+158 MON</span></div>
           </div>
           <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 1,000 MON · 214 watching</span><span style="color:var(--accent);cursor:pointer" id="spectateBtn">spectate · stream overlay</span></div>
         </div>
+            <div class="duel-live" style="cursor:pointer">
+          <div class="hdr"><span>LIVE · you vs <b>lydicius</b> · Blitz 1h</span><b>22m left</b></div>
+          <div class="race">
+            <div class="r"><span class="nm">you</span><div class="track"><i style="width:41%;background:var(--accent)"></i></div><span class="pnl up">+64 MON</span></div>
+            <div class="r"><span class="nm">lydicius</span><div class="track"><i style="width:52%;background:var(--faint)"></i></div><span class="pnl up">+88 MON</span></div>
+          </div>
+          <div style="font-size:.68rem;color:var(--faint);margin-top:.45rem;display:flex;justify-content:space-between"><span>pot 500 MON · 38 watching</span><span>slightly behind · 22m to flip it</span></div>
+        </div>
+            <div class="duel-live" style="cursor:pointer">
+          <div class="hdr"><span>STARTS 21:00 · you vs <b>biawakz</b> · Rapid 24h</span><b>pot 2,000 MON</b></div>
+          <div style="font-size:.68rem;color:var(--faint);display:flex;justify-content:space-between"><span>escrow posted by both sides · vol window looks good</span><span style="color:var(--accent)">ready ✓</span></div>
+        </div>
+            </div>
         <div style="display:flex;gap:.5rem;margin-top:.6rem;font-size:.72rem;color:var(--dim);align-items:center;flex-wrap:wrap">
           <span style="color:var(--faint)">open challenges:</span>
           <button class="pill-btn">lydicius · 250 MON</button>
@@ -2162,12 +2193,14 @@
       <div class="vseg" id="vseg"><button data-vf="verified" class="on">Verified</button><button data-vf="all">All</button></div>
       <div class="pos-toggle" id="dview" style="margin-left:auto"><button data-dv="pulse" class="on">Pulse</button><button data-dv="table">Table</button></div>
     </div>
+    <div style="font-size:.62rem;color:var(--faint);margin:.15rem 0 .5rem" id="trendHonest">trending is ranked by fees paid and depth, never by payment · placement is not for sale</div>
     <div id="pulseWrap" style="display:none">
       <div class="pulse-grid">
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span class="live-dot"></span><span id="ptNew">Small caps · early</span></div><div id="pcolNew"></div></div>
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptMo">Momentum · 24h</span></div><div id="pcolMo"></div></div>
         <div class="pulse-col"><div class="sec-title" style="margin-bottom:.5rem"><span id="ptBlue">Majors &amp; LSTs</span></div><div id="pcolBlue"></div></div>
       </div>
+      <div style="font-size:.62rem;color:var(--faint);margin-top:.5rem" id="pulseHint">checks are computed live from on-chain data · liquidity, float, pool provenance · never a paid score</div>
     </div>
     <div class="disc-layout">
       <div class="card">
@@ -4001,6 +4034,37 @@
       if(cap)cap.textContent='risk $'+risk+' → position $'+size.toFixed(0)+' ('+(dist*100).toFixed(1)+'% to stop). Stop hit = lose exactly $'+risk+'.';
     });
   });
+  // ---- size-by-risk % chips (pro ticket) ----
+  document.querySelectorAll('#riskPctChips button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#riskPctChips button').forEach(function(x){x.classList.toggle('on',x===b)});
+      var pct=parseFloat(b.dataset.rp)||1;
+      var equity=31742; // MON
+      var risk=equity*pct/100;
+      var slv=String((document.getElementById('slIn')||{}).value||'');
+      var m=/-?\s*([\d.]+)\s*%/.exec(slv);
+      var slPct=m?Math.abs(parseFloat(m[1])):12;
+      if(!slPct||!isFinite(slPct))slPct=12;
+      var size=risk/(slPct/100);
+      var note=document.getElementById('riskSizeNote');
+      if(note)note.textContent='risk '+Math.round(risk).toLocaleString()+' MON ÷ '+slPct+'% stop → '+Math.round(size).toLocaleString()+' MON position';
+      var oh=document.getElementById('ordHold');
+      if(oh)oh.textContent='≈ '+Math.round(size/1.5742).toLocaleString()+' shMON';
+    });
+  });
+  // ---- fill-quality receipt on the pro CTA (information, not celebration) ----
+  (function(){
+    var cta=document.getElementById('proCta'),rec=document.getElementById('fillReceipt');
+    if(!cta||!rec)return;
+    var flashT=null;
+    cta.addEventListener('click',function(){
+      rec.textContent='just now · 1.5744 · 0.03% better than quote · impact 0.05% · fee 0.9 bps';
+      if(flashT)return;
+      var orig=cta.textContent;
+      cta.textContent='✓ Filled';
+      flashT=setTimeout(function(){cta.textContent=orig;flashT=null},1200);
+    });
+  })();
   // ---- break-even toggle ----
   document.querySelectorAll('.protect .toggle').forEach(function(t){t.addEventListener('click',function(){t.classList.toggle('on')})});
   // ---- bar replay engine (seeded candles, future hidden) ----
@@ -5363,18 +5427,30 @@
     if(!wrap||!layout)return;
     var mode='pulse';
     try{mode=localStorage.getItem('moose-dview2')||'pulse'}catch(e){}
-    function pcard(t){
+    function pcard(t,isNew){
       var c=document.createElement('div');c.className='pcard';
       c.appendChild(tokLogo(tokBySym(t.s)||t.s,22));
       var mid=document.createElement('div');
       var nm=document.createElement('div');nm.className='pnm';nm.textContent=t.s;
       var sub=document.createElement('div');sub.className='psub';sub.textContent=(t.n||t.s);
-      mid.appendChild(nm);mid.appendChild(sub);c.appendChild(mid);
+      mid.appendChild(nm);mid.appendChild(sub);
+      if(isNew){ // honest binary checks — only from data we actually have; never a "SAFE" score
+        var bd=document.createElement('div');bd.className='pbadges';
+        function chip(txt,ok){var s=document.createElement('span');s.className='pbadge'+(ok?' ok':'');s.textContent=txt;bd.appendChild(s);}
+        if(t.liq!=null&&t.liq>=50000)chip('liq ✓',true);
+        if(t.mc&&t.fdv){var fr=t.mc/t.fdv;if(fr>=0.97)chip('float ✓',true);else chip(Math.round((1-fr)*100)+'% locked',false);}
+        if(t.live)chip('pool ✓',true);
+        if(bd.children.length)mid.appendChild(bd);
+      }
+      c.appendChild(mid);
       var px=document.createElement('div');px.className='ppx';
       var p1=document.createElement('div');p1.textContent=t.priceUsd!=null?('$'+fmtPx(t.priceUsd)):fmtPx(t.price);
       var p2=document.createElement('div');p2.className=(t.ch24||0)>=0?'up':'down';
       p2.textContent=((t.ch24||0)>=0?'+':'')+(t.ch24!=null?t.ch24.toFixed(1):'0.0')+'%';
       px.appendChild(p1);px.appendChild(p2);c.appendChild(px);
+      var qb=document.createElement('button');qb.className='qb';qb.textContent='⚡';qb.title='one tap to the ticket';
+      qb.addEventListener('click',function(e){e.stopPropagation();goTrade(t.s)});
+      c.appendChild(qb);
       var b=document.createElement('button');b.className='buy-quick';b.textContent='Buy';
       b.addEventListener('click',function(e){e.stopPropagation();goTrade(t.s)});
       c.appendChild(b);
@@ -5406,6 +5482,10 @@
         if(lq.px!=null){var pp=document.getElementById('pairPrice');if(pp)pp.textContent='$'+fmtPx(lq.px);}
       }
       b.addEventListener('click',function(e){e.stopPropagation();openIt()});
+      var qb=document.createElement('button');qb.className='qb';qb.textContent='⚡';qb.title='one tap to the ticket';
+      qb.addEventListener('click',function(e){e.stopPropagation();openIt()});
+      c.appendChild(qb);
+      c.appendChild(b);
       c.addEventListener('click',openIt);
       return c;
     }
@@ -5424,7 +5504,7 @@
         var fresh=src.filter(function(t){return t.cat==='meme'||t.cat==='longtail'}).sort(function(a,b){return (a.vol24||0)-(b.vol24||0)}).slice(0,8);
         [['pcolNew',fresh],['pcolMo',mo],['pcolBlue',blue]].forEach(function(cfg){
           var el=document.getElementById(cfg[0]);if(!el)return;el.replaceChildren();
-          cfg[1].forEach(function(t){el.appendChild(pcard(t))});
+          cfg[1].forEach(function(t){el.appendChild(pcard(t,cfg[0]==='pcolNew'))});
         });
         return;
       }
