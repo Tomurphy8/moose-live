@@ -852,7 +852,7 @@
       <div class="price-lg num" id="pairPrice">$0.0221</div>
       <span class="down" style="font-weight:600;font-size:.9rem" id="pairDelta">▼ 3.2%</span>
       <div class="spacer"></div>
-      <div class="stat"><span class="k">head block</span><span class="v num" id="blockChip" title="Monad · 400ms blocks">—</span></div>
+      <div class="stat"><span class="k">head block</span><span class="v num" id="blockChip" title="Monad · 300ms blocks">—</span></div>
       <div class="stat"><span class="k">24h vol</span><span class="v num" id="pairVol">4.21M MON</span></div>
       <button class="fold-chip" id="theatreBtn" data-tip="Theatre mode — full-height chart" aria-label="Theatre mode" aria-pressed="false" style="align-self:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3.5H3.5V8"/><path d="M16 3.5h4.5V8"/><path d="M8 20.5H3.5V16"/><path d="M16 20.5h4.5V16"/></svg></button>
     </div>
@@ -1058,11 +1058,6 @@
       <div class="row"><span>Post-only (maker rebate)</span><div class="mini-toggle"></div></div>
       <div class="row"><span>Good-til-cancelled</span><div class="mini-toggle on"></div></div>
     </details>
-    <div class="card" id="rfqCard" style="display:none;border-color:color-mix(in srgb,var(--accent) 45%,transparent);margin-bottom:0">
-      <div class="sec-title" style="font-size:.85rem;margin-bottom:.3rem">Size detected — route as a block trade</div>
-      <div style="font-size:.72rem;color:var(--dim);line-height:1.5">Orders this size move the book. RFQ sends it to the solver network instead: quotes back in under a second, best one fills off-book, zero market impact, MEV-free by construction.</div>
-      <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.5rem;font-size:.78rem">Request quotes from 14 solvers</button>
-    </div>
     <details class="adv">
       <summary>Protection — Protect-me + Break-even</summary>
     <div class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
@@ -1245,7 +1240,7 @@
           </div>
           <div class="bb-group" data-bg="mm">
             <div class="bb-row"><span>Spread</span><select class="sel" style="width:8.2rem"><option>4 bps</option><option selected>8 bps</option><option>15 bps</option><option>30 bps</option></select></div>
-            <div class="bb-row"><span>Requote</span><select class="sel" style="width:8.2rem"><option selected>every block</option><option>400ms</option><option>2s</option></select></div>
+            <div class="bb-row"><span>Requote</span><select class="sel" style="width:8.2rem"><option selected>every block</option><option>300ms</option><option>2s</option></select></div>
             <div class="bb-row"><span>Inventory skew guard</span><div class="mini-toggle on"></div></div>
             <div class="bb-row"><span>Post-only · maker rebate</span><div class="mini-toggle on"></div></div>
           </div>
@@ -1542,7 +1537,7 @@
           <div class="s"><span class="k">Herd boost</span><span class="v">1.5× <span style="color:var(--faint);font-size:.68rem">activated NFT</span></span></div>
           <div class="s"><span class="k">Last week</span><span class="v">gman.mon · 7,100 shMON <span style="color:var(--faint);font-size:.68rem">on 12 tickets</span></span></div>
         </div>
-        <div class="ynote">Tickets are never for sale. They accrue on fees you already paid — a rebate with variance, not a wager. The pot: 1% of weekly protocol fees + reward-escrow forfeitures + the MEV auction tithe. On Moose the sandwiches pay the holders. Drawn on-chain, verifiable, principal never touched — skip a week and it costs you nothing.</div>
+        <div class="ynote">Tickets are never for sale. They accrue on fees you already paid — a rebate with variance, not a wager. The pot: 1% of weekly protocol fees + reward-escrow forfeitures. Drawn on-chain, verifiable, principal never touched — skip a week and it costs you nothing.</div>
       </div>
       <div class="card">
         <div class="sec-title"><span class="live-dot"></span>$FAST buyback <span class="hint">every day · on-chain · watch it happen</span></div>
@@ -1713,7 +1708,7 @@
           <tr><td><b>Long tail</b></td><td>curated memecoins · isolated pools, tight caps</td><td class="num">40%</td><td class="num">11%+</td><td><span class="tier-status ts-later">as depth grows</span></td></tr>
         </tbody>
       </table>
-      <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. FastLane's solver network is the best-placed liquidator on Monad, so liquidations are a house advantage, not a risk. Leverage entry stays one-click on the trade ticket.</div>
+      <div class="ynote" style="margin-top:.6rem">Every collateral asset needs a manipulation-resistant oracle and a borrow venue. Liquidations run through professional keeper networks and clear as a house revenue line, not a leak. Leverage entry stays one-click on the trade ticket.</div>
       </div>
       <div id="pfBots" style="display:none">
         <div class="hint" style="display:block;margin:.1rem 0 .5rem">running strategies — deploy new ones from the trade ticket's Bot mode</div>
@@ -1741,7 +1736,7 @@
       <button data-y="staking" class="on">Staking</button>
       <button data-y="mm">Money markets</button>
       <button data-y="liquidity">Liquidity</button>
-      <button data-y="vaults">Vaults</button>
+      <button data-y="vaults">Strategies</button>
       <button data-y="pendle">Pendle</button>
     </div>
 
@@ -1836,33 +1831,33 @@
           <div class="promise">Delta-neutral, farms points and yield across three programs. Market up or down, you don't care.</div>
           <div class="bot-stats">
             <div class="s"><span class="k">target APY</span><span class="v up">17.4%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$6.1M</span></div>
+            <div class="s"><span class="k">custody</span><span class="v">yours · runs in your wallet</span></div>
             <div class="s"><span class="k">points</span><span class="v">2,900/day</span></div>
           </div>
-          <button class="cta">Deposit</button>
+          <button class="cta">Deploy in your wallet</button>
         </div>
                 <div class="bot-card">
           <div class="top"><span class="dot"></span><h3>Li Gomez</h3><span class="tagg" style="margin-left:auto">curator</span></div>
-          <div class="promise">Curated Monad-native vault: shMON looping, isolated lending and LP rotations, risk-managed by the curator.</div>
+          <div class="promise">Curator-published strategy: shMON looping, isolated lending and LP rotations. The curator writes the playbook, the bot runs it in your wallet.</div>
           <div class="bot-stats">
             <div class="s"><span class="k">target APY</span><span class="v up">14.8%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$3.4M</span></div>
+            <div class="s"><span class="k">custody</span><span class="v">yours · pause any time</span></div>
             <div class="s"><span class="k">asset</span><span class="v">shMON</span></div>
           </div>
-          <button class="cta ghost">Deposit</button>
+          <button class="cta ghost">Deploy in your wallet</button>
         </div>
         <div class="bot-card">
           <div class="top"><span class="dot"></span><h3>NAV Pool LP</h3><span class="tagg" style="margin-left:auto">Moose native</span></div>
           <div class="promise">Provide liquidity to Moose's NAV-centered pools (indexes, graduated launches). The curve re-centers on fair value every block — LFJ Liquidity-Book style — so your capital quotes tight and earns fees, not impermanent regret.</div>
           <div class="bot-stats">
             <div class="s"><span class="k">target APY</span><span class="v up">21.3%</span></div>
-            <div class="s"><span class="k">TVL</span><span class="v">$1.9M</span></div>
+            <div class="s"><span class="k">custody</span><span class="v">yours · positions in your wallet</span></div>
             <div class="s"><span class="k">points</span><span class="v">1.5× LP</span></div>
           </div>
-          <button class="cta ghost">Provide liquidity</button>
+          <button class="cta ghost">Deploy in your wallet</button>
         </div>
               </div>
-      <div class="ynote" style="margin-top:.8rem">Rates are live venue quotes, not projections. Points columns show active programs you'd farm by holding the position.</div>
+      <div class="ynote" style="margin-top:.8rem">These are not pooled funds. Each strategy is a bot that runs in your own wallet: your keys, your positions, pause or unwind any time. Curators publish the playbooks; the marketplace ranks them on live records. Rates are live venue quotes, not projections.</div>
     </div>
 
     <div class="ysec" id="y-pendle">
@@ -1996,7 +1991,7 @@
                 <tr><td>shMonad points holder <span style="color:var(--faint);font-size:.72rem">loyalty, additive</span></td><td class="num up">+0.25×</td><td class="src-tag">history</td></tr>
               </tbody>
             </table>
-            <div class="ynote" style="margin-top:.5rem"><b>Season payout:</b> 25% of this season's bought-back $FAST distributes pro-rata to points, then points reset. Your points are a claim ticket on tokens your own fees already bought — the reward budget can never exceed revenue, and nothing is ever minted.</div>
+            <div class="ynote" style="margin-top:.5rem"><b>Season payout:</b> a fixed share of this season's fees settles pro-rata to points, then points reset. As the buyback ramp activates, settlement moves to open-market-bought $FAST — the reward budget can never exceed revenue, and nothing is ever minted.</div>
             </div>
             <div id="ptModel" style="display:none">
               <div class="hint" style="display:block;margin:.1rem 0 .4rem">a rebate, not an airdrop meter</div>
@@ -2005,7 +2000,7 @@
               <div class="row"><span>Moose points</span><span class="v up">run forever — every season, same loop</span></div>
               <div class="row"><span>Before TGE</span><span class="v">your season-zero tab accrues</span></div>
               <div class="row"><span>At TGE</span><span class="v">season zero settles from a disclosed genesis tranche — the only payout that ever touches initial supply</span></div>
-              <div class="row"><span>Every season after</span><span class="v" style="color:var(--accent)">paid in $FAST bought from the open market with that season's fees</span></div>
+              <div class="row"><span>Every season after</span><span class="v" style="color:var(--accent)">paid from a fixed share of that season's fees · settles in bought-back $FAST as the ramp activates</span></div>
               <div class="row"><span>Balances</span><span class="v">reset each season — a fresh race</span></div>
               <div class="row"><span>Multipliers</span><span class="v">persist — streaks, Herd, loyalty</span></div>
               <div class="row"><span>Payouts vest</span><span class="v">6 months · exit early, forfeit half · forfeits top the Herd Draw pot</span></div>
@@ -2038,7 +2033,7 @@
               <div class="row"><span>Tier 3</span><span class="v">2%</span></div>
               <div class="row"><span>Your referrals</span><span class="v">3 · earned 61 MON</span></div>
             </div>
-            <div class="ynote" style="margin-top:.5rem">Paid in $FAST from the buyback treasury — referrals compound the same flywheel they feed. Stacks with your copy-config 10%.</div>
+            <div class="ynote" style="margin-top:.5rem">Paid from the rewards treasury — referrals compound the same flywheel they feed. Stacks with your copy-config 10%.</div>
             <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.55rem;font-size:.8rem">Copy invite link</button>
               <button class="cta ghost" style="width:100%;margin-top:.5rem;padding:.55rem;font-size:.8rem">Copy invite link</button>
             </div>
@@ -2095,7 +2090,7 @@
 
       <div class="sec-title" style="font-size:.85rem;margin:.3rem 0 .35rem">Agent session keys <span class="hint">EIP-7702 · your wallet stays yours</span></div>
       <div class="cs-param"><span>trading-agent.eth</span><span class="v">cap 500 MON/day · shMON+MON+CHOG only · expires 7d</span></div>
-      <div class="cs-param"><span>Kill switch</span><span class="v" style="color:var(--up)">one tap · revokes on-chain instantly</span></div>
+      <div class="cs-param"><span>Kill switch</span><span class="v" style="color:var(--up)">one tap · revokes on-chain instantly · trading sessions expire daily</span></div>
       <div style="display:flex;gap:.4rem;margin:.45rem 0 .8rem"><button class="pill-btn">+ Grant session</button><button class="pill-btn" style="color:var(--down)">Revoke all</button></div>
 
       <div class="sec-title" style="font-size:.85rem;margin:.3rem 0 .35rem">Plug an AI agent in</div>
@@ -2296,10 +2291,10 @@
       </div>
       <div class="card">
         <div class="sec-title">Why points are worth something</div>
-        <div class="flywheel">Every fee on Moose routes to one splitter: <b>80% buys FAST</b> on the open market, held by the treasury. Season points convert to FAST allocations. You farm points, the product buys the token, the flywheel turns.</div>
+        <div class="flywheel">Every fee on Moose routes to one splitter. In the growth phase revenue funds the product and the rewards program; the <b>buyback ramp</b> starts at 0% and steps up at disclosed revenue milestones. Season points convert to FAST allocations either way — you farm points, the flywheel turns on fees, never on emissions.</div>
         <div class="ycalc" style="margin-top:.7rem">
           <div class="row"><span>Season revenue so far</span><span class="v">184,200 MON</span></div>
-          <div class="row"><span>To FAST buybacks (80%)</span><span class="v" style="color:var(--accent)">147,360 MON</span></div>
+          <div class="row"><span>Buyback ramp</span><span class="v" style="color:var(--accent)">0% at launch · steps up at revenue milestones</span></div>
           <div class="row"><span>Every buyback</span><span class="v">on-chain, listed publicly</span></div>
         </div>
       </div>
@@ -4018,18 +4013,6 @@
     var a=document.getElementById('ppnAmt'); if(a)a.addEventListener('input',upd);
     upd();
   })();
-  // RFQ threshold: block-trade card appears at size (mock: >$1,000 ≈ 45k MON)
-  (function(){
-    var pi=document.getElementById('payIn'),card=document.getElementById('rfqCard');
-    if(!pi||!card)return;
-    function chk(){
-      var v=parseFloat(pi.value.replace(/[$,]/g,''))||0;
-      var unit=(document.getElementById('payUnit')||{}).textContent||'USD';
-      var usd=unit==='USD'?v:v*0.0356; // shMON side
-      card.style.display=usd>1000?'':'none';
-    }
-    pi.addEventListener('input',chk);chk();
-  })();
 
   // ---- stop variants: market | stop-limit | trailing ----
   document.querySelectorAll('#stopMode button').forEach(function(b){
@@ -4323,7 +4306,7 @@
     });
     if(inp)inp.addEventListener('input',function(){
       var v=parseFloat(inp.value.replace('%',''));
-      setVal(isNaN(v)?'…':v+'% max'+(v>3?' · high — sandwich risk on other chains, but this is Monad':''));
+      setVal(isNaN(v)?'…':v+'% max'+(v>3?' · high — you rarely need this on Monad':''));
     });
   });
 
@@ -4812,7 +4795,7 @@
 (function(){
   var TIERS=['CALF','YEARLING','BULL','ALPHA','ANCIENT'];
   var HERD=[
-    ['gman.mon','BULL','adding to <b>MON</b> here. 400ms blocks and we still trade it like it’s slow'],
+    ['gman.mon','BULL','adding to <b>MON</b> here. 300ms blocks and we still trade it like it’s slow'],
     ['lydicius','ALPHA','<b>aprMON/MON</b> spread tightening all morning — someone’s accumulating quietly'],
     ['biawakz','YEARLING','who else filled at .0219? route landed same block, no requote'],
     ['madrigal.mon','ANCIENT','MM bot spread widened on <b>CHOG</b> — vol incoming, size down'],
@@ -5163,7 +5146,7 @@
     });
   };
 
-  // ---- live Monad head block (rpc.monad.xyz, 400ms blocks) ----
+  // ---- live Monad head block (rpc.monad.xyz, 300ms blocks) ----
   (function(){
     var chip=document.getElementById('blockChip'); if(!chip)return;
     function poll(){
