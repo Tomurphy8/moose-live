@@ -844,6 +844,14 @@
     <div class="id-news" id="idNews"><span style="font-size:.72rem;color:var(--faint)">loading…</span></div>
   </aside>
   <div class="main">
+    <div id="arrivalRamp" style="display:none;margin:0 0 .6rem;border:1px solid color-mix(in srgb,var(--accent) 40%,transparent);background:color-mix(in srgb,var(--accent) 6%,transparent);border-radius:12px;padding:.6rem .9rem;font-size:.76rem;color:var(--dim);align-items:center;gap:.9rem">
+      <b style="color:var(--ink)">New here?</b>
+      <span>1 · fund with MON</span><span style="color:var(--faint)">→</span>
+      <span>2 · pick a market</span><span style="color:var(--faint)">→</span>
+      <span>3 · your first fill mints your first points</span>
+      <button class="pill-btn" id="rampFund" style="margin-left:auto">Fund wallet</button>
+      <button class="pill-btn" id="rampDismiss" style="color:var(--faint)">✕</button>
+    </div>
     <div class="fav-strip" id="favStrip"></div>
     <div class="pair-strip">
       <button class="fold-chip" id="identUnfold" data-tip="Show research panel" aria-label="Show research panel"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.6"/><line x1="9.8" y1="4.6" x2="9.8" y2="19.4"/></svg></button>
@@ -1017,7 +1025,7 @@
       <div style="font-size:.64rem;color:var(--faint);margin-top:.25rem" id="levNote">borrows up to 1× your collateral — 2× max on longs, 1× on shorts</div>
     </div>
     <details class="adv">
-      <summary>TP / SL — <span class="num" id="sumTp" style="color:var(--up)">1.8100</span> / <span class="num" id="sumSl" style="color:var(--down)">1.4200</span></summary>
+      <summary>Risk — TP <span class="num" id="sumTp" style="color:var(--up)">1.8100</span> / SL <span class="num" id="sumSl" style="color:var(--down)">1.4200</span> · protected</summary>
     <div class="tpsl">
       <div class="field">
         <div class="k"><span style="color:var(--up)">Take profit</span><button class="star-btn" id="tpSplit" aria-pressed="false" style="font-size:.62rem">split ×3</button></div>
@@ -1036,6 +1044,8 @@
         <div class="chips" id="riskPctChips" style="display:inline-flex"><button data-rp="0.5">0.5%</button><button data-rp="1">1%</button><button data-rp="2">2%</button></div>
         <span style="font-size:.62rem;color:var(--faint)" id="riskSizeNote"></span>
       </div>
+      <div style="grid-column:1/-1" class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
+      <div style="grid-column:1/-1" class="protect"><div class="toggle" id="beToggle"></div><span><b style="color:var(--ink)">Break-even</b> — stop jumps to entry + fees once +5% in profit</span></div>
     </div>
     </details>
     <button class="info-row" id="orderInfoBtn" aria-expanded="false" aria-controls="orderSentence"><span class="info-i">i</span><span>what this order does</span><span class="chev">▾</span></button>
@@ -1057,11 +1067,6 @@
       <div class="row"><span>TWAP · split into 10 fills over 30m</span><div class="mini-toggle"></div></div>
       <div class="row"><span>Post-only (maker rebate)</span><div class="mini-toggle"></div></div>
       <div class="row"><span>Good-til-cancelled</span><div class="mini-toggle on"></div></div>
-    </details>
-    <details class="adv">
-      <summary>Protection — Protect-me + Break-even</summary>
-    <div class="protect"><div class="toggle"></div><span><b style="color:var(--ink)">Protect me</b> — auto-unwind within 15% of liquidation</span></div>
-    <div class="protect"><div class="toggle" id="beToggle"></div><span><b style="color:var(--ink)">Break-even</b> — stop jumps to entry + fees once +5% in profit</span></div>
     </details>
     <button class="cta" id="proCta">Buy shMON</button>
     <div id="fillReceipt" style="font-size:.62rem;color:var(--faint);margin-top:.35rem;font-family:'Spline Sans Mono',monospace">last fill · 1.5744 · 0.03% better than quote · impact 0.05% · fee 0.9 bps</div>
@@ -1284,7 +1289,7 @@
             <tr><td class="num">8</td><td><b>MaiLoop</b></td><td>mai.curv</td><td class="up num">+286 MON</td><td class="num">−2.2%</td><td class="num">141</td><td class="num">500 shMON</td><td class="num">18</td><td class="num">5 bps</td><td><button class="pill-btn copy-btn" data-cl="mai.curv" data-cs="MaiLoop · marketplace #8 · lend-loop rotator">Copy</button> <button class="pill-btn" style="color:var(--down)">Fade</button></td></tr>
           </tbody>
         </table>
-        <div class="hint" style="display:block;margin:.5rem 0 0">creators stake shMON to list · stake burns on underperformance · copy fees pay out only in months copiers finish net profitable · stats are live on-chain with abandoned configs included</div>
+        <div class="ynote" style="margin-top:.6rem"><b>The listing rules:</b> creators stake shMON to list and the stake burns on underperformance. Copy fees pay out only in months copiers finish net profitable. Stats are live on-chain, full history, abandoned configs included.</div>
       </div>
       <div class="compete-grid" style="margin-top:1.1rem">
         <div class="card">
@@ -1532,6 +1537,13 @@
       <div class="card" style="border-color:color-mix(in srgb,var(--accent) 45%,transparent)">
         <div class="sec-title"><span class="live-dot"></span>The Herd Draw <span class="hint">weekly · free entry · funded by fees, never tickets</span><span class="tagg" style="margin-left:auto">draws Sun 20:00 UTC</span></div>
         <div class="apy-big" style="margin:.1rem 0 .3rem">8,400 shMON <small style="font-size:.85rem;color:var(--faint)">this week's pot · growing every block</small></div>
+        <div style="display:flex;align-items:center;gap:.6rem;margin:.15rem 0 .35rem;font-size:.72rem">
+          <span class="live-dot"></span><span style="color:var(--ink);font-weight:600">drawing in <span class="num" id="drawClock" style="color:var(--accent)">—</span></span>
+          <span style="color:var(--faint)">· the whole herd watches one number get pulled</span>
+        </div>
+        <div style="border-left:3px solid color-mix(in srgb,var(--accent) 55%,transparent);background:color-mix(in srgb,var(--accent) 5%,transparent);border-radius:8px;padding:.45rem .7rem;margin:.2rem 0 .4rem;font-size:.72rem">
+          <b style="color:var(--accent)">LAST DRAW</b> · ticket #2,113 of 4,918 · <b>gman.mon</b> pulled <span class="num up">7,100 shMON</span> from 12 tickets · <span style="color:var(--accent);cursor:pointer">replay the pull ▸</span>
+        </div>
         <div class="mh-top" style="grid-template-columns:repeat(3,1fr);margin:.3rem 0 .5rem">
           <div class="s"><span class="k">Your tickets</span><span class="v" style="color:var(--accent)">41 <span style="color:var(--faint);font-size:.68rem">· 1 per MON of fees paid</span></span></div>
           <div class="s"><span class="k">Herd boost</span><span class="v">1.5× <span style="color:var(--faint);font-size:.68rem">activated NFT</span></span></div>
@@ -2235,11 +2247,16 @@
       <button data-a="commodity">Commodities</button>
     </div>
     <div class="filters">
-      <select id="fCountry"><option value="all">All regions</option><option>US</option><option>EU</option><option>Asia</option><option>Global</option></select>
-      <select id="fCat" ><option value="all">All categories</option></select>
+      <details style="display:inline-block">
+        <summary style="cursor:pointer;font-size:.76rem;color:var(--dim);list-style:none;border:1px solid var(--line);border-radius:99px;padding:.3rem .8rem">filters ▾</summary>
+        <span style="display:inline-flex;gap:.5rem;align-items:center;margin-left:.5rem;flex-wrap:wrap">
+          <select id="fCountry"><option value="all">All regions</option><option>US</option><option>EU</option><option>Asia</option><option>Global</option></select>
+          <select id="fCat" ><option value="all">All categories</option></select>
+          <button class="trend-chip" id="watchOnly" aria-pressed="false">☆ Watchlist</button>
+          <div class="vseg" id="vseg"><button data-vf="verified" class="on">Verified</button><button data-vf="all">All</button></div>
+        </span>
+      </details>
       <span style="font-size:.72rem;color:var(--faint)" id="discCount"></span>
-      <button class="trend-chip" id="watchOnly" aria-pressed="false">☆ Watchlist</button>
-      <div class="vseg" id="vseg"><button data-vf="verified" class="on">Verified</button><button data-vf="all">All</button></div>
       <div class="pos-toggle" id="dview" style="margin-left:auto"><button data-dv="pulse" class="on">Pulse</button><button data-dv="table">Table</button></div>
     </div>
     <div style="font-size:.62rem;color:var(--faint);margin:.15rem 0 .5rem" id="trendHonest">trending is ranked by fees paid and depth, never by payment · placement is not for sale</div>
@@ -2320,7 +2337,7 @@
 <div class="modal-bg" id="tokModal">
   <div class="modal">
     <div class="mh">Select a market <span id="mClose">✕</span></div>
-    <input class="search" id="tokSearch" placeholder="Search any market — token, stock, ETF, commodity…">
+    <input class="search" id="tokSearch" placeholder="Search any market — name, ticker, or contract address">
     <div class="pos-toggle" id="tokClass" style="margin:.55rem .2rem 0;align-self:flex-start">
       <button data-tc="crypto" class="on">Crypto</button>
       <button data-tc="stocks">Stocks</button>
@@ -4516,8 +4533,16 @@
     }catch(err){}
     if(window.renderMyBots)renderMyBots();
     var old=cmd.textContent;
-    cmd.textContent='✓ Copied — running in Your bots';
-    setTimeout(function(){cm.classList.remove('show');cmd.textContent=old},1400);
+    if(cmd.dataset.done){ // second click: route to the copy's new home
+      cm.classList.remove('show');cmd.textContent=old;delete cmd.dataset.done;
+      var pl=document.querySelector('#nav a[data-v="portfolio"]'); if(pl)pl.click();
+      var pa=document.querySelector('#aseg button[data-a="portfolio"]'); if(pa)pa.click();
+      var pb2=document.querySelector('#pfSeg button[data-pf2="bots"]'); if(pb2)pb2.click();
+      return;
+    }
+    cmd.dataset.done='1';
+    cmd.textContent='✓ Copied · view in Portfolio → Bots';
+    setTimeout(function(){ if(cmd.dataset.done){cm.classList.remove('show');cmd.textContent=old;delete cmd.dataset.done;} },6000);
   });
   document.getElementById('cmClose').addEventListener('click',function(){cm.classList.remove('show')});
   cm.addEventListener('click',function(e){if(e.target===cm)cm.classList.remove('show')});
@@ -5756,6 +5781,72 @@
       setTimeout(function(){b.textContent=old;b.disabled=false},1800);
     });
   });
+})();
+</script>
+<script>
+// the Draw: live countdown to Sunday 20:00 UTC (audit P3 · the authored moment)
+(function(){
+  var el=document.getElementById('drawClock'); if(!el)return;
+  function tick(){
+    if(document.hidden)return;
+    var now=new Date();
+    var target=new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate(),20,0,0));
+    var dow=now.getUTCDay(); var add=(7-dow)%7; if(add===0&&now>target)add=7;
+    target.setUTCDate(target.getUTCDate()+add);
+    var s=Math.max(0,Math.floor((target-now)/1000));
+    var d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);
+    el.textContent=(d?d+'d ':'')+h+'h '+String(m).padStart(2,'0')+'m';
+  }
+  tick(); setInterval(tick,30000);
+})();
+// arrival ramp: first-visit only, dismissible (audit P1 · first value = first fill)
+(function(){
+  try{
+    var ramp=document.getElementById('arrivalRamp'); if(!ramp)return;
+    if(!localStorage.getItem('moose-visited')){ramp.style.display='flex';}
+    var d=document.getElementById('rampDismiss');
+    function dismiss(){ramp.style.display='none';try{localStorage.setItem('moose-visited','1')}catch(e){}}
+    if(d)d.addEventListener('click',dismiss);
+    var f=document.getElementById('rampFund');
+    if(f)f.addEventListener('click',function(){var o=f.textContent;f.textContent='✓ onramp opens here';setTimeout(function(){f.textContent=o;dismiss()},1600)});
+  }catch(e){}
+})();
+// addressable state: hash routing for view / segment / token (audit P0)
+(function(){
+  var applying=false;
+  function currentHash(){
+    var nav=document.querySelector('#nav a.active'); var v=nav?nav.dataset.v:'trade';
+    if(v==='compete'){var seg=document.querySelector('#hseg button.on');return '#herd/'+(seg?seg.dataset.h:'herd');}
+    var h='#'+v;
+    if(v==='trade'){var pb=document.getElementById('pairBase');if(pb)h+='/'+encodeURIComponent(pb.textContent);}
+    else if(v==='bots'){var b=document.querySelector('#bmSeg button.on');h+='/'+(b?b.dataset.bm:'mine');}
+    else if(v==='portfolio'){var a=document.querySelector('#aseg button.on');h+='/'+(a?a.dataset.a:'portfolio');}
+    return h;
+  }
+  function writeHash(){ if(applying)return; var h=currentHash(); if(location.hash!==h)history.replaceState(null,'',h); }
+  window.writeHash=writeHash;
+  document.addEventListener('click',function(e){
+    if(e.target.closest('#nav a, #hseg button, #bmSeg button, #aseg button, #railPfp'))setTimeout(writeHash,0);
+  });
+  if(window.goTrade){var _gt=window.goTrade;window.goTrade=function(s){_gt(s);setTimeout(writeHash,0);};}
+  if(window.setHerdSeg){var _sh=window.setHerdSeg;window.setHerdSeg=function(k){_sh(k);setTimeout(writeHash,0);};}
+  function applyHash(){
+    var h=location.hash.replace(/^#/,''); if(!h)return;
+    var parts=h.split('/'); var v=parts[0], sub=parts[1];
+    applying=true;
+    try{
+      var navV=(v==='herd')?'compete':v;
+      var link=document.querySelector('#nav a[data-v="'+navV+'"]');
+      if(link)link.click();
+      if(v==='herd'&&sub){var b1=document.querySelector('#hseg button[data-h="'+sub+'"]');if(b1)b1.click();}
+      if(v==='bots'&&sub){var b2=document.querySelector('#bmSeg button[data-bm="'+sub+'"]');if(b2)b2.click();}
+      if(v==='portfolio'&&sub){var b3=document.querySelector('#aseg button[data-a="'+sub+'"]');if(b3)b3.click();}
+      if(v==='trade'&&sub){var pb=document.getElementById('pairBase');var t=decodeURIComponent(sub);
+        if(pb&&pb.textContent!==t){var g=window.goTrade;applying=false;if(g)g(t);applying=true;}}
+    }finally{applying=false;}
+  }
+  window.addEventListener('hashchange',applyHash);
+  setTimeout(function(){ if(location.hash)applyHash(); else writeHash(); },450);
 })();
 </script>
 </body>
